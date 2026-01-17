@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=portfolio\" \"npm run dev --workspace=data-integration\"",
+    "dev:portfolio": "npm run dev --workspace=portfolio",
+    "dev:data-integration": "npm run dev --workspace=data-integration -- --port 3002",
+    "build:shared-ui": "npm run build --workspace=@portfolio/shared-ui",
+    "build": "npm run build:shared-ui && npm run build --workspaces",
+    "build:portfolio": "npm run build --workspace=portfolio",
+    "build:data-integration": "npm run build --workspace=data-integration"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "autoprefixer": "^10.4.23",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.1"
+  }
+}

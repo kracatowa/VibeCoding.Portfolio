@@ -1,0 +1,161 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { getTemplates, getDestinations } from '@/lib/database';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from '@fortawesome/free-solid-svg-icons';
+import { useAsyncData } from '@/hooks/asyncResolver';
+
+interface Props {
+  onTrigger: (source: string) => void;
+  isRunning: boolean;
+}
+
+const sources = [
+  { id: 'Salesforce', name: 'Salesforce', icon: faCloud, colorClass: 'text-blue-400' },
+  { id: 'HubSpot', name: 'HubSpot', icon: faChartLine, colorClass: 'text-orange-400' },
+  { id: 'Zendesk', name: 'Zendesk', icon: faTicket, colorClass: 'text-green-400' },
+];
+
+export default function ManualTrigger({ onTrigger, isRunning }: Props) {
+  const [selectedSource, setSelectedSource] = useState<string>('Salesforce');
+  const [loadingTemplates, setLoadingTemplates] = useState(false);
+  const [loadingDestinations, setLoadingDestinations] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
+
+  const { data: templates, } = useAsyncData({
+    fetcher: () => getTemplates(selectedSource).map((t) => t.name),
+    dependencies: [],
+  });
+
+  const { data: destinations } = useAsyncData({
+    fetcher: () => getDestinations(),
+    dependencies: [],
+  });
+
+  useEffect(() => {
+    setSelectedTemplate(templates?.[0] ?? null);
+  }, [templates]);
+
+  useEffect(() => {
+    setSelectedDestination(destinations?.[0] ?? null);
+  }, [destinations]);
+
+  const handleTrigger = () => {
+    if (!isRunning && selectedSource) {
+      onTrigger(selectedSource);
+    }
+  };
+
+  return (
+    <section className="py-4 px-6" >
+      <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
+        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+          <span className="text-2xl"><FontAwesomeIcon icon={faBullseye} className="text-blue-400"/></span>
+          Déclenchement manuel
+        </h2>
+
+        <div className="space-y-4">
+          {/* Sélection de la source */}
+          <div>
+            <label className="block text-sm font-medium text-gray-400 mb-3">
+              Source de données
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              {sources.map((source) => (
+                <button
+                  key={source.id}
+                  onClick={() => setSelectedSource(source.id)}
+                  disabled={isRunning}
+                  className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                    selectedSource === source.id
+                      ? 'border-blue-500 bg-blue-500/10'
+                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <div className="text-3xl mb-2"><FontAwesomeIcon icon={source.icon} className={source.colorClass} /></div>
+                  <div className="font-medium">{source.name}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+            {/* Template selector */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-3">Template CSV</label>
+              <div className="grid grid-cols-1">
+                <select
+                  value={selectedTemplate ?? ''}
+                  onChange={(e) => setSelectedTemplate(e.target.value)}
+                  disabled={loadingTemplates || templates?.length === 0}
+                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
+                >
+                  {loadingTemplates ? (
+                    <option>Chargement...</option>
+                  ) : templates?.length === 0 ? (
+                    <option>Aucun template</option>
+                  ) : (
+                    templates?.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))
+                  )}
+                </select>
+              </div>
+            </div>
+
+            {/* Destination selector */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-3">Destination</label>
+              <div className="grid grid-cols-1">
+                <select
+                  value={selectedDestination ?? ''}
+                  onChange={(e) => setSelectedDestination(e.target.value)}
+                  disabled={loadingDestinations || destinations?.length === 0}
+                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
+                >
+                  {loadingDestinations ? (
+                    <option>Chargement...</option>
+                  ) : destinations?.length === 0 ? (
+                    <option>Aucun destination</option>
+                  ) : (
+                    destinations?.map((d) => (
+                      <option key={d} value={d}>{d}</option>
+                    ))
+                  )}
+                </select>
+              </div>
+            </div>
+
+          {/* Bouton de déclenchement */}
+          <button
+            onClick={handleTrigger}
+            disabled={isRunning || !selectedSource}
+            className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 ${
+              isRunning
+                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                : 'bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl'
+            }`}
+          >
+            {isRunning ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin className="text-yellow-400" />
+                Extraction en cours...
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faRocket} className="text-white" />
+                Déclencher l&apos;extraction
+              </>
+            )}
+          </button>
+
+          {/* Info */}
+          <p className="text-gray-500 text-sm text-center">
+            Lance une extraction immédiate depuis la source sélectionnée
+          </p>
+        </div>
+      </div>
+      </section>
+  );
+}
