@@ -33,9 +33,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <DemoLayout
-          headerLinks={[{ href: '/', label: 'Home' }, 
-                        { href: '/integrations', label: 'Integrations' }, 
-                        { href: '/docs', label: 'Docs' }]}
+          headerLinks={[{ href: '#manual-trigger', label: 'Manuel' }, 
+                        { href: '#extraction-steps', label: 'Étapes' },
+                        { href: '#extraction-history', label: 'Historique' }, 
+                        { href: '#automatic-scheduler', label: 'Automatisation' }]}
           footerLinks={[{ href: '/terms', label: 'Terms' }, 
                         { href: '/help', label: 'Help' }]}
         >

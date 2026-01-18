@@ -128,7 +128,7 @@ export default function AutomaticScheduler({ onSave, isSaving }: Props) {
       console.error('Erreur lors de la sauvegarde locale:', err);
     }
 
-    await onSave(schedules);
+    onSave(schedules);
     setHasChanges(false);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
@@ -141,7 +141,7 @@ export default function AutomaticScheduler({ onSave, isSaving }: Props) {
   const enabledCount = schedules.filter((s) => s.enabled).length;
 
   return (
-    <section className='py-4 px-6'>
+    <section id="automatic-scheduler" className='py-4 px-6 scroll-mt-20'>
       <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
         <span className="text-2xl"><FontAwesomeIcon icon={faClock} /></span>
         Planification automatique

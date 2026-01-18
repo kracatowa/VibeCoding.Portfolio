@@ -127,7 +127,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
 
 
   return (
-    <section className="py-4 px-6">
+    <section id="extraction-history" className="py-4 px-6 scroll-mt-20">
       <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
           <span className="text-2xl"><FontAwesomeIcon icon={faScroll} /></span>
