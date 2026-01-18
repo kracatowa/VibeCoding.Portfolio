@@ -26,7 +26,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
   const { data: templates, } = useAsyncData({
     fetcher: () => getTemplates(selectedSource).map((t) => t.name),
-    dependencies: [],
+    dependencies: [selectedSource],
   });
 
   const { data: destinations } = useAsyncData({
@@ -36,11 +36,11 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
   useEffect(() => {
     setSelectedTemplate(templates?.[0] ?? null);
-  }, [templates]);
+  }, []);
 
   useEffect(() => {
     setSelectedDestination(destinations?.[0] ?? null);
-  }, [destinations]);
+  }, []);
 
   const handleTrigger = () => {
     if (!isRunning && selectedSource) {
