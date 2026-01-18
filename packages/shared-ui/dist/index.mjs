@@ -27,10 +27,10 @@ function DemoHeader({ navLinks }) {
     { href: "/about", label: "About" }
   ];
   const links = navLinks ?? defaultLinks;
-  return /* @__PURE__ */ jsx2("header", { className: "flex items-center justify-between px-5 py-3 border-b border-white/5 bg-gradient-to-b from-slate-900/90 to-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg", children: /* @__PURE__ */ jsxs2("div", { className: "flex items-center justify-between gap-8 w-[1400px] mx-auto", children: [
-    /* @__PURE__ */ jsx2(Logo, {}),
-    /* @__PURE__ */ jsx2("nav", { "aria-label": "Demo navigation", className: "flex gap-3 items-center", children: /* @__PURE__ */ jsx2("ul", { className: "flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ jsx2("li", { children: /* @__PURE__ */ jsx2("a", { href: l.href, className: "text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100", children: l.label }) }, l.href)) }) })
-  ] }) });
+  return /* @__PURE__ */ jsxs2("header", { className: "flex items-center justify-between px-5 py-3 border-b border-white/5 from-slate-900/90 to-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg", children: [
+    /* @__PURE__ */ jsx2("div", { className: "shrink-0", children: /* @__PURE__ */ jsx2(Logo, {}) }),
+    /* @__PURE__ */ jsx2("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ jsx2("ul", { className: "flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ jsx2("li", { children: /* @__PURE__ */ jsx2("a", { href: l.href, className: "text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100", children: l.label }) }, l.href)) }) })
+  ] });
 }
 
 // src/DemoFooter.tsx
