@@ -21,6 +21,8 @@ export interface SchedulePreference {
 }
 
 export interface Template {
+  id: string;
+  sourceId: string;
   name: string;
 }
 
@@ -32,7 +34,7 @@ export interface Source{
 interface Database {
   extractions: Extraction[];
   schedules: SchedulePreference[];
-  templates?: Record<string, Template[]>;
+  templates?: Template[];
   destinations?: string[];
   sources: Source[];
 }
@@ -93,29 +95,23 @@ const db: Database = {
     { dayOfWeek: 6, time: '', enabled: false },      // Samedi
     { dayOfWeek: 0, time: '', enabled: false },      // Dimanche
   ],
-  templates: {
-    Salesforce: [
-      { name: 'Par défault' },
-      { name: 'Catherine-Salesforce-2025' }
-    ],
-    HubSpot: [
-      { name: 'Par défault' },
-      { name: 'Sylvie-Hubspot-2025' }
-    ],
-    Zendesk: [
-      { name: 'Par défault' },
-      { name: 'Steve-Zendesk-2025' }
-    ],
-  },
+  templates: [
+    { id: '1', sourceId: '1', name: 'Par défault' },
+    { id: '2', sourceId: '1', name: 'Catherine-Salesforce-2025' },
+    { id: '3', sourceId: '2', name: 'Par défault' },
+    { id: '4', sourceId: '2', name: 'Sylvie-Hubspot-2025' },
+    { id: '5', sourceId: '3', name: 'Par défault' },
+    { id: '6', sourceId: '3', name: 'Steve-Zendesk-2025' }
+  ],
   destinations: [
     'S3 Bucket',
     'FTP Server',
     'Local Storage'
   ],
   sources: [
-    { id: 'Salesforce', name: 'Salesforce' },
-    { id: 'HubSpot', name: 'HubSpot' },
-    { id: 'Zendesk', name: 'Zendesk' },
+    { id: '1', name: 'Salesforce' },
+    { id: '2', name: 'HubSpot' },
+    { id: '3', name: 'Zendesk' },
   ]
 };
 
@@ -172,8 +168,8 @@ export function updateAllSchedules(schedules: SchedulePreference[]): SchedulePre
 
 export function getTemplates(source?: string): Template[] {
   if (!source) return [];
-  const list = db.templates?.[source];
-  if (!list || list.length === 0) return [{ name: 'has default' }];
+  const list = db.templates?.filter(t => t.sourceId === source);
+  if (!list || list.length === 0) return [{ id: 'default', sourceId: source, name: 'has default' }];
   return [...list];
 }
 

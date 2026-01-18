@@ -5,31 +5,30 @@ import { getTemplates, getDestinations } from '@/lib/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { useAsyncData } from '@/hooks/asyncResolver';
+import { getSources } from '@/lib/database';
+
+const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
+  { id: '1', icon: faCloud, colorClass: 'text-blue-400' },
+  { id: '2', icon: faChartLine, colorClass: 'text-orange-400' },
+  { id: '3', icon: faTicket, colorClass: 'text-green-400' },
+];
 
 interface Props {
   onTrigger: (source: string, destination: string, template: string) => void;
   isRunning: boolean;
 }
 
-const sources = [
-  { id: 'Salesforce', name: 'Salesforce', icon: faCloud, colorClass: 'text-blue-400' },
-  { id: 'HubSpot', name: 'HubSpot', icon: faChartLine, colorClass: 'text-orange-400' },
-  { id: 'Zendesk', name: 'Zendesk', icon: faTicket, colorClass: 'text-green-400' },
-];
-
 export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   const [selectedSource, setSelectedSource] = useState<string>('Salesforce');
-  const [loadingTemplates, setLoadingTemplates] = useState(false);
-  const [loadingDestinations, setLoadingDestinations] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
 
-  const { data: templates, } = useAsyncData({
+  const { data: templates, loading: loadingTemplates } = useAsyncData({
     fetcher: () => getTemplates(selectedSource).map((t) => t.name),
     dependencies: [selectedSource],
   });
 
-  const { data: destinations } = useAsyncData({
+  const { data: destinations, loading: loadingDestinations } = useAsyncData({
     fetcher: () => getDestinations(),
     dependencies: [],
   });
@@ -63,7 +62,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               Source de données
             </label>
             <div className="grid grid-cols-3 gap-3">
-              {sources.map((source) => (
+              {getSources().map((source) => (
                 <button
                   key={source.id}
                   onClick={() => setSelectedSource(source.id)}
@@ -74,7 +73,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                       : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
                   } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
-                  <div className="text-3xl mb-2"><FontAwesomeIcon icon={source.icon} className={source.colorClass} /></div>
+                  <div className="text-3xl mb-2"><FontAwesomeIcon icon={sourceStyles.find(s => s.id === source.id)?.icon } className={sourceStyles.find(s => s.id === source.id)?.colorClass} /></div>
                   <div className="font-medium">{source.name}</div>
                 </button>
               ))}
