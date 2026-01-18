@@ -65,7 +65,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
             <label className="block text-sm font-medium text-gray-400 mb-3">
               Source de données
             </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {getSources().map((source) => (
                 <button
                   key={source.id}
@@ -89,7 +89,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
             <label className="block text-sm font-medium text-gray-400 mb-3">
               intervalle de temps
             </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {intervals.map((interval) => (
                 <button
                   key={interval}
