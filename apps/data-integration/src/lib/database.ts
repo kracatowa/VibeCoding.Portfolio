@@ -10,8 +10,8 @@ export interface Extraction {
   fileName?: string;
   currentStep?: number;
   error?: string;
-  destination?: string;
   template?: string;
+  destination?: string;
 }
 
 export interface SchedulePreference {

@@ -7,7 +7,7 @@ import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from 
 import { useAsyncData } from '@/hooks/asyncResolver';
 
 interface Props {
-  onTrigger: (source: string) => void;
+  onTrigger: (source: string, destination: string, template: string) => void;
   isRunning: boolean;
 }
 
@@ -36,15 +36,15 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
   useEffect(() => {
     setSelectedTemplate(templates?.[0] ?? null);
-  }, []);
+  }, [templates]);
 
   useEffect(() => {
     setSelectedDestination(destinations?.[0] ?? null);
-  }, []);
+  }, [destinations]);
 
   const handleTrigger = () => {
-    if (!isRunning && selectedSource) {
-      onTrigger(selectedSource);
+    if (!isRunning && selectedSource && selectedDestination && selectedTemplate) {
+      onTrigger(selectedSource, selectedDestination, selectedTemplate);
     }
   };
 

@@ -19,10 +19,10 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { source } = body;
+    const { source, destination, template } = body;
 
-    if (!source) {
-      return NextResponse.json({ error: 'Source requise' }, { status: 400 });
+    if (!source || !template || !destination) {
+      return NextResponse.json({ error: 'Source, template et destination requis' }, { status: 400 });
     }
 
     // Créer l'extraction
@@ -31,6 +31,8 @@ export async function POST(request: NextRequest) {
       status: 'running',
       startedAt: new Date().toISOString(),
       currentStep: 1,
+      template,
+      destination
     });
 
     // Démarrer le processus d'extraction en arrière-plan

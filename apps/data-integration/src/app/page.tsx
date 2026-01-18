@@ -77,7 +77,7 @@ export default function Home() {
     };
   }, [isRunning, currentExtraction, fetchExtractions]);
 
-  const handleTriggerExtraction = async (source: string) => {
+  const handleTriggerExtraction = async (source: string, destination: string, template: string) => {
     setIsRunning(true);
     setStepStatus({ step: 1, status: 'pending' });
 
@@ -86,7 +86,7 @@ export default function Home() {
       const response = await fetch(`${base}/api/extractions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ source }),
+        body: JSON.stringify({ source, template, destination }),
       });
       const data = await response.json();
       setCurrentExtraction(data);
