@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getTemplates, getDestinations } from '@/lib/database';
+import { getTemplates, getDestinations, Source } from '@/lib/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { useAsyncData } from '@/hooks/asyncResolver';
@@ -13,19 +13,22 @@ const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
   { id: '3', icon: faTicket, colorClass: 'text-green-400' },
 ];
 
+const intervals = ["1 jour", "7 jours", "30 jours", "180 jours", "365 jours", "Toute la période"];
+
 interface Props {
-  onTrigger: (source: string, destination: string, template: string) => void;
+  onTrigger: (source: string, destination: string, template: string, interval: string) => void;
   isRunning: boolean;
 }
 
 export default function ManualTrigger({ onTrigger, isRunning }: Props) {
-  const [selectedSource, setSelectedSource] = useState<string>('Salesforce');
+  const [selectedSourceId, setSelectedSource] = useState<string>();
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
+  const [selectedInterval, setSelectedInterval] = useState<string>("1 jour");
 
   const { data: templates, loading: loadingTemplates } = useAsyncData({
-    fetcher: () => getTemplates(selectedSource).map((t) => t.name),
-    dependencies: [selectedSource],
+    fetcher: () => getTemplates(selectedSourceId).map((t) => t.name),
+    dependencies: [selectedSourceId],
   });
 
   const { data: destinations, loading: loadingDestinations } = useAsyncData({
@@ -42,8 +45,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   }, [destinations]);
 
   const handleTrigger = () => {
-    if (!isRunning && selectedSource && selectedDestination && selectedTemplate) {
-      onTrigger(selectedSource, selectedDestination, selectedTemplate);
+    if (!isRunning && selectedSourceId && selectedDestination && selectedTemplate && selectedInterval) {
+      onTrigger(selectedSourceId, selectedDestination, selectedTemplate, selectedInterval);
     }
   };
 
@@ -56,6 +59,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
         </h2>
 
         <div className="space-y-4">
+
           {/* Sélection de la source */}
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-3">
@@ -68,13 +72,36 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                   onClick={() => setSelectedSource(source.id)}
                   disabled={isRunning}
                   className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                    selectedSource === source.id
+                    selectedSourceId === source.id
                       ? 'border-blue-500 bg-blue-500/10'
                       : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
                   } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
                   <div className="text-3xl mb-2"><FontAwesomeIcon icon={sourceStyles.find(s => s.id === source.id)?.icon } className={sourceStyles.find(s => s.id === source.id)?.colorClass} /></div>
                   <div className="font-medium">{source.name}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sélection de l'intervalle */}
+          <div>
+            <label className="block text-sm font-medium text-gray-400 mb-3">
+              intervalle de temps
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              {intervals.map((interval) => (
+                <button
+                  key={interval}
+                  onClick={() => setSelectedInterval(interval)}
+                  disabled={isRunning}
+                  className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                    selectedInterval === interval
+                      ? 'border-blue-500 bg-blue-500/10'
+                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                  } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <div className="font-medium">{interval}</div>
                 </button>
               ))}
             </div>
@@ -129,7 +156,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
           {/* Bouton de déclenchement */}
           <button
             onClick={handleTrigger}
-            disabled={isRunning || !selectedSource}
+            disabled={isRunning || !selectedSourceId}
             className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 ${
               isRunning
                 ? 'bg-gray-700 text-gray-400 cursor-not-allowed'

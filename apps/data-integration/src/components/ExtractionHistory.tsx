@@ -155,6 +155,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Enregistrements</th>
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Template</th>
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Destination</th>
+                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Intervalle</th>
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Fichier</th>
                 </tr>
               </thead>
@@ -167,7 +168,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     {/* Source */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.source}</span>
+                        <span className="font-medium whitespace-nowrap">{extraction.source.name}</span>
                       </div>
                     </td>
                     <td className="py-4 px-4 text-gray-300 whitespace-nowrap">
@@ -210,6 +211,12 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
                         <span className="font-medium whitespace-nowrap">{extraction.destination}</span>
+                      </div>
+                    </td>
+                    {/* Interval */}
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium whitespace-nowrap">{extraction.interval}</span>
                       </div>
                     </td>
                     {/* Filename */}

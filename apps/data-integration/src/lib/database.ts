@@ -2,7 +2,7 @@
 
 export interface Extraction {
   id: string;
-  source: string;
+  source: Source;
   status: 'pending' | 'running' | 'completed' | 'failed';
   startedAt: string;
   completedAt?: string;
@@ -12,6 +12,7 @@ export interface Extraction {
   error?: string;
   template?: string;
   destination?: string;
+  interval?: string;
 }
 
 export interface SchedulePreference {
@@ -44,46 +45,50 @@ const db: Database = {
   extractions: [
     {
       id: '1',
-      source: 'Salesforce',
+      source: { id: '1', name: 'Salesforce' },
       status: 'completed',
       startedAt: '2026-01-08T10:30:00',
       completedAt: '2026-01-08T10:32:15',
       recordsCount: 1250,
       fileName: 'salesforce_export_20260108.csv',
       destination: 'S3 Bucket',
-      template: 'Catherine-Salesforce-2025'
+      template: 'Catherine-Salesforce-2025',
+      interval: '30 jours'
     },
     {
       id: '2',
-      source: 'HubSpot',
+      source: { id: '2', name: 'HubSpot' },
       status: 'completed',
       startedAt: '2026-01-08T14:00:00',
       completedAt: '2026-01-08T14:01:45',
       recordsCount: 890,
       fileName: 'hubspot_export_20260108.csv',
       destination: 'S3 Bucket',
-      template: 'Sylvie-Hubspot-2025'
+      template: 'Sylvie-Hubspot-2025',
+      interval: '7 jours'
     },
     {
       id: '3',
-      source: 'Salesforce',
+      source: { id: '1', name: 'Salesforce' },
       status: 'failed',
       startedAt: '2026-01-07T09:00:00',
       completedAt: '2026-01-07T09:00:30',
       error: 'Timeout lors de la connexion à l\'API',
       destination: 'FTP Server',
-      template: 'Steve-Zendesk-2025'
+      template: 'Steve-Zendesk-2025',
+      interval: 'Toute la période'
     },
     {
       id: '4',
-      source: 'Zendesk',
+      source: { id: '3', name: 'Zendesk' },
       status: 'completed',
       startedAt: '2026-01-06T16:45:00',
       completedAt: '2026-01-06T16:47:20',
       recordsCount: 456,
       fileName: 'zendesk_export_20260106.csv',
       destination: 'Local Storage',
-      template: 'Par defaut'
+      template: 'Par defaut',
+      interval: '1 jour'
     },
   ],
   schedules: [
