@@ -17,14 +17,15 @@ export interface Extraction {
 
 export interface SchedulePreference {
   dayOfWeek: number; // 0 = Dimanche, 1 = Lundi, etc.
-  time: string; // Format HH:mm
+  time?: string; // Format HH:mm
   enabled: boolean;
 }
 
 export interface Schedule{
+  id: string;
   sourceId: string;
-  TemplateId: string;
-  schedules: SchedulePreference[];
+  templateId: string;
+  schedulePreferences: SchedulePreference[];
 }
 
 export interface Template {
@@ -45,7 +46,7 @@ export interface Destination{
 
 interface Database {
   extractions: Extraction[];
-  schedules: SchedulePreference[];
+  schedules: Schedule[];
   templates?: Template[];
   destinations?: Destination[];
   sources: Source[];
@@ -103,13 +104,84 @@ const db: Database = {
     },
   ],
   schedules: [
-    { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-    { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-    { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-    { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-    { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-    { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-    { dayOfWeek: 0, time: '', enabled: false },      // Dimanche
+    {
+      id: '1',
+      sourceId: '1',
+      templateId: '1',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    },
+    {
+      id: '2',
+      sourceId: '1',
+      templateId: '2',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    },
+    {
+      id: '3',
+      sourceId: '2',
+      templateId: '3',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    },
+    {
+      id: '4',
+      sourceId: '2',
+      templateId: '4',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    },
+    {
+      id: '5',
+      sourceId: '3',
+      templateId: '5',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    },
+    {
+      id: '6',
+      sourceId: '3',
+      templateId: '6',
+      schedulePreferences: [
+      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+    }
   ],
   templates: [
     { id: '1', sourceId: '1', name: 'Par défault' },
@@ -159,27 +231,17 @@ export function updateExtraction(id: string, updates: Partial<Extraction>): Extr
   return db.extractions[index];
 }
 
-// Fonctions CRUD pour les préférences de planification
-export function getSchedules(): SchedulePreference[] {
-  return [...db.schedules].sort((a, b) => {
-    // Trier par jour de la semaine (Lundi = 1 en premier)
-    const orderA = a.dayOfWeek === 0 ? 7 : a.dayOfWeek;
-    const orderB = b.dayOfWeek === 0 ? 7 : b.dayOfWeek;
-    return orderA - orderB;
-  });
+export function getSchedules(): Schedule[] {
+  console.log("Fetching schedules from DB:", db.schedules);
+  return [...db.schedules];
 }
 
-export function updateSchedule(dayOfWeek: number, updates: Partial<SchedulePreference>): SchedulePreference | null {
-  const index = db.schedules.findIndex((s) => s.dayOfWeek === dayOfWeek);
+export function updateSchedulePreferences(scheduleId: string, schedulePreferences: SchedulePreference[]): any {
+  const index = db.schedules.findIndex((s) => s.id === scheduleId);
   if (index === -1) return null;
-  
-  db.schedules[index] = { ...db.schedules[index], ...updates };
-  return db.schedules[index];
-}
 
-export function updateAllSchedules(schedules: SchedulePreference[]): SchedulePreference[] {
-  db.schedules = schedules;
-  return getSchedules();
+  db.schedules[index] = { ...db.schedules[index], schedulePreferences };
+  return db.schedules[index];
 }
 
 export function getTemplates(source?: string): Template[] {

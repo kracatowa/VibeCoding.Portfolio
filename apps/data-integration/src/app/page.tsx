@@ -18,7 +18,6 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentExtraction, setCurrentExtraction] = useState<Extraction | null>(null);
   const [stepStatus, setStepStatus] = useState<StepStatus | null>(null);
-  const [isSavingSchedule, setIsSavingSchedule] = useState(false);
 
   // URL for returning to the main portfolio site. Can be overridden via env.
   const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || '/';
@@ -97,22 +96,6 @@ export default function Home() {
     }
   };
 
-  const handleSaveSchedules = async (schedules: SchedulePreference[]) => {
-    setIsSavingSchedule(true);
-    try {
-      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      await fetch(`${base}/api/schedules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ schedules }),
-      });
-    } catch (error) {
-      console.error('Erreur lors de la sauvegarde des planifications:', error);
-    } finally {
-      setIsSavingSchedule(false);
-    }
-  };
-
   return (
     <>
             <ManualTrigger
@@ -130,8 +113,6 @@ export default function Home() {
             />
             
               <AutomaticScheduler
-                onSave={handleSaveSchedules}
-                isSaving={isSavingSchedule}
               />
       </> 
   );

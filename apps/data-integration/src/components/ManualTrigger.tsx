@@ -106,7 +106,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               ))}
             </div>
           </div>
-
+            {/*TODO STACK ON ROW LARGE SCREEN*/}
             {/* Template selector */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-3">Template CSV</label>

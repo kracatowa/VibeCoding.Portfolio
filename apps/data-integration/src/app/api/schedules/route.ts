@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSchedules, updateAllSchedules, type SchedulePreference } from '@/lib/database';
+import { getSchedules, updateSchedulePreferences, type SchedulePreference } from '@/lib/database';
 
 export async function GET() {
   const schedules = getSchedules();
   return NextResponse.json(schedules);
 }
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { schedules } = body as { schedules: SchedulePreference[] };
+    const { scheduleId, updatedSchedulePreferences } = body as { scheduleId: string; updatedSchedulePreferences: SchedulePreference[] };
 
-    if (!schedules || !Array.isArray(schedules)) {
+    if (!updatedSchedulePreferences || !Array.isArray(updatedSchedulePreferences)) {
       return NextResponse.json(
         { error: 'Préférences de planification requises' },
         { status: 400 }
       );
     }
-
-    const updatedSchedules = updateAllSchedules(schedules);
+    const updatedSchedules = updateSchedulePreferences(scheduleId, updatedSchedulePreferences);
 
     return NextResponse.json({
       success: true,

@@ -22,7 +22,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sourceId, destinationId, templateId, interval } = body;
+    const { sourceId, destinationId, templateId, interval } = body as {
+      sourceId: string;
+      destinationId: string;
+      templateId: string;
+      interval: string;
+    };
 
     if (!sourceId || !templateId || !destinationId || !interval) {
       return NextResponse.json({ error: 'Source, template, destination et interval requis' }, { status: 400 });
