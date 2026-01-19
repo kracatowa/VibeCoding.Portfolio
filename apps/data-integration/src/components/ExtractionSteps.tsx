@@ -38,7 +38,7 @@ const steps: ExtractionStep[] = [
 ];
 
 export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: Props) {
-  const [animatedStep, setAnimatedStep] = useState<number | null>(null);
+  const [, setAnimatedStep] = useState<number | null>(null);
 
   useEffect(() => {
     if (stepStatus?.status === STATUS.PROCESSING) {

@@ -6,6 +6,8 @@ import {
   getExtractionById,
   getSources,
   Source,
+  getDestinations,
+  getTemplates,
 } from '@/lib/database';
 import { randomInt } from 'crypto';
 
@@ -20,9 +22,9 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sourceId, destination, template, interval } = body;
+    const { sourceId, destinationId, templateId, interval } = body;
 
-    if (!sourceId || !template || !destination || !interval) {
+    if (!sourceId || !templateId || !destinationId || !interval) {
       return NextResponse.json({ error: 'Source, template, destination et interval requis' }, { status: 400 });
     }
 
@@ -33,13 +35,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Source invalide' }, { status: 400 });
     }
 
+    const template = getTemplates(sourceId).find(t => t.id === templateId);
+    
+    if (!template) {
+      return NextResponse.json({ error: 'Template invalide' }, { status: 400 });
+    }
+
+    const destination = getDestinations().find(d => d.id === destinationId);
+
+    if (!destination) {
+      return NextResponse.json({ error: 'Destination invalide' }, { status: 400 });
+    }
+
     const extraction = createExtraction({
       source,
       status: 'running',
       startedAt: new Date().toISOString(),
       currentStep: 1,
       template,
-      destination,
+      destination: destination,
       interval,
     });
 

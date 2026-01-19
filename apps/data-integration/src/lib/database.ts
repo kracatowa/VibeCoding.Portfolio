@@ -10,8 +10,8 @@ export interface Extraction {
   fileName?: string;
   currentStep?: number;
   error?: string;
-  template?: string;
-  destination?: string;
+  template?: Template;
+  destination?: Destination;
   interval?: string;
 }
 
@@ -19,6 +19,12 @@ export interface SchedulePreference {
   dayOfWeek: number; // 0 = Dimanche, 1 = Lundi, etc.
   time: string; // Format HH:mm
   enabled: boolean;
+}
+
+export interface Schedule{
+  sourceId: string;
+  TemplateId: string;
+  schedules: SchedulePreference[];
 }
 
 export interface Template {
@@ -32,11 +38,16 @@ export interface Source{
   name: string;
 }
 
+export interface Destination{
+  id: string;
+  name: string;
+}
+
 interface Database {
   extractions: Extraction[];
   schedules: SchedulePreference[];
   templates?: Template[];
-  destinations?: string[];
+  destinations?: Destination[];
   sources: Source[];
 }
 
@@ -51,8 +62,8 @@ const db: Database = {
       completedAt: '2026-01-08T10:32:15',
       recordsCount: 1250,
       fileName: 'salesforce_export_20260108.csv',
-      destination: 'S3 Bucket',
-      template: 'Catherine-Salesforce-2025',
+      destination: { id: '1', name: 'S3 Bucket' },
+      template: { id: '2', sourceId: '1', name: 'Catherine-Salesforce-2025' },
       interval: '30 jours'
     },
     {
@@ -63,8 +74,8 @@ const db: Database = {
       completedAt: '2026-01-08T14:01:45',
       recordsCount: 890,
       fileName: 'hubspot_export_20260108.csv',
-      destination: 'S3 Bucket',
-      template: 'Sylvie-Hubspot-2025',
+      destination: { id: '1', name: 'S3 Bucket' },
+      template: { id: '4', sourceId: '2', name: 'Sylvie-Hubspot-2025' },
       interval: '7 jours'
     },
     {
@@ -74,8 +85,8 @@ const db: Database = {
       startedAt: '2026-01-07T09:00:00',
       completedAt: '2026-01-07T09:00:30',
       error: 'Timeout lors de la connexion à l\'API',
-      destination: 'FTP Server',
-      template: 'Steve-Zendesk-2025',
+      destination: { id: '2', name: 'FTP Server' },
+      template: { id: '2', sourceId: '1', name: 'Catherine-Salesforce-2025' },
       interval: 'Toute la période'
     },
     {
@@ -86,8 +97,8 @@ const db: Database = {
       completedAt: '2026-01-06T16:47:20',
       recordsCount: 456,
       fileName: 'zendesk_export_20260106.csv',
-      destination: 'Local Storage',
-      template: 'Par defaut',
+      destination: { id: '3', name: 'Local Storage' },
+      template: { id: '5', sourceId: '3', name: 'Par defaut' },
       interval: '1 jour'
     },
   ],
@@ -109,9 +120,9 @@ const db: Database = {
     { id: '6', sourceId: '3', name: 'Steve-Zendesk-2025' }
   ],
   destinations: [
-    'S3 Bucket',
-    'FTP Server',
-    'Local Storage'
+    { id: '1', name: 'S3 Bucket' },
+    { id: '2', name: 'FTP Server' },
+    { id: '3', name: 'Local Storage' }
   ],
   sources: [
     { id: '1', name: 'Salesforce' },
@@ -184,8 +195,8 @@ export function getSources(): Source[] {
   return [...list];
 }
 
-export function getDestinations(): string[] {
+export function getDestinations(): Destination[] {
   const list =  db.destinations;
-  if (!list || list.length === 0) return [ 'has default' ];
+  if (!list || list.length === 0) return [ { id: 'default', name: 'has default' } ];
   return [...list];
 }

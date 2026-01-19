@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getTemplates, getDestinations, Source } from '@/lib/database';
+import { getTemplates, getDestinations } from '@/lib/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { useAsyncData } from '@/hooks/asyncResolver';
@@ -22,12 +22,12 @@ interface Props {
 
 export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   const [selectedSourceId, setSelectedSource] = useState<string>('1');
-  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
-  const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>('1');
+  const [selectedDestinationId, setSelectedDestinationId] = useState<string | null>('1');
   const [selectedInterval, setSelectedInterval] = useState<string>("1 jour");
 
   const { data: templates, loading: loadingTemplates } = useAsyncData({
-    fetcher: () => getTemplates(selectedSourceId).map((t) => t.name),
+    fetcher: () => getTemplates(selectedSourceId),
     dependencies: [selectedSourceId],
   });
 
@@ -37,16 +37,16 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   });
 
   useEffect(() => {
-    setSelectedTemplate(templates?.[0] ?? null);
+    setSelectedTemplateId(templates?.[0]?.id ?? null);
   }, [templates]);
 
   useEffect(() => {
-    setSelectedDestination(destinations?.[0] ?? null);
+    setSelectedDestinationId(destinations?.[0]?.id ?? null);
   }, [destinations]);
 
   const handleTrigger = () => {
-    if (!isRunning && selectedSourceId && selectedDestination && selectedTemplate && selectedInterval) {
-      onTrigger(selectedSourceId, selectedDestination, selectedTemplate, selectedInterval);
+    if (!isRunning && selectedSourceId && selectedDestinationId && selectedTemplateId && selectedInterval) {
+      onTrigger(selectedSourceId, selectedDestinationId, selectedTemplateId, selectedInterval);
     }
   };
 
@@ -112,8 +112,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               <label className="block text-sm font-medium text-gray-400 mb-3">Template CSV</label>
               <div className="grid grid-cols-1">
                 <select
-                  value={selectedTemplate ?? ''}
-                  onChange={(e) => setSelectedTemplate(e.target.value)}
+                  value={selectedTemplateId ?? ''}
+                  onChange={(e) => setSelectedTemplateId(e.target.value)}
                   disabled={loadingTemplates || templates?.length === 0}
                   className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
                 >
@@ -123,7 +123,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                     <option>Aucun template</option>
                   ) : (
                     templates?.map((t) => (
-                      <option key={t} value={t}>{t}</option>
+                      <option key={t.id} value={t.id}>{t.name}</option>
                     ))
                   )}
                 </select>
@@ -135,8 +135,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               <label className="block text-sm font-medium text-gray-400 mb-3">Destination</label>
               <div className="grid grid-cols-1">
                 <select
-                  value={selectedDestination ?? ''}
-                  onChange={(e) => setSelectedDestination(e.target.value)}
+                  value={selectedDestinationId ?? ''}
+                  onChange={(e) => setSelectedDestinationId(e.target.value)}
                   disabled={loadingDestinations || destinations?.length === 0}
                   className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
                 >
@@ -146,7 +146,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                     <option>Aucun destination</option>
                   ) : (
                     destinations?.map((d) => (
-                      <option key={d} value={d}>{d}</option>
+                      <option key={d.id} value={d.id}>{d.name}</option>
                     ))
                   )}
                 </select>

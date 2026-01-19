@@ -11,10 +11,6 @@ import {
   faSpinner,
   faTimesCircle,
   faPauseCircle,
-  faCloud,
-  faChartLine,
-  faTicket,
-  faChartBar,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
@@ -204,13 +200,13 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     {/* Template */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.template}</span>
+                        <span className="font-medium whitespace-nowrap">{extraction.template?.name}</span>
                       </div>
                     </td>
                     {/* Destination */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.destination}</span>
+                        <span className="font-medium whitespace-nowrap">{extraction.destination?.name}</span>
                       </div>
                     </td>
                     {/* Interval */}
