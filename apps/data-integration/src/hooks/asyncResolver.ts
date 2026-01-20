@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface UseAsyncDataOptions<T> {
   fetcher: () => T | Promise<T>;
@@ -11,6 +11,19 @@ export function useAsyncData<T>({ fetcher, dependencies = [] }: UseAsyncDataOpti
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
+  const refetch = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await Promise.resolve(fetcher());
+      setData(result);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    } finally {
+      setLoading(false);
+    }
+  }, [fetcher]);
 
   useEffect(() => {
     let mounted = true;
@@ -34,5 +47,5 @@ export function useAsyncData<T>({ fetcher, dependencies = [] }: UseAsyncDataOpti
     };
   }, dependencies);
 
-  return { data, loading, error };
+  return { data, loading, error, refetch };
 }

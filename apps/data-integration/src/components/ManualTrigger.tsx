@@ -7,6 +7,7 @@ import { useAsyncData } from '@/hooks/asyncResolver';
 import { apiFetch } from '@/lib/api/client';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Destination } from '@/app/api/destinations/destinations.dto';
+import ErrorAlert from './Errors/ErrorAlert';
 
 const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
   { id: '1', icon: faCloud, colorClass: 'text-blue-400' },
@@ -28,19 +29,19 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   const [selectedInterval, setSelectedInterval] = useState<string>("1 jour");
 
   // SOURCES
-  const { data: sources } = useAsyncData({
+  const { data: sources, error: sourcesError, refetch: refetchSources } = useAsyncData({
     fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
     dependencies: [],
   });
 
   // TEMPLATES
-  const { data: templates, loading: loadingTemplates } = useAsyncData({
+  const { data: templates, loading: loadingTemplates, error: templatesError, refetch: refetchTemplates } = useAsyncData({
     fetcher: () => apiFetch(`/api/templates?source=${selectedSourceId}`) as Promise<Template[]>,
     dependencies: [selectedSourceId],
   });
 
   // DESTINATIONS
-  const { data: destinations, loading: loadingDestinations } = useAsyncData({
+  const { data: destinations, loading: loadingDestinations, error: destinationsError, refetch: refetchDestinations } = useAsyncData({
     fetcher: () => apiFetch(`/api/destinations`) as Promise<Destination[]>,
     dependencies: [],
   });
@@ -68,6 +69,26 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
         </h2>
 
         <div className="space-y-4">
+
+          {/* Error alerts */}
+          {sourcesError && (
+            <ErrorAlert 
+              message={`Erreur lors du chargement des sources: ${sourcesError.message}`}
+              onRetry={refetchSources}
+            />
+          )}
+          {templatesError && (
+            <ErrorAlert 
+              message={`Erreur lors du chargement des templates: ${templatesError.message}`}
+              onRetry={refetchTemplates}
+            />
+          )}
+          {destinationsError && (
+            <ErrorAlert 
+              message={`Erreur lors du chargement des destinations: ${destinationsError.message}`}
+              onRetry={refetchDestinations}
+            />
+          )}
 
           {/* Sélection de la source */}
           <div>

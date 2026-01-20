@@ -7,6 +7,7 @@ import { useAsyncData } from '@/hooks/asyncResolver';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
 import { apiFetch } from '@/lib/api/client';
+import ErrorAlert from './Errors/ErrorAlert';
 
 const daysOfWeek = [
   { id: 1, name: 'Lundi', short: 'Lun' },
@@ -35,7 +36,7 @@ export default function AutomaticScheduler() {
   const [isSaving, setIsSaving] = useState(false);
 
   // SOURCES
-  const { data: sources } = useAsyncData({
+  const { data: sources, error: sourcesError, refetch: refetchSources } = useAsyncData({
     fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
     dependencies: [],
   });
@@ -45,7 +46,7 @@ export default function AutomaticScheduler() {
   }, [sources]);
 
   // TEMPLATES
-  const { data: templates } = useAsyncData({
+  const { data: templates, error: templatesError, refetch: refetchTemplates } = useAsyncData({
     fetcher: () => apiFetch(`/api/templates?source=${selectedSourceId}`) as Promise<Template[]>,
     dependencies: [selectedSourceId],
   });
@@ -56,7 +57,7 @@ export default function AutomaticScheduler() {
   }, [templates]);
 
   // SCHEDULES
-  const { data: schedules } = useAsyncData({
+  const { data: schedules, error: schedulesError, refetch: refetchSchedules } = useAsyncData({
     fetcher: () => apiFetch('/api/schedules') as Promise<Schedule[]>,
     dependencies: [saveSuccess],
   });
@@ -133,6 +134,26 @@ export default function AutomaticScheduler() {
         <span className="text-2xl"><FontAwesomeIcon icon={faClock} /></span>
         Planification automatique
       </h2>
+
+      {/* Error alerts */}
+      {sourcesError && (
+        <ErrorAlert 
+          message={`Erreur lors du chargement des sources: ${sourcesError.message}`}
+          onRetry={refetchSources}
+        />
+      )}
+      {templatesError && (
+        <ErrorAlert 
+          message={`Erreur lors du chargement des templates: ${templatesError.message}`}
+          onRetry={refetchTemplates}
+        />
+      )}
+      {schedulesError && (
+        <ErrorAlert 
+          message={`Erreur lors du chargement des horaires: ${schedulesError.message}`}
+          onRetry={refetchSchedules}
+        />
+      )}
 
       {/* Source & Template selector */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">

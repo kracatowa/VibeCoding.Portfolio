@@ -6,6 +6,7 @@ import ExtractionHistory from '@/components/ExtractionHistory';
 import ManualTrigger from '@/components/ManualTrigger';
 import AutomaticScheduler from '@/components/AutomaticScheduler';
 import ErrorBoundaryTest from '@/components/Errors/ErrorBoundaryTest';
+import ErrorAlertTest from '@/components/Errors/ErrorAlertTest';
 import { useNotificationContext } from '@/hooks/NotificationContext';
 import { Extraction } from './api/extractions/extractions.dto';
 
@@ -116,7 +117,9 @@ export default function Home() {
 
   return (
     <>
-      {isDevelopment && <ErrorBoundaryTest />}
+       {isDevelopment && <ErrorBoundaryTest />}
+       {isDevelopment && <ErrorAlertTest />}
+
       <ManualTrigger
         onTrigger={handleTriggerExtraction}
         isRunning={isRunning}
