@@ -122,6 +122,16 @@ export default function AutomaticScheduler() {
   }
   };
 
+  // Auto-hide success message after 3 seconds
+  useEffect(() => {
+    if (saveSuccess) {
+      const timer = setTimeout(() => {
+        setSaveSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [saveSuccess]);
+
   const getScheduleForDay = (dayOfWeek: number): SchedulePreference | undefined => {
     return selectedSchedulePreferences.find((s) => s.dayOfWeek === dayOfWeek);
   };
@@ -130,6 +140,7 @@ export default function AutomaticScheduler() {
 
   return (
     <section id="automatic-scheduler" className='py-4 px-6 scroll-mt-20'>
+      <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
       <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
         <span className="text-2xl"><FontAwesomeIcon icon={faClock} /></span>
         Planification automatique
@@ -212,7 +223,7 @@ export default function AutomaticScheduler() {
                   <div className="flex items-center gap-3 mr-3 md:mb-3 md:mr-0">
                     <button
                       onClick={() => handleToggleDay(day.id)}
-                      className={`w-10 h-6 rounded-full relative transition-colors duration-200 flex-shrink-0 ${isEnabled ? 'bg-blue-500' : 'bg-gray-600'
+                      className={`w-10 h-6 rounded-full relative transition-colors duration-200 shrink-0 ${isEnabled ? 'bg-blue-500' : 'bg-gray-600'
                         }`}
                     >
                       <div
@@ -255,10 +266,11 @@ export default function AutomaticScheduler() {
           <button
             onClick={handleSave}
             disabled={!hasChanges || isSaving}
-            className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${hasChanges
+            className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+              hasChanges
                 ? 'bg-green-500 hover:bg-green-600 text-white'
                 : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-              }`}
+            }`}
           >
             {isSaving ? (
               <>
@@ -267,7 +279,7 @@ export default function AutomaticScheduler() {
               </>
             ) : saveSuccess ? (
               <>
-                <FontAwesomeIcon icon={faCheckCircle} />
+                <FontAwesomeIcon icon={faCheckCircle} className="animate-bounce" />
                 Sauvegardé !
               </>
             ) : (
@@ -284,7 +296,7 @@ export default function AutomaticScheduler() {
           <FontAwesomeIcon icon={faLightbulb} className="mr-2 text-yellow-400" />Les extractions automatiques seront déclenchées aux heures configurées pour <span className="font-medium text-white">{sources?.find(s => s.id === selectedSourceId)?.name}</span>.
         </p>
       </div>
-
+    </div>
     </section>
   );
 }
