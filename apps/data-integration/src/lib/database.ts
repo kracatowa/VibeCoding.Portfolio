@@ -5,6 +5,7 @@ import { Extraction } from "@/app/api/extractions/extractions.dto";
 import { Schedule, SchedulePreference } from "@/app/api/schedules/schedules.dto";
 import { Source } from "@/app/api/sources/sources.dto";
 import { Template } from "@/app/api/templates/templates.dto";
+import { Notification } from "@/app/api/notifications/notifications.dto";
 
 interface Database {
   extractions: Extraction[];
@@ -12,6 +13,7 @@ interface Database {
   templates?: Template[];
   destinations?: Destination[];
   sources: Source[];
+  notifications: Notification[];
 }
 
 // Base de données en mémoire (simulée)
@@ -162,7 +164,8 @@ const db: Database = {
     { id: '1', name: 'Salesforce' },
     { id: '2', name: 'HubSpot' },
     { id: '3', name: 'Zendesk' },
-  ]
+  ],
+  notifications: []
 };
 
 // Fonctions CRUD pour les extractions
@@ -221,5 +224,44 @@ export function getSources(): Source[] {
 export function getDestinations(): Destination[] {
   const list =  db.destinations;
   if (!list || list.length === 0) return [ { id: 'default', name: 'has default' } ];
-  return [...list];
+return [...list];
 }
+
+// Fonctions CRUD pour les notifications
+export function getAllNotifications(): Notification[] {
+  return [...db.notifications].sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  );
+}
+
+export function createNotification(notification: Omit<Notification, 'id'>): Notification {
+  const newNotification: Notification = {
+    ...notification,
+    id: Date.now().toString(),
+  };
+  db.notifications.push(newNotification);
+  
+  // Limiter à 50 notifications maximum
+  if (db.notifications.length > 50) {
+    db.notifications = db.notifications.slice(0, 50);
+  }
+  
+  return newNotification;
+}
+
+export function markNotificationAsRead(id: string): Notification | null {
+  const notification = db.notifications.find((n) => n.id === id);
+  if (!notification) return null;
+  
+  notification.read = true;
+  return notification;
+}
+
+export function markAllNotificationsAsRead(): void {
+  db.notifications.forEach((n) => (n.read = true));
+}
+
+export function clearAllNotifications(): void {
+  db.notifications = [];
+}
+

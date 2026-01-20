@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import { DemoLayout } from '@portfolio/shared-ui'
+import ClientLayoutWrapper from '@/components/ClientLayoutWrapper';
 
 config.autoAddCss = false
 
@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DemoLayout
+        <ClientLayoutWrapper
           headerLinks={[{ href: '#manual-trigger', label: 'Manuel' }, 
                         { href: '#extraction-steps', label: 'Étapes' },
                         { href: '#extraction-history', label: 'Historique' }, 
@@ -41,7 +41,7 @@ export default function RootLayout({
                         { href: '/help', label: 'Help' }]}
         >
           {children}
-        </DemoLayout>
+        </ClientLayoutWrapper>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import ExtractionSteps from '@/components/ExtractionSteps';
 import ExtractionHistory from '@/components/ExtractionHistory';
 import ManualTrigger from '@/components/ManualTrigger';
 import AutomaticScheduler from '@/components/AutomaticScheduler';
+import { useNotificationContext } from '@/hooks/NotificationContext';
 import { Extraction } from './api/extractions/extractions.dto';
 
 interface StepStatus {
@@ -19,9 +20,13 @@ export default function Home() {
   const [currentExtraction, setCurrentExtraction] = useState<Extraction | null>(null);
   const [stepStatus, setStepStatus] = useState<StepStatus | null>(null);
 
+  // Get notification functions from context
+  const { addNotification } = useNotificationContext();
+
   // URL for returning to the main portfolio site. Can be overridden via env.
   const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || '/';
 
+  //TODO : ADD ERROR DISPLAY FOR NETWORK FAILURES
   const fetchExtractions = useCallback(async () => {
     try {
       const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -61,6 +66,13 @@ export default function Home() {
           setCurrentExtraction(data);
 
           if (data.status === 'completed' || data.status === 'failed') {
+            // Add notification for completion or failure
+            addNotification(
+              data.status === 'completed' ? 'success' : 'error',
+              data.id,
+              data.source?.name || data.source || 'Source inconnue'
+            );
+            
             setIsRunning(false);
             setStepStatus(null);
             fetchExtractions();
@@ -68,7 +80,7 @@ export default function Home() {
         } catch (error) {
           console.error('Erreur lors de la mise à jour du statut:', error);
         }
-      }, 500);
+      }, 1500);
     }
 
     return () => {
@@ -89,6 +101,9 @@ export default function Home() {
       });
       const data = await response.json();
       setCurrentExtraction(data);
+      
+      // Add notification for extraction start
+      addNotification('start', data.id, data.source?.name || data.source || 'Source inconnue');
     } catch (error) {
       console.error('Erreur lors du déclenchement de l\'extraction:', error);
       setIsRunning(false);
@@ -98,10 +113,10 @@ export default function Home() {
 
   return (
     <>
-            <ManualTrigger
-              onTrigger={handleTriggerExtraction}
-              isRunning={isRunning}
-            />
+      <ManualTrigger
+        onTrigger={handleTriggerExtraction}
+        isRunning={isRunning}
+      />
             <ExtractionSteps
               currentStep={currentExtraction?.currentStep || null}
               stepStatus={stepStatus}

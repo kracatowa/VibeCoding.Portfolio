@@ -1,8 +1,15 @@
 import Logo from './Logo';
+import type { ReactNode } from 'react';
 
 export type LinkItem = { href: string; label: string };
 
-export default function DemoHeader({ navLinks }: { navLinks?: LinkItem[] }) {
+export default function DemoHeader({ 
+  navLinks, 
+  rightContent 
+}: { 
+  navLinks?: LinkItem[];
+  rightContent?: ReactNode;
+}) {
   const defaultLinks: LinkItem[] = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
@@ -24,6 +31,12 @@ export default function DemoHeader({ navLinks }: { navLinks?: LinkItem[] }) {
           ))}
         </ul>
       </nav>
+
+      {rightContent && (
+        <div className="shrink-0 ml-4">
+          {rightContent}
+        </div>
+      )}
     </header>
   );
 }
