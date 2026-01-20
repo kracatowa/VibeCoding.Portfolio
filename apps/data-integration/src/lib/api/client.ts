@@ -8,43 +8,32 @@
  * Note: dispatch sur `window` uniquement côté client.
  */
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+import { retryableFetch } from './retryableFetch';
+import { prepareFetchInit, emitNetworkError } from './helpers';
 
 export async function apiFetch<T>(
   path: string,
-  init: RequestInit & { body?: unknown } = {}
+  init?: Omit<RequestInit, 'body'> & { body?: unknown }
 ): Promise<T> {
+  const options = init ?? {};
+  const method = (options.method ?? 'GET').toString().toUpperCase();
+  const isGet = method === 'GET';
+
+  if (isGet) return retryableFetch<T>(`${base}${path}`, options);
+
+  // Non-GET: single attempt
   try {
-    const res = await fetch(`${base}${path}`, {
-      ...init,
-      body:
-        init.body && typeof init.body !== 'string'
-          ? JSON.stringify(init.body)
-          : init.body,
-      headers: {
-        'Content-Type': 'application/json',
-        ...init.headers
-      }
-    });
+    const res = await fetch(`${base}${path}`, prepareFetchInit(options));
 
     if (!res.ok) {
-      // Emit a network-error event for server error statuses
-      try {
-        window.dispatchEvent(new CustomEvent('network-error', { detail: { message: `API error ${res.status}` } }));
-      } catch (e) {
-        // ignore in non-browser environments
-      }
-      throw new Error(`API error ${res.status}`);
+      emitNetworkError(`Erreur d'API ${res.status}`);
+      throw new Error(`Erreur d'API ${res.status}`);
     }
 
     return res.json();
   } catch (err) {
-    // Network-level failures (DNS, offline, CORS, etc.)
-    try {
-      const message = err instanceof Error ? err.message : String(err);
-      window.dispatchEvent(new CustomEvent('network-error', { detail: { message } }));
-    } catch (e) {
-      // ignore
-    }
+    const message = err instanceof Error ? err.message : String(err);
+    emitNetworkError(message);
     throw err;
   }
 }

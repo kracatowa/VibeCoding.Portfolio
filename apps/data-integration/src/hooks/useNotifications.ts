@@ -71,7 +71,7 @@ export function useNotifications() {
       // Create notification via API
       const dto = await apiFetch<NotificationDTO>('/api/notifications', {
         method: 'POST',
-        body: JSON.stringify({ type, extractionId, sourceName }),
+        body: { type, extractionId, sourceName },
       });
 
       const notification = toNotification(dto);
@@ -121,7 +121,7 @@ export function useNotifications() {
     try {
       await apiFetch('/api/notifications', {
         method: 'PATCH',
-        body: JSON.stringify({ markAllAsRead: true }),
+        body: { markAllAsRead: true },
       });
 
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));

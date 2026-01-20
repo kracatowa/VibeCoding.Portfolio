@@ -42,7 +42,8 @@ export default function AutomaticScheduler() {
   });
 
   useEffect(() => {
-    setSelectedSourceId(sources?.[0]?.id ? sources[0].id : '');
+    if(!sources) return;
+    setSelectedSourceId(sources?.[0]?.id ?? '');
   }, [sources]);
 
   // TEMPLATES
@@ -103,14 +104,12 @@ export default function AutomaticScheduler() {
   try {
     setIsSaving(true);
 
-
-    
     await apiFetch('/api/schedules', {
       method: 'PUT',
-      body: JSON.stringify({
+      body: {
         scheduleId: selectedScheduleId,
         updatedSchedulePreferences: selectedSchedulePreferences
-      }),
+      },
     });
 
     setHasChanges(false);
