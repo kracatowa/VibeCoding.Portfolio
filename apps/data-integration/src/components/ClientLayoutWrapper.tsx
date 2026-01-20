@@ -3,6 +3,7 @@
 import { DemoLayout, type LinkItem } from '@portfolio/shared-ui';
 import NotificationBell from './NotificationBell';
 import { NotificationProvider, useNotificationContext } from '@/hooks/NotificationContext';
+import ErrorBoundary from './Errors/ErrorBoundary';
 
 /**
  * Wrapper client pour le layout de l'application.
@@ -10,6 +11,8 @@ import { NotificationProvider, useNotificationContext } from '@/hooks/Notificati
  * Nécessaire car layout.tsx est un Server Component (pas de hooks React).
  * Ce wrapper permet d'utiliser le Context API pour partager l'état des notifications
  * entre la cloche (dans le header) et la page (pour déclencher les notifications).
+ * 
+ * Inclut également ErrorBoundary pour capturer et gérer les erreurs React.
  */
 
 interface Props {
@@ -42,12 +45,15 @@ function LayoutContent({ children, headerLinks, footerLinks }: Props) {
 }
 
 // Fournit le context des notifications à toute l'application
+// Enveloppe tout dans ErrorBoundary pour capturer les erreurs React
 export default function ClientLayoutWrapper({ children, headerLinks, footerLinks }: Props) {
   return (
-    <NotificationProvider>
-      <LayoutContent headerLinks={headerLinks} footerLinks={footerLinks}>
-        {children}
-      </LayoutContent>
-    </NotificationProvider>
+    <ErrorBoundary>
+      <NotificationProvider>
+        <LayoutContent headerLinks={headerLinks} footerLinks={footerLinks}>
+          {children}
+        </LayoutContent>
+      </NotificationProvider>
+    </ErrorBoundary>
   );
 }

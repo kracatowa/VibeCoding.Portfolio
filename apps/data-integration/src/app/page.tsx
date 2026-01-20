@@ -5,6 +5,7 @@ import ExtractionSteps from '@/components/ExtractionSteps';
 import ExtractionHistory from '@/components/ExtractionHistory';
 import ManualTrigger from '@/components/ManualTrigger';
 import AutomaticScheduler from '@/components/AutomaticScheduler';
+import ErrorBoundaryTest from '@/components/Errors/ErrorBoundaryTest';
 import { useNotificationContext } from '@/hooks/NotificationContext';
 import { Extraction } from './api/extractions/extractions.dto';
 
@@ -43,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     fetchExtractions();
   }, [fetchExtractions]);
-
+  
   // Polling pour suivre l'extraction en cours
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -111,8 +112,11 @@ export default function Home() {
     }
   };
 
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   return (
     <>
+      {isDevelopment && <ErrorBoundaryTest />}
       <ManualTrigger
         onTrigger={handleTriggerExtraction}
         isRunning={isRunning}
