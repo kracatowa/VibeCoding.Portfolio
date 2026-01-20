@@ -1,18 +1,20 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type LinkItem = {
     href: string;
     label: string;
 };
-declare function DemoHeader({ navLinks }: {
+declare function DemoHeader({ navLinks, rightContent }: {
     navLinks?: LinkItem[];
+    rightContent?: ReactNode;
 }): react_jsx_runtime.JSX.Element;
 
-declare function DemoLayout({ children, headerLinks, footerLinks }: {
+declare function DemoLayout({ children, headerLinks, footerLinks, headerRightContent }: {
     children: React.ReactNode;
     headerLinks?: LinkItem[];
     footerLinks?: LinkItem[];
+    headerRightContent?: React.ReactNode;
 }): react_jsx_runtime.JSX.Element;
 
 declare function DemoFooter({ links }: {

@@ -18,7 +18,7 @@ export default function ErrorAlertTest() {
 
   return (
     <>
-      <div className="fixed bottom-4 left-4 z-50">
+      <div className="fixed bottom-16 left-4 z-50">
         <button
           onClick={() => setVisible(true)}
           className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg flex items-center gap-2"

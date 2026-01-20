@@ -14,14 +14,18 @@ function Logo({ className }) {
   };
   const basePath = typeof window !== "undefined" && window.__NEXT_DATA__?.props?.pageProps?.basePath ? window.__NEXT_DATA__.props.pageProps.basePath : process.env.NEXT_PUBLIC_BASE_PATH || "";
   return /* @__PURE__ */ jsxs("a", { href: "/", "aria-label": "Oc\xE9an Barras", className: `flex items-center gap-3 no-underline text-slate-100 ${className ?? ""}`, children: [
-    /* @__PURE__ */ jsx("img", { src: `${basePath}/wave-logo.png`, alt: "Oc\xE9an Barras", className: "w-10 h-10 flex-shrink-0 rounded-lg object-cover", onLoad: handleLoad, onError: handleError }),
-    /* @__PURE__ */ jsx("span", { className: "font-bold text-base text-slate-100", children: "Oc\xE9an Barras" })
+    /* @__PURE__ */ jsx("img", { src: `${basePath}/wave-logo.png`, alt: "Oc\xE9an Barras", className: "w-10 h-10 shrink-0 rounded-lg object-cover", onLoad: handleLoad, onError: handleError }),
+    /* @__PURE__ */ jsx("span", { className: "font-bold text-base text-slate-100 md:hidden", children: "OB" }),
+    /* @__PURE__ */ jsx("span", { className: "font-bold text-base text-slate-100 hidden md:inline", children: "Oc\xE9an Barras" })
   ] });
 }
 
 // src/DemoHeader.tsx
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
-function DemoHeader({ navLinks }) {
+function DemoHeader({
+  navLinks,
+  rightContent
+}) {
   const defaultLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" }
@@ -29,7 +33,8 @@ function DemoHeader({ navLinks }) {
   const links = navLinks ?? defaultLinks;
   return /* @__PURE__ */ jsxs2("header", { className: "flex items-center justify-between px-5 py-3 border-b border-white/5 from-slate-900/90 to-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg", children: [
     /* @__PURE__ */ jsx2("div", { className: "shrink-0", children: /* @__PURE__ */ jsx2(Logo, {}) }),
-    /* @__PURE__ */ jsx2("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ jsx2("ul", { className: "flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ jsx2("li", { children: /* @__PURE__ */ jsx2("a", { href: l.href, className: "text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100", children: l.label }) }, l.href)) }) })
+    /* @__PURE__ */ jsx2("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ jsx2("ul", { className: "flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ jsx2("li", { children: /* @__PURE__ */ jsx2("a", { href: l.href, className: "text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100", children: l.label }) }, l.href)) }) }),
+    rightContent && /* @__PURE__ */ jsx2("div", { className: "shrink-0 ml-4", children: rightContent })
   ] });
 }
 
@@ -48,9 +53,14 @@ function DemoFooter({ links }) {
 
 // src/DemoLayout.tsx
 import { jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
-function DemoLayout({ children, headerLinks, footerLinks }) {
+function DemoLayout({
+  children,
+  headerLinks,
+  footerLinks,
+  headerRightContent
+}) {
   return /* @__PURE__ */ jsxs4("div", { className: "min-h-screen flex flex-col", children: [
-    /* @__PURE__ */ jsx4(DemoHeader, { navLinks: headerLinks }),
+    /* @__PURE__ */ jsx4(DemoHeader, { navLinks: headerLinks, rightContent: headerRightContent }),
     /* @__PURE__ */ jsx4("main", { className: "flex-1 py-7 px-5 max-w-6xl mx-auto w-full", children }),
     /* @__PURE__ */ jsx4(DemoFooter, { links: footerLinks })
   ] });

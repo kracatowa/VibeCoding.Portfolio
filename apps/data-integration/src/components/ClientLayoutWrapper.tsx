@@ -3,6 +3,8 @@
 import { DemoLayout, type LinkItem } from '@portfolio/shared-ui';
 import NotificationBell from './NotificationBell';
 import { NotificationProvider, useNotificationContext } from '@/hooks/NotificationContext';
+import { NetworkErrorProvider } from '@/hooks/NetworkErrorContext';
+import NetworkBanner from './Errors/NetworkBanner';
 import ErrorBoundary from './Errors/ErrorBoundary';
 
 /**
@@ -49,11 +51,14 @@ function LayoutContent({ children, headerLinks, footerLinks }: Props) {
 export default function ClientLayoutWrapper({ children, headerLinks, footerLinks }: Props) {
   return (
     <ErrorBoundary>
-      <NotificationProvider>
-        <LayoutContent headerLinks={headerLinks} footerLinks={footerLinks}>
-          {children}
-        </LayoutContent>
-      </NotificationProvider>
+      <NetworkErrorProvider>
+        <NotificationProvider>
+          <NetworkBanner />
+          <LayoutContent headerLinks={headerLinks} footerLinks={footerLinks}>
+            {children}
+          </LayoutContent>
+        </NotificationProvider>
+      </NetworkErrorProvider>
     </ErrorBoundary>
   );
 }

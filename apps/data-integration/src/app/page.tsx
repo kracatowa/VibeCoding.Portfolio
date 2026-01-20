@@ -9,6 +9,7 @@ import ErrorBoundaryTest from '@/components/Errors/ErrorBoundaryTest';
 import ErrorAlertTest from '@/components/Errors/ErrorAlertTest';
 import { useNotificationContext } from '@/hooks/NotificationContext';
 import { Extraction } from './api/extractions/extractions.dto';
+import NetworkBannerTest from '@/components/Errors/NetworkBannerTest';
 
 interface StepStatus {
   step: number;
@@ -119,6 +120,7 @@ export default function Home() {
     <>
        {isDevelopment && <ErrorBoundaryTest />}
        {isDevelopment && <ErrorAlertTest />}
+       {isDevelopment && <NetworkBannerTest />}
 
       <ManualTrigger
         onTrigger={handleTriggerExtraction}
