@@ -11,6 +11,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Extraction } from '@/app/api/extractions/extractions.dto';
+import { TableRowSkeleton } from './Skeleton';
 
 interface Props {
   extractions: Extraction[];
@@ -112,33 +113,33 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
           Historique des extractions
         </h2>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <FontAwesomeIcon icon={faSpinner} spin className="text-blue-500 text-2xl" />
-          </div>
-        ) : extractions.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">
-            <span className="text-4xl"><FontAwesomeIcon icon={faInbox} /></span>
-            <p className="mt-2">Aucune extraction enregistrée</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto w-full">
-            <table className="w-auto table-auto min-w-full border-collapse">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Source</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Statut</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Durée</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Enregistrements</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Template</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Destination</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Intervalle</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Fichier</th>
+        <div className="overflow-x-auto w-full">
+          <table className="w-auto table-auto min-w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-700">
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Source</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Statut</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Durée</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Enregistrements</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Template</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Destination</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Intervalle</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-medium">Fichier</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                Array.from({ length: 5 }).map((_, i) => <TableRowSkeleton key={i} columns={9} />)
+              ) : extractions.length === 0 ? (
+                <tr>
+                  <td colSpan={9} className="text-center py-12 text-gray-400">
+                    <span className="text-4xl"><FontAwesomeIcon icon={faInbox} /></span>
+                    <p className="mt-2">Aucune extraction enregistrée</p>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {extractions.map((extraction) => (
+              ) : (
+                extractions.map((extraction) => (
                   <tr
                     key={extraction.id}
                     className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
@@ -207,11 +208,11 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                       )}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
 
         {/* Statistiques */}
         {extractions.length > 0 && (

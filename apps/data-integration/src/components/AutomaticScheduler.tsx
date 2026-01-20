@@ -8,6 +8,7 @@ import { Template } from '@/app/api/templates/templates.dto';
 import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
 import { apiFetch } from '@/lib/api/client';
 import ErrorAlert from './Errors/ErrorAlert';
+import { ScheduleGridSkeleton } from './Skeleton';
 
 const daysOfWeek = [
   { id: 1, name: 'Lundi', short: 'Lun' },
@@ -190,6 +191,9 @@ export default function AutomaticScheduler() {
       </div>
       <div className="space-y-4 py-4">
         {/* Grille des jours */}
+        {!schedules ? (
+          <ScheduleGridSkeleton days={7} />
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-3">
           {daysOfWeek.map((day) => {
             const schedule = getScheduleForDay(day.id);
@@ -238,6 +242,7 @@ export default function AutomaticScheduler() {
             );
           })}
         </div>
+        )}
 
         {/* Résumé */}
         <div className="flex items-center justify-between py-4 border-t border-gray-700">

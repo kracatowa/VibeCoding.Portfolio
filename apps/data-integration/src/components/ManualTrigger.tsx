@@ -8,6 +8,7 @@ import { apiFetch } from '@/lib/api/client';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Destination } from '@/app/api/destinations/destinations.dto';
 import ErrorAlert from './Errors/ErrorAlert';
+import { CardSkeleton } from './Skeleton';
 
 const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
   { id: '1', icon: faCloud, colorClass: 'text-blue-400' },
@@ -96,7 +97,10 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               Source de données
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {sources?.map((source) => (
+              {!sources ? (
+                Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)
+              ) : (
+                sources.map((source) => (
                 <button
                   key={source.id}
                   onClick={() => setSelectedSource(source.id)}
@@ -110,7 +114,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                   <div className="text-3xl mb-2"><FontAwesomeIcon icon={sourceStyles.find(s => s.id === source.id)?.icon } className={sourceStyles.find(s => s.id === source.id)?.colorClass} /></div>
                   <div className="font-medium">{source.name}</div>
                 </button>
-              ))}
+              )))
+              }
             </div>
           </div>
 
