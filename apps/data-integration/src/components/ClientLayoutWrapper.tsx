@@ -2,10 +2,12 @@
 
 import { DemoLayout, type LinkItem } from '@portfolio/shared-ui';
 import NotificationBell from './NotificationBell';
+import HamburgerMenu from './HamburgerMenu';
 import { NotificationProvider, useNotificationContext } from '@/hooks/NotificationContext';
 import { NetworkErrorProvider } from '@/hooks/NetworkErrorContext';
 import NetworkBanner from './Errors/NetworkBanner';
 import ErrorBoundary from './Errors/ErrorBoundary';
+import { faCog, faUser } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Wrapper client pour le layout de l'application.
@@ -27,18 +29,31 @@ interface Props {
 function LayoutContent({ children, headerLinks, footerLinks }: Props) {
   const { notifications, unreadCount, markAsRead, markAllAsRead, clearAll } = useNotificationContext();
 
+  const menuItems = [
+    {
+      label: 'Admin',
+      icon: faUser,
+      children: [
+        { href: '/admin/configurations', label: 'Configurations', icon: faCog }
+      ]
+    }
+  ];
+
   return (
     <DemoLayout
       headerLinks={headerLinks}
       footerLinks={footerLinks}
       headerRightContent={
-        <NotificationBell
-          notifications={notifications}
-          unreadCount={unreadCount}
-          onMarkAsRead={markAsRead}
-          onMarkAllAsRead={markAllAsRead}
-          onClearAll={clearAll}
-        />
+        <div className="flex items-center gap-2">
+          <NotificationBell
+            notifications={notifications}
+            unreadCount={unreadCount}
+            onMarkAsRead={markAsRead}
+            onMarkAllAsRead={markAllAsRead}
+            onClearAll={clearAll}
+          />
+          <HamburgerMenu menuItems={menuItems} />
+        </div>
       }
     >
       {children}

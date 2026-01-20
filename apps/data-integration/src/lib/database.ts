@@ -6,6 +6,19 @@ import { Schedule, SchedulePreference } from "@/app/api/schedules/schedules.dto"
 import { Source } from "@/app/api/sources/sources.dto";
 import { Template } from "@/app/api/templates/templates.dto";
 import { Notification } from "@/app/api/notifications/notifications.dto";
+import { AdminSource } from "@/app/api/admin/sources/sources.dto";
+
+// Configuration types for admin
+export interface TemplateConfig {
+  id: string;
+  name: string;
+  sourceId: string;
+  fields: Array<{
+    header: string;
+    jsonPath: string;
+  }>;
+  createdAt: string;
+}
 
 interface Database {
   extractions: Extraction[];
@@ -14,6 +27,8 @@ interface Database {
   destinations?: Destination[];
   sources: Source[];
   notifications: Notification[];
+  adminSources: AdminSource[];
+  adminTemplates: TemplateConfig[];
 }
 
 // Base de données en mémoire (simulée)
@@ -165,7 +180,9 @@ const db: Database = {
     { id: '2', name: 'HubSpot' },
     { id: '3', name: 'Zendesk' },
   ],
-  notifications: []
+  notifications: [],
+  adminSources: [],
+  adminTemplates: []
 };
 
 // Fonctions CRUD pour les extractions
@@ -265,3 +282,46 @@ export function clearAllNotifications(): void {
   db.notifications = [];
 }
 
+// Admin Source Management
+export function getAllSources(): Source[] {
+  return [...db.adminSources];
+}
+
+export function createSource(source: Omit<AdminSource, 'id' | 'createdAt'>): AdminSource {
+  const newSource: AdminSource = {
+    id: String(db.adminSources.length + 1),
+    ...source,
+    createdAt: new Date().toISOString()
+  };
+  db.adminSources.push(newSource);
+  return newSource;
+}
+
+export function deleteSource(id: string): boolean {
+  const index = db.adminSources.findIndex((s) => s.id === id);
+  if (index === -1) return false;
+  db.adminSources.splice(index, 1);
+  return true;
+}
+
+// Admin Template Management
+export function getAllTemplateConfigs(): TemplateConfig[] {
+  return [...db.adminTemplates];
+}
+
+export function createTemplateConfig(template: Omit<TemplateConfig, 'id' | 'createdAt'>): TemplateConfig {
+  const newTemplate: TemplateConfig = {
+    id: String(db.adminTemplates.length + 1),
+    ...template,
+    createdAt: new Date().toISOString()
+  };
+  db.adminTemplates.push(newTemplate);
+  return newTemplate;
+}
+
+export function deleteTemplateConfig(id: string): boolean {
+  const index = db.adminTemplates.findIndex((t) => t.id === id);
+  if (index === -1) return false;
+  db.adminTemplates.splice(index, 1);
+  return true;
+}
