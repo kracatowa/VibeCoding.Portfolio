@@ -178,44 +178,43 @@ export default function AutomaticScheduler() {
 
             return (
               <div
-                key={day.id}
-                className={`flex flex-col p-4 rounded-xl border transition-all duration-200 ${isEnabled
-                    ? 'border-blue-500/50 bg-blue-500/10'
-                    : 'border-gray-700 bg-gray-800/30'
-                  }`}
-              >
-                {/* Toggle et nom du jour */}
-                <div className="flex items-center gap-3 mb-3">
-                  <button
-                    onClick={() => handleToggleDay(day.id)}
-                    className={`w-10 h-6 rounded-full relative transition-colors duration-200 ${isEnabled ? 'bg-blue-500' : 'bg-gray-600'
-                      }`}
-                  >
-                    <div
-                      className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${isEnabled ? 'translate-x-5' : 'translate-x-0.5'
+                  key={day.id}
+                  className={`flex flex-row md:flex-col items-center md:items-stretch p-4 rounded-xl border transition-all duration-200 ${isEnabled
+                      ? 'border-blue-500/50 bg-blue-500/10'
+                      : 'border-gray-700 bg-gray-800/30'
+                    }`}
+                >
+                  {/* Toggle et nom du jour (row on small screens) */}
+                  <div className="flex items-center gap-3 mr-3 md:mb-3 md:mr-0">
+                    <button
+                      onClick={() => handleToggleDay(day.id)}
+                      className={`w-10 h-6 rounded-full relative transition-colors duration-200 flex-shrink-0 ${isEnabled ? 'bg-blue-500' : 'bg-gray-600'
                         }`}
-                    />
-                  </button>
-                  <span
-                    className={`font-medium text-sm ${isEnabled ? 'text-white' : 'text-gray-400'}`}>
-                    {day.name}
-                  </span>
-                </div>
+                    >
+                      <div
+                        className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${isEnabled ? 'translate-x-5' : 'translate-x-0.5'
+                          }`}
+                      />
+                    </button>
+                    <span className={`font-medium text-sm ${isEnabled ? 'text-white' : 'text-gray-400'} whitespace-nowrap`}>
+                      {day.name}
+                    </span>
+                  </div>
 
-                {/* Input heure */}
-                <div className="flex items-center">
-                  {isEnabled ? (
-                    <input
-                      type="time"
-                      value={time}
-                      onChange={(e) => handleTimeChange(day.id, e.target.value)}
-                      className="bg-gray-800 border border-gray-600 rounded-lg px-1 py-1 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors w-full"
-                    />
-                  ) : (
-                    <span className="text-gray-500 text-xs text-center w-full py-3">-</span>
-                  )}
+                  {/* Input heure */}
+                  <div className="flex items-center flex-1 w-full">
+                    {isEnabled ? (
+                      <input
+                        type="time"
+                        value={time}
+                        onChange={(e) => handleTimeChange(day.id, e.target.value)}
+                        className="bg-gray-800 border border-gray-600 rounded-lg px-1 py-1 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors w-full"
+                      />
+                    ) : (
+                      <span className="text-gray-500 text-xs text-center w-full py-3">-</span>
+                    )}
+                  </div>
                 </div>
-              </div>
             );
           })}
         </div>
