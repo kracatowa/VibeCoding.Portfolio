@@ -5,11 +5,11 @@ import {
   updateExtraction,
   getExtractionById,
   getSources,
-  Source,
   getDestinations,
   getTemplates,
 } from '@/lib/database';
 import { randomInt } from 'crypto';
+import { Source } from '../sources/sources.dto';
 
 // Store pour les extractions en cours (pour le SSE)
 const runningExtractions = new Map<string, { step: number; status: string }>();
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     const template = getTemplates(sourceId).find(t => t.id === templateId);
-    
+
     if (!template) {
       return NextResponse.json({ error: 'Template invalide' }, { status: 400 });
     }

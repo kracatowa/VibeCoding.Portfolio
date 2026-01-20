@@ -5,7 +5,7 @@ import ExtractionSteps from '@/components/ExtractionSteps';
 import ExtractionHistory from '@/components/ExtractionHistory';
 import ManualTrigger from '@/components/ManualTrigger';
 import AutomaticScheduler from '@/components/AutomaticScheduler';
-import { Extraction, SchedulePreference } from '@/lib/database';
+import { Extraction } from '@/lib/database';
 
 interface StepStatus {
   step: number;

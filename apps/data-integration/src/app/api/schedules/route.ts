@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSchedules, updateSchedulePreferences, type SchedulePreference } from '@/lib/database';
+import { getSchedules, updateSchedulePreferences } from '@/lib/database';
+import { SchedulePreference } from './schedules.dto';
 
 export async function GET() {
-  const schedules = getSchedules();
-  return NextResponse.json(schedules);
+  try{
+    const schedules = getSchedules();
+    return NextResponse.json(schedules);
+  }
+  catch (err) {
+    return NextResponse.json({ error: 'Failed to fetch schedules' }, { status: 500 });
+  }
 }
 
 export async function PUT(request: NextRequest) {

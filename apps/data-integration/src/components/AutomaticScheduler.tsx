@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faSpinner, faCheckCircle, faSave, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { getSources, getTemplates, Schedule, SchedulePreference } from '@/lib/database';
 import { useAsyncData } from '@/hooks/asyncResolver';
+import { Template } from '@/app/api/templates/templates.dto';
+import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
 
 const daysOfWeek = [
   { id: 1, name: 'Lundi', short: 'Lun' },
@@ -37,6 +38,12 @@ export default function AutomaticScheduler() {
     fetcher: () => getSources(),
     dependencies: [],
   });
+  
+  async function getSources(): Promise<Template[]> {
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    return await fetch(`${base}/api/sources`)
+      .then(res => res.json());
+  }
 
   useEffect(() => {
     setSelectedSourceId(sources?.[0]?.id ? sources[0].id : '');
@@ -48,14 +55,19 @@ export default function AutomaticScheduler() {
     dependencies: [selectedSourceId],
   });
 
+  async function getTemplates(sourceId: string): Promise<Template[]> {
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    return await fetch(`${base}/api/templates?source=${sourceId}`)
+      .then(res => res.json());
+  }
+
   useEffect(() => {
     if (!templates) return;
-
     setSelectedTemplateId(templates?.[0]?.id ?? '');
   }, [templates]);
 
   // SCHEDULES
-  const { data: schedules, loading: loadingSchedules } = useAsyncData({
+  const { data: schedules } = useAsyncData({
     fetcher: () => getSchedules(),
     dependencies: [saveSuccess],
   });

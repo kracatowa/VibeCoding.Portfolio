@@ -1,5 +1,9 @@
 // Base de données en mémoire pour la démo
 
+import { Schedule, SchedulePreference } from "@/app/api/schedules/schedules.dto";
+import { Source } from "@/app/api/sources/sources.dto";
+import { Template } from "@/app/api/templates/templates.dto";
+
 export interface Extraction {
   id: string;
   source: Source;
@@ -13,30 +17,6 @@ export interface Extraction {
   template?: Template;
   destination?: Destination;
   interval?: string;
-}
-
-export interface SchedulePreference {
-  dayOfWeek: number; // 0 = Dimanche, 1 = Lundi, etc.
-  time?: string; // Format HH:mm
-  enabled: boolean;
-}
-
-export interface Schedule{
-  id: string;
-  sourceId: string;
-  templateId: string;
-  schedulePreferences: SchedulePreference[];
-}
-
-export interface Template {
-  id: string;
-  sourceId: string;
-  name: string;
-}
-
-export interface Source{
-  id: string;
-  name: string;
 }
 
 export interface Destination{
@@ -232,7 +212,6 @@ export function updateExtraction(id: string, updates: Partial<Extraction>): Extr
 }
 
 export function getSchedules(): Schedule[] {
-  console.log("Fetching schedules from DB:", db.schedules);
   return [...db.schedules];
 }
 
@@ -244,10 +223,10 @@ export function updateSchedulePreferences(scheduleId: string, schedulePreference
   return db.schedules[index];
 }
 
-export function getTemplates(source?: string): Template[] {
-  if (!source) return [];
-  const list = db.templates?.filter(t => t.sourceId === source);
-  if (!list || list.length === 0) return [{ id: 'default', sourceId: source, name: 'has default' }];
+export function getTemplates(sourceId?: string): Template[] {
+  if (!sourceId) return [];
+  const list = db.templates?.filter(t => t.sourceId === sourceId);
+  if (!list || list.length === 0) return [{ id: 'default', sourceId: sourceId, name: 'has default' }];
   return [...list];
 }
 
