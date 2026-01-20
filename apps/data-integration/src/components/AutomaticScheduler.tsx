@@ -6,6 +6,7 @@ import { faClock, faSpinner, faCheckCircle, faSave, faLightbulb } from '@fortawe
 import { useAsyncData } from '@/hooks/asyncResolver';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
+import { apiFetch } from '@/lib/api/client';
 
 const daysOfWeek = [
   { id: 1, name: 'Lundi', short: 'Lun' },
@@ -35,15 +36,9 @@ export default function AutomaticScheduler() {
 
   // SOURCES
   const { data: sources } = useAsyncData({
-    fetcher: () => getSources(),
+    fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
     dependencies: [],
   });
-  
-  async function getSources(): Promise<Template[]> {
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-    return await fetch(`${base}/api/sources`)
-      .then(res => res.json());
-  }
 
   useEffect(() => {
     setSelectedSourceId(sources?.[0]?.id ? sources[0].id : '');
@@ -51,15 +46,9 @@ export default function AutomaticScheduler() {
 
   // TEMPLATES
   const { data: templates } = useAsyncData({
-    fetcher: () => getTemplates(selectedSourceId),
+    fetcher: () => apiFetch(`/api/templates?source=${selectedSourceId}`) as Promise<Template[]>,
     dependencies: [selectedSourceId],
   });
-
-  async function getTemplates(sourceId: string): Promise<Template[]> {
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-    return await fetch(`${base}/api/templates?source=${sourceId}`)
-      .then(res => res.json());
-  }
 
   useEffect(() => {
     if (!templates) return;
@@ -68,15 +57,9 @@ export default function AutomaticScheduler() {
 
   // SCHEDULES
   const { data: schedules } = useAsyncData({
-    fetcher: () => getSchedules(),
+    fetcher: () => apiFetch('/api/schedules') as Promise<Schedule[]>,
     dependencies: [saveSuccess],
   });
-
-  async function getSchedules(): Promise<Schedule[]> {
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-    return await fetch(`${base}/api/schedules`)
-      .then(res => res.json());
-  }
 
   useEffect(() => {
     if (!schedules || !templates) return;
@@ -116,29 +99,26 @@ export default function AutomaticScheduler() {
   };
 
   const handleSave = async () => {
-    try {
-      setIsSaving(true);
+  try {
+    setIsSaving(true);
 
-      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      const response = await fetch(`${base}/api/schedules`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scheduleId: selectedScheduleId, updatedSchedulePreferences: selectedSchedulePreferences }),
-      });
 
-      const responseJson = await response.json();
-      if (!response.ok) {
-        console.error('Erreur lors de la sauvegarde distante:', responseJson.error);
-        setIsSaving(false);
-        return;
-      }
-    } catch (err) {
-      console.error('Erreur lors de la sauvegarde locale:', err);
-    }
+    
+    await apiFetch('/api/schedules', {
+      method: 'PUT',
+      body: JSON.stringify({
+        scheduleId: selectedScheduleId,
+        updatedSchedulePreferences: selectedSchedulePreferences
+      }),
+    });
 
-    setIsSaving(false);
     setHasChanges(false);
     setSaveSuccess(true);
+  } catch (err) {
+    console.error('Erreur lors de la sauvegarde:', err);
+  } finally {
+    setIsSaving(false);
+  }
   };
 
   const getScheduleForDay = (dayOfWeek: number): SchedulePreference | undefined => {

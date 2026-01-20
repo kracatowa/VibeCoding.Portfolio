@@ -1,28 +1,10 @@
 // Base de données en mémoire pour la démo
 
+import { Destination } from "@/app/api/destinations/destinations.dto";
+import { Extraction } from "@/app/api/extractions/extractions.dto";
 import { Schedule, SchedulePreference } from "@/app/api/schedules/schedules.dto";
 import { Source } from "@/app/api/sources/sources.dto";
 import { Template } from "@/app/api/templates/templates.dto";
-
-export interface Extraction {
-  id: string;
-  source: Source;
-  status: 'pending' | 'running' | 'completed' | 'failed';
-  startedAt: string;
-  completedAt?: string;
-  recordsCount?: number;
-  fileName?: string;
-  currentStep?: number;
-  error?: string;
-  template?: Template;
-  destination?: Destination;
-  interval?: string;
-}
-
-export interface Destination{
-  id: string;
-  name: string;
-}
 
 interface Database {
   extractions: Extraction[];

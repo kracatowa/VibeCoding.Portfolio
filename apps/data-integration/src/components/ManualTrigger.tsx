@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getTemplates, getDestinations } from '@/lib/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullseye, faCloud, faChartLine, faTicket, faSpinner, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { useAsyncData } from '@/hooks/asyncResolver';
-import { getSources } from '@/lib/database';
+import { apiFetch } from '@/lib/api/client';
+import { Template } from '@/app/api/templates/templates.dto';
+import { Destination } from '@/app/api/destinations/destinations.dto';
 
 const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
   { id: '1', icon: faCloud, colorClass: 'text-blue-400' },
@@ -26,13 +27,21 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
   const [selectedDestinationId, setSelectedDestinationId] = useState<string | null>('1');
   const [selectedInterval, setSelectedInterval] = useState<string>("1 jour");
 
+  // SOURCES
+  const { data: sources } = useAsyncData({
+    fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
+    dependencies: [],
+  });
+
+  // TEMPLATES
   const { data: templates, loading: loadingTemplates } = useAsyncData({
-    fetcher: () => getTemplates(selectedSourceId),
+    fetcher: () => apiFetch(`/api/templates?source=${selectedSourceId}`) as Promise<Template[]>,
     dependencies: [selectedSourceId],
   });
 
+  // DESTINATIONS
   const { data: destinations, loading: loadingDestinations } = useAsyncData({
-    fetcher: () => getDestinations(),
+    fetcher: () => apiFetch(`/api/destinations`) as Promise<Destination[]>,
     dependencies: [],
   });
 
@@ -66,7 +75,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
               Source de données
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {getSources().map((source) => (
+              {sources?.map((source) => (
                 <button
                   key={source.id}
                   onClick={() => setSelectedSource(source.id)}

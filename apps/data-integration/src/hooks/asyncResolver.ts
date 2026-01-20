@@ -4,7 +4,9 @@ interface UseAsyncDataOptions<T> {
   fetcher: () => T | Promise<T>;
   dependencies?: React.DependencyList;
 }
-
+/* This hook is meant to be used on GET operations, 
+   Specifically on dependency reload 
+*/
 export function useAsyncData<T>({ fetcher, dependencies = [] }: UseAsyncDataOptions<T>) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);

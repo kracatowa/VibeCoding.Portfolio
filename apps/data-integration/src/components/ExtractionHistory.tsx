@@ -1,7 +1,5 @@
 'use client';
 
-import type React from 'react';
-import { Extraction } from '@/lib/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faScroll,
@@ -12,11 +10,47 @@ import {
   faTimesCircle,
   faPauseCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { Extraction } from '@/app/api/extractions/extractions.dto';
 
 interface Props {
   extractions: Extraction[];
   isLoading: boolean;
 }
+
+const STATUS_CONFIG = {
+  completed: {
+    icon: faCheckCircle,
+    text: 'Terminé',
+    classes: 'bg-green-500/20 text-green-400',
+    badgeClasses: 'bg-green-500/20 text-green-400',
+    iconClasses: 'text-green-400',
+    spin: false
+  },
+  running: {
+    icon: faSpinner,
+    text: 'En cours',
+    classes: 'bg-yellow-500/20 text-yellow-400',
+    badgeClasses: 'bg-yellow-500/20 text-yellow-400 animate-pulse',
+    iconClasses: 'text-yellow-400',
+    spin: true
+  },
+  failed: {
+    icon: faTimesCircle,
+    text: 'Échoué',
+    classes: 'bg-red-500/20 text-red-400',
+    badgeClasses: 'bg-red-500/20 text-red-400',
+    iconClasses: 'text-red-400',
+    spin: false
+  },
+  pending: {
+    icon: faPauseCircle,
+    text: 'En attente',
+    classes: 'bg-gray-500/20 text-gray-400',
+    badgeClasses: 'bg-gray-500/20 text-gray-400',
+    iconClasses: 'text-gray-400',
+    spin: false
+  }
+} as const;
 
 export default function ExtractionHistory({ extractions, isLoading }: Props) {
   const formatDate = (dateString: string): string => {
@@ -30,81 +64,29 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
     });
   };
 
-  const getStatusBadge = (status: Extraction['status']) => {
-    switch (status) {
-      case 'completed':
-        return (
-          <span className="px-3 py-1 text-xs font-medium rounded-full bg-green-500/20 text-green-400">
-            <FontAwesomeIcon icon={faCheckCircle} className="mr-2" /> Terminé
-          </span>
-        );
-      case 'running':
-        return (
-          <span className="px-3 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-400 animate-pulse">
-            <FontAwesomeIcon icon={faSpinner} spin className="mr-2" /> En cours
-          </span>
-        );
-      case 'failed':
-        return (
-          <span className="px-3 py-1 text-xs font-medium rounded-full bg-red-500/20 text-red-400">
-            <FontAwesomeIcon icon={faTimesCircle} className="mr-2" /> Échoué
-          </span>
-        );
-      case 'pending':
-        return (
-          <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-500/20 text-gray-400">
-            <FontAwesomeIcon icon={faPauseCircle} className="mr-2" /> En attente
-          </span>
-        );
-      default:
-        return null;
-    }
+  const getStatusConfig = (status: Extraction['status']) => {
+    return STATUS_CONFIG[status] || null;
   };
 
-  const GetStatusIcon = (status: Extraction['status']) => {
-    switch (status) {
-      case 'completed':
-        return <FontAwesomeIcon icon={faCheckCircle} className="text-green-400 mr-2" />;
-      case 'running':
-        return <FontAwesomeIcon icon={faSpinner} spin className="text-yellow-400 mr-2" />;
-      case 'failed':
-        return <FontAwesomeIcon icon={faTimesCircle} className="text-red-400 mr-2" />;
-      case 'pending':
-        return <FontAwesomeIcon icon={faPauseCircle} className="text-gray-400 mr-2" />;
-      default:
-        return null;
-    }
-  }
+  const getStatusIcon = (status: Extraction['status']) => {
+    const config = getStatusConfig(status);
+    if (!config) return null;
+    return (
+      <FontAwesomeIcon
+        icon={config.icon}
+        spin={config.spin}
+        className={`${config.iconClasses} mr-2`}
+      />
+    );
+  };
 
-  const GetStatusClasses = (status: Extraction['status']): string => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-500/20 text-green-400';
-      case 'running':
-        return 'bg-yellow-500/20 text-yellow-400';
-      case 'failed':
-        return 'bg-red-500/20 text-red-400';
-      case 'pending':
-        return 'bg-gray-500/20 text-gray-400';
-      default:
-        return '';
-    }
-  }
-  
-  const GetStatusText = (status: Extraction['status']): string => {
-    switch (status) {
-      case 'completed':
-        return 'Terminé';
-      case 'running':
-        return 'En cours';
-      case 'failed':
-        return 'Échoué';
-      case 'pending':
-        return 'En attente';
-      default:
-        return '';
-    }
-  }
+  const getStatusText = (status: Extraction['status']): string => {
+    return getStatusConfig(status)?.text || '';
+  };
+
+  const getStatusClasses = (status: Extraction['status']): string => {
+    return getStatusConfig(status)?.classes || '';
+  };
 
   const getDuration = (startedAt: string, completedAt?: string): string => {
     if (!completedAt) return '-';
@@ -172,12 +154,10 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     </td>
                     {/* Statut */}
                     <td className="py-4 px-4 flex">
-                      {
-                        <span className={`px-3 py-1 text-xs font-medium rounded-full ${GetStatusClasses(extraction.status)} flex items-start`}>
-                          ­{GetStatusIcon(extraction.status)}
-                          {GetStatusText(extraction.status)}
-                        </span>
-                      } 
+                      <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusClasses(extraction.status)} flex items-start`}>
+                        {getStatusIcon(extraction.status)}
+                        {getStatusText(extraction.status)}
+                      </span>
                     </td>
                     {/* Durée */}
                     <td className="py-4 px-4 text-gray-300 whitespace-nowrap">
