@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { handleMockTest } from '../../../../lib/mockTester';
 
 /**
  * POST /api/admin/test-source
@@ -21,6 +22,10 @@ export async function POST(request: NextRequest) {
       'Content-Type': 'application/json',
       ...headers
     };
+
+    // DEV-only: delegate mock handling to helper
+    const mockResponse = handleMockTest({ apiUrl, authType, authToken, headers });
+    if (mockResponse) return mockResponse;
 
     // Ajoute l'authentification si nécessaire
     if (authType === 'bearer' && authToken) {

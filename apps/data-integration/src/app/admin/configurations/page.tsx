@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faPlus, faDatabase, faFileExport } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faDatabase, faFileExport } from '@fortawesome/free-solid-svg-icons';
 import AddSourceForm from '@/components/Admin/AddSourceForm';
 import AddTemplateForm from '@/components/Admin/AddTemplateForm';
 
@@ -12,7 +12,7 @@ export default function ConfigurationsPage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('sources');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

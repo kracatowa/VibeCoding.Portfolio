@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFlask, faSpinner, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { apiFetch } from '@/lib/api/client';
+import Alert from '@/components/Errors/Alert';
 
 interface SourceFormData {
   name: string;
@@ -28,16 +29,71 @@ export default function AddSourceForm() {
   const [testError, setTestError] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [formError, setFormError] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleInputChange = (field: keyof SourceFormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setSaveSuccess(false);
+    setFieldErrors(prev => {
+      const copy = { ...prev };
+      delete copy[field as string];
+      return copy;
+    });
   };
 
-  const handleTestConnection = async () => {
-    setTestStatus('testing');
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    if (!formData.name || !formData.name.trim()) {
+      errors.name = 'Le nom de la source est requis';
+    }
+
+    if (!formData.apiUrl || !formData.apiUrl.trim()) {
+      errors.apiUrl = "L'URL de l'API est requise";
+    } else {
+      try {
+        // validate URL format
+        // new URL will throw if invalid
+        // allow relative? this expects full URL so require protocol
+        const url = new URL(formData.apiUrl);
+        if (!url.protocol || !(url.protocol === 'http:' || url.protocol === 'https:')) {
+          errors.apiUrl = "L'URL doit commencer par http:// ou https://";
+        }
+      } catch (e) {
+        errors.apiUrl = "URL invalide";
+      }
+    }
+
+    if (formData.authType !== 'none') {
+      if (!formData.authToken || !formData.authToken.trim()) {
+        errors.authToken = 'Le token/la clé est requis(e) pour ce type d\'authentification';
+      }
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleTestConnection = async () => {    
+    if (!validateForm()) return;
+    
+    // validate API URL before attempting test
     setTestError('');
     setTestResponse(null);
+    if (!formData.apiUrl || !formData.apiUrl.trim()) {
+      setFieldErrors(prev => ({ ...prev, apiUrl: "L'URL de l'API est requise" }));
+      return;
+    }
+
+    try {
+      new URL(formData.apiUrl);
+    } catch (e) {
+      setFieldErrors(prev => ({ ...prev, apiUrl: 'URL invalide' }));
+      return;
+    }
+
+    setTestStatus('testing');
 
     try {
       const response = await apiFetch('/api/admin/test-source', {
@@ -61,8 +117,10 @@ export default function AddSourceForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validateForm()) return;
+
     if (testStatus !== 'success') {
-      alert('Veuillez tester la connexion avant de soumettre');
+      setFormError('Veuillez tester la connexion avant de soumettre');
       return;
     }
 
@@ -75,6 +133,7 @@ export default function AddSourceForm() {
       });
 
       setSaveSuccess(true);
+      setFormError('');
       // Reset form
       setFormData({
         name: '',
@@ -86,7 +145,8 @@ export default function AddSourceForm() {
       setTestResponse(null);
     } catch (err) {
       console.error('Erreur lors de la sauvegarde:', err);
-      alert('Erreur lors de la sauvegarde de la source');
+      const msg = err instanceof Error ? err.message : String(err);
+      setFormError(msg || 'Erreur lors de la sauvegarde de la source');
     } finally {
       setIsSaving(false);
     }
@@ -100,6 +160,7 @@ export default function AddSourceForm() {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+
         {/* Name */}
         <div>
           <label className="block text-sm font-medium text-gray-400 mb-2">
@@ -113,6 +174,9 @@ export default function AddSourceForm() {
             placeholder="Ex: Salesforce Production"
             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
           />
+          {fieldErrors.name && (
+            <p className="text-sm text-red-400 mt-1">{fieldErrors.name}</p>
+          )}
         </div>
 
         {/* API URL */}
@@ -128,6 +192,9 @@ export default function AddSourceForm() {
             placeholder="https://api.example.com/data"
             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
           />
+          {fieldErrors.apiUrl && (
+            <p className="text-sm text-red-400 mt-1">{fieldErrors.apiUrl}</p>
+          )}
           <p className="text-xs text-gray-500 mt-1">
             L'API doit retourner du JSON
           </p>
@@ -162,6 +229,9 @@ export default function AddSourceForm() {
               placeholder="Entrez votre token/clé"
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
             />
+            {fieldErrors.authToken && (
+              <p className="text-sm text-red-400 mt-1">{fieldErrors.authToken}</p>
+            )}
           </div>
         )}
 
@@ -214,6 +284,23 @@ export default function AddSourceForm() {
             </pre>
           </div>
         )}
+
+        {/* Alerts: error + success (success shown after save) */}
+          {formError && (
+            <Alert
+              message={formError}
+              onDismiss={() => setFormError('')}
+              variant="error"
+            />
+          )}
+
+          {saveSuccess && (
+            <Alert
+              message="Source enregistrée avec succès"
+              onDismiss={() => setSaveSuccess(false)}
+              variant="success"
+            />
+          )}
 
         {/* Submit Button */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-700">

@@ -39,6 +39,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const normalizedUrl = apiUrl.trim().toLowerCase();
+
+    const existing = getAllSources().find(s => s.apiUrl?.trim().toLowerCase() === normalizedUrl);
+    if (existing) {
+      console.log("ici")
+      return NextResponse.json(
+        { error: 'Source already exists' },
+        { status: 409 }
+      );
+    }
+
     const newSource: Omit<AdminSource, 'id' | 'createdAt'> = {
       name,
       apiUrl,

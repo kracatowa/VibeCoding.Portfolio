@@ -25,7 +25,6 @@ interface Database {
   schedules: Schedule[];
   templates?: Template[];
   destinations?: Destination[];
-  sources: Source[];
   notifications: Notification[];
   adminSources: AdminSource[];
   adminTemplates: TemplateConfig[];
@@ -175,13 +174,33 @@ const db: Database = {
     { id: '2', name: 'FTP Server' },
     { id: '3', name: 'Local Storage' }
   ],
-  sources: [
-    { id: '1', name: 'Salesforce' },
-    { id: '2', name: 'HubSpot' },
-    { id: '3', name: 'Zendesk' },
-  ],
   notifications: [],
-  adminSources: [],
+  adminSources: [
+    {
+      id: '1',
+      name: 'Salesforce',
+      apiUrl: 'https://api.salesforce.com/data',
+      authType: 'bearer',
+      authToken: '',
+      createdAt: '2026-01-01T10:00:00'
+    },
+    {
+      id: '2',
+      name: 'HubSpot',
+      apiUrl: 'https://api.hubspot.com/data',
+      authType: 'apikey',
+      authToken: '',
+      createdAt: '2026-01-02T11:30:00'
+    },
+    {
+      id: '3',
+      name: 'Zendesk',
+      apiUrl: 'https://api.zendesk.com/data',
+      authType: 'none',
+      authToken: '',
+      createdAt: '2026-01-03T09:15:00'
+    }
+  ],
   adminTemplates: []
 };
 
@@ -233,8 +252,8 @@ export function getTemplates(sourceId?: string): Template[] {
 }
 
 export function getSources(): Source[] {
-  const list =  db.sources;
-  if (!list || list.length === 0) return [{ id: 'default', name: 'has default'  }];
+  const list =  db.adminSources;;
+  if (!list || list.length === 0) return [ { id: 'default', name: 'has default' } ];
   return [...list];
 }
 
@@ -283,7 +302,7 @@ export function clearAllNotifications(): void {
 }
 
 // Admin Source Management
-export function getAllSources(): Source[] {
+export function getAllSources(): AdminSource[] {
   return [...db.adminSources];
 }
 

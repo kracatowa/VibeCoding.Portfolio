@@ -22,9 +22,29 @@ export async function retryableFetch<R>(
       if (res.ok) return res.json();
 
       const status = res.status;
+      // Retryable statuses (network/timeouts/server-side transient)
       const retryable = [408, 429, 500, 502, 503, 504].includes(status);
 
-      if (!retryable || attempt === attempts) {
+      // Non-retryable client errors (409 conflict, validation errors, etc.)
+      const isClientError = status >= 400 && status < 500 && ![408, 429].includes(status);
+
+      if (isClientError || attempt === attempts || !retryable) {
+        // For client errors (ex: 409) surface server message when possible
+        if (isClientError) {
+          try {
+            const body = await res.json();
+            const msg = body?.error || body?.message || JSON.stringify(body);
+            const e = new Error(`Erreur d'API ${status}: ${msg}`);
+            (e as any).isClientError = true;
+            throw e;
+          } catch (parseErr) {
+            // Fallback to generic message if parsing fails
+            const e = new Error(`Erreur d'API ${status}`);
+            (e as any).isClientError = true;
+            throw e;
+          }
+        }
+
         emitNetworkError(`Erreur d'API ${status}`);
         throw new Error(`Erreur d'API ${status}`);
       }
@@ -48,6 +68,11 @@ export async function retryableFetch<R>(
     } catch (err) {
       if (attempt === attempts) {
         const message = err instanceof Error ? err.message : String(err);
+        // Do not emit network error for client-side (4xx) errors
+        if (err instanceof Error && (err as any).isClientError) {
+          throw err;
+        }
+
         emitNetworkError(message);
         throw err;
       }

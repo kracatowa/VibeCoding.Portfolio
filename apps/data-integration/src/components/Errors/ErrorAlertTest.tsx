@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBug } from '@fortawesome/free-solid-svg-icons';
-import ErrorAlert from './ErrorAlert';
+import Alert from './Alert';
 
 export default function ErrorAlertTest() {
   const [visible, setVisible] = useState(false);
@@ -31,7 +31,7 @@ export default function ErrorAlertTest() {
 
       {visible && (
         <div className="max-w-xl mx-auto mt-4">
-          <ErrorAlert
+          <Alert
             message={`Erreur simulée : opération échouée (tentative ${count + 1}).`}
             onRetry={handleRetry}
             onDismiss={() => setVisible(false)}

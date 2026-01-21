@@ -7,7 +7,7 @@ import { useAsyncData } from '@/hooks/asyncResolver';
 import { apiFetch } from '@/lib/api/client';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Destination } from '@/app/api/destinations/destinations.dto';
-import ErrorAlert from './Errors/ErrorAlert';
+import Alert from './Errors/Alert';
 import { CardSkeleton } from './Skeleton';
 
 const sourceStyles : { id: string; icon: any; colorClass: string }[] = [
@@ -73,19 +73,19 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
           {/* Error alerts */}
           {sourcesError && (
-            <ErrorAlert 
+            <Alert 
               message={`Erreur lors du chargement des sources: ${sourcesError.message}`}
               onRetry={refetchSources}
             />
           )}
           {templatesError && (
-            <ErrorAlert 
+            <Alert 
               message={`Erreur lors du chargement des templates: ${templatesError.message}`}
               onRetry={refetchTemplates}
             />
           )}
           {destinationsError && (
-            <ErrorAlert 
+            <Alert 
               message={`Erreur lors du chargement des destinations: ${destinationsError.message}`}
               onRetry={refetchDestinations}
             />

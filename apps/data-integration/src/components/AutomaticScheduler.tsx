@@ -7,7 +7,7 @@ import { useAsyncData } from '@/hooks/asyncResolver';
 import { Template } from '@/app/api/templates/templates.dto';
 import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
 import { apiFetch } from '@/lib/api/client';
-import ErrorAlert from './Errors/ErrorAlert';
+import Alert from './Errors/Alert';
 import { ScheduleGridSkeleton } from './Skeleton';
 
 const daysOfWeek = [
@@ -148,19 +148,19 @@ export default function AutomaticScheduler() {
 
       {/* Error alerts */}
       {sourcesError && (
-        <ErrorAlert 
+        <Alert 
           message={`Erreur lors du chargement des sources: ${sourcesError.message}`}
           onRetry={refetchSources}
         />
       )}
       {templatesError && (
-        <ErrorAlert 
+        <Alert 
           message={`Erreur lors du chargement des templates: ${templatesError.message}`}
           onRetry={refetchTemplates}
         />
       )}
       {schedulesError && (
-        <ErrorAlert 
+        <Alert 
           message={`Erreur lors du chargement des horaires: ${schedulesError.message}`}
           onRetry={refetchSchedules}
         />
