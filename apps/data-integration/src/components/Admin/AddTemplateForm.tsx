@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faSpinner, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { apiFetch } from '@/lib/api/client';
+import { useAsyncData } from '@/hooks/asyncResolver';
+import { Template } from '@/app/api/templates/templates.dto';
+  
 
 interface TemplateField {
   header: string;
@@ -25,6 +28,7 @@ export default function AddTemplateForm() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [selectedSourceId, setSelectedSourceId] = useState<string>("1");
 
   const handleInputChange = (field: keyof TemplateFormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -51,6 +55,11 @@ export default function AddTemplateForm() {
     setFormData(prev => ({ ...prev, fields: updatedFields }));
   };
 
+  const { data: sources, error: sourcesError, refetch: refetchSources } = useAsyncData({
+    fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
+    dependencies: [],
+  });
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -106,20 +115,21 @@ export default function AddTemplateForm() {
           <label className="block text-sm font-medium text-gray-400 mb-2">
             Source associée <span className="text-red-400">*</span>
           </label>
+          
+          <div>
+          <label className="block text-sm font-medium text-gray-400 mb-3">Source</label>
           <select
-            required
-            value={formData.sourceId}
-            onChange={(e) => handleInputChange('sourceId', e.target.value)}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+            value={selectedSourceId}
+            onChange={(e) => setSelectedSourceId(e.target.value)}
+            className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200 w-full"
           >
-            <option value="">Sélectionner une source...</option>
-            <option value="1">Salesforce</option>
-            <option value="2">HubSpot</option>
-            <option value="3">Zendesk</option>
+            {sources?.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
           </select>
-          <p className="text-xs text-gray-500 mt-1">
-            La source doit être créée au préalable
-          </p>
+        </div>
         </div>
 
         {/* CSV Field Mappings */}
