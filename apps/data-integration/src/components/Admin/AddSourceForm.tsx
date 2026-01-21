@@ -158,34 +158,34 @@ export default function AddSourceForm() {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold flex items-center gap-2">
-        <FontAwesomeIcon icon={faPlus} className="text-green-400" />
-        Ajouter une nouvelle source
+        <FontAwesomeIcon icon={faPlus} className="text-sage-500" />
+        Add New Source
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
 
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
-            Nom de la source <span className="text-red-400">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-2">
+            Source Name <span className="text-terracotta-500">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.name}
             onChange={(e) => handleInputChange('name', e.target.value)}
-            placeholder="Ex: Salesforce Production"
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+            placeholder="e.g. Salesforce Production"
+            className="w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
           />
           {fieldErrors.name && (
-            <p className="text-sm text-red-400 mt-1">{fieldErrors.name}</p>
+            <p className="text-sm text-terracotta-600 mt-1">{fieldErrors.name}</p>
           )}
         </div>
 
         {/* API URL */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
-            URL de l'API REST <span className="text-red-400">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-2">
+            REST API URL <span className="text-terracotta-500">*</span>
           </label>
           <input
             type="url"
@@ -193,27 +193,27 @@ export default function AddSourceForm() {
             value={formData.apiUrl}
             onChange={(e) => handleInputChange('apiUrl', e.target.value)}
             placeholder="https://api.example.com/data"
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+            className="w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
           />
           {fieldErrors.apiUrl && (
-            <p className="text-sm text-red-400 mt-1">{fieldErrors.apiUrl}</p>
+            <p className="text-sm text-terracotta-600 mt-1">{fieldErrors.apiUrl}</p>
           )}
-          <p className="text-xs text-gray-500 mt-1">
-            L'API doit retourner du JSON
+          <p className="text-xs text-stone-600 mt-1">
+            API must return JSON
           </p>
         </div>
 
         {/* Auth Type */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
-            Type d'authentification
+          <label className="block text-sm font-medium text-stone-700 mb-2">
+            Authentication Type
           </label>
           <select
             value={formData.authType}
             onChange={(e) => handleInputChange('authType', e.target.value as SourceFormData['authType'])}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+            className="w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
           >
-            <option value="none">Aucune</option>
+            <option value="none">None</option>
             <option value="bearer">Bearer Token</option>
             <option value="apikey">API Key</option>
           </select>
@@ -222,18 +222,18 @@ export default function AddSourceForm() {
         {/* Auth Token */}
         {formData.authType !== 'none' && (
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-2">
+            <label className="block text-sm font-medium text-stone-700 mb-2">
               {formData.authType === 'bearer' ? 'Bearer Token' : 'API Key'}
             </label>
             <input
               type="password"
               value={formData.authToken || ''}
               onChange={(e) => handleInputChange('authToken', e.target.value)}
-              placeholder="Entrez votre token/clé"
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+              placeholder="Enter your token/key"
+              className="w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
             />
             {fieldErrors.authToken && (
-              <p className="text-sm text-red-400 mt-1">{fieldErrors.authToken}</p>
+              <p className="text-sm text-terracotta-600 mt-1">{fieldErrors.authToken}</p>
             )}
           </div>
         )}
@@ -246,32 +246,32 @@ export default function AddSourceForm() {
             disabled={!formData.apiUrl || testStatus === 'testing'}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
               testStatus === 'testing'
-                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                : 'bg-dustyBlue-500 hover:bg-dustyBlue-600 text-white shadow-vintage'
             }`}
           >
             {testStatus === 'testing' ? (
               <>
                 <FontAwesomeIcon icon={faSpinner} spin />
-                Test en cours...
+                Testing...
               </>
             ) : (
               <>
                 <FontAwesomeIcon icon={faFlask} />
-                Tester la connexion
+                Test Connection
               </>
             )}
           </button>
 
           {testStatus === 'success' && (
-            <span className="flex items-center gap-2 text-green-400">
+            <span className="flex items-center gap-2 text-sage-600">
               <FontAwesomeIcon icon={faCheckCircle} />
-              Connexion réussie
+              Connection successful
             </span>
           )}
 
           {testStatus === 'error' && (
-            <span className="flex items-center gap-2 text-red-400">
+            <span className="flex items-center gap-2 text-terracotta-600">
               <FontAwesomeIcon icon={faTimesCircle} />
               {testError}
             </span>
@@ -280,9 +280,9 @@ export default function AddSourceForm() {
 
         {/* Test Response Preview */}
         {testResponse && (
-          <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-gray-400 mb-2">Aperçu de la réponse JSON:</h3>
-            <pre className="text-xs text-gray-300 overflow-x-auto">
+          <div className="bg-stone-50 border border-stone-200 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-stone-700 mb-2">JSON Response Preview:</h3>
+            <pre className="text-xs text-charcoal-700 overflow-x-auto">
               {JSON.stringify(testResponse, null, 2)}
             </pre>
           </div>
@@ -306,33 +306,33 @@ export default function AddSourceForm() {
           )}
 
         {/* Submit Button */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-700">
-          <p className="text-sm text-gray-400">
-            {testStatus !== 'success' && '⚠️ Testez la connexion avant de soumettre'}
+        <div className="flex items-center justify-between pt-4 border-t border-stone-200">
+          <p className="text-sm text-stone-600">
+            {testStatus !== 'success' && '⚠️ Test connection before submitting'}
           </p>
           <button
             type="submit"
             disabled={testStatus !== 'success' || isSaving}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
               testStatus === 'success' && !isSaving
-                ? 'bg-green-500 hover:bg-green-600 text-white'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                ? 'bg-sage-500 hover:bg-sage-600 text-white shadow-vintage'
+                : 'bg-stone-200 text-stone-400 cursor-not-allowed'
             }`}
           >
             {isSaving ? (
               <>
                 <FontAwesomeIcon icon={faSpinner} spin />
-                Enregistrement...
+                Saving...
               </>
             ) : saveSuccess ? (
               <>
                 <FontAwesomeIcon icon={faCheckCircle} className="animate-bounce" />
-                Enregistré !
+                Saved!
               </>
             ) : (
               <>
                 <FontAwesomeIcon icon={faPlus} />
-                Ajouter la source
+                Add Source
               </>
             )}
           </button>

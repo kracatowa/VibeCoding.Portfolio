@@ -14,9 +14,9 @@ export function DemoLayout({
   headerRightContent?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-ivory-50">
       <DemoHeader navLinks={headerLinks} rightContent={headerRightContent} />
-      <main className="flex-1 py-7 px-5 max-w-6xl mx-auto w-full">
+      <main className="flex-1 py-12 px-6 max-w-7xl mx-auto w-full">
         {children}
       </main>
       <DemoFooter links={footerLinks} />

@@ -4,7 +4,6 @@ const projects = [
     description:
       'Plateforme d\'intégration de données en temps réel avec extraction depuis Salesforce, HubSpot et Zendesk. Interface de monitoring avec étapes visuelles et planification automatique.',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'REST API'],
-    image: '🔄',
     status: 'Démo interactive',
     features: [
       'Extraction de données multi-sources',
@@ -15,7 +14,7 @@ const projects = [
     liveDemo: '/projects/data-integration',
     isLive: true,
   },
-  {
+  /*{
     title: 'API de Gestion Financière',
     description:
       'API REST complète en .NET 8 pour la gestion de transactions financières. Inclut authentification JWT, validation, logging structuré et documentation Swagger.',
@@ -98,56 +97,50 @@ const projects = [
       'Workflow d\'approbation',
       'Audit trail complet',
     ],
-  },
+  },*/
 ];
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="py-20 px-6 bg-[rgba(15,23,42,0.5)]">
+    <section id="portfolio" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-20">
           <h2 className="section-title">
-            Mes <span className="gradient-text">Projets</span>
+            <span className="text-dustyBlue-600 font-semibold">Projects</span>
           </h2>
-          <p className="section-subtitle">
-            Une sélection de projets démontrant mes compétences techniques et ma
-            capacité à livrer des solutions complètes
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-1 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className="card p-6 flex flex-col h-full">
-              <div className="text-5xl mb-4 text-center">{project.image}</div>
-              
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-semibold">{project.title}</h3>
-                <span className={`text-xs px-2 py-1 rounded-full ${
+            <div key={index} className="card p-8 flex flex-col h-full">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-medium">{project.title}</h3>
+                <span className={`text-xs px-3 py-1 rounded-full font-medium ${
                   project.isLive 
-                    ? 'bg-green-500/20 text-green-400' 
-                    : 'bg-[#8b5cf6]/20 text-[#8b5cf6]'
+                    ? 'bg-sage-100 text-sage-700 border border-sage-300' 
+                    : 'bg-lavender-100 text-lavender-700 border border-lavender-300'
                 }`}>
                   {project.status}
                 </span>
               </div>
 
-              <p className="text-gray-400 mb-4 grow">{project.description}</p>
+              <p className="text-stone-600 mb-6 grow leading-relaxed">{project.description}</p>
 
-              <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-300 mb-2">
-                  Fonctionnalités clés :
+              <div className="mb-6">
+                <h4 className="text-sm font-medium text-stone-700 mb-3">
+                  Features
                 </h4>
-                <ul className="text-sm text-gray-500 space-y-1">
+                <ul className="text-sm text-stone-500 space-y-2">
                   {project.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-2">
-                      <span className="text-[#0ea5e9]">✓</span>
+                      <span className="text-terracotta-500">✓</span>
                       {feature}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-700">
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-stone-200">
                 {project.technologies.map((tech) => (
                   <span key={tech} className="tech-badge text-xs">
                     {tech}
@@ -162,7 +155,6 @@ export default function Portfolio() {
                   rel="noopener noreferrer"
                   className="mt-4 btn-primary text-center flex items-center justify-center gap-2"
                 >
-                  <span>🚀</span>
                   Voir la démo interactive
                 </a>
               )}
@@ -170,17 +162,15 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-16 card p-8 text-center">
-          <h3 className="text-2xl font-semibold mb-4">
-            Vous avez un projet en tête ?
+        <div className="mt-20 card p-10 text-center">
+          <h3 className="text-2xl font-light mb-4">
+            Have a project?
           </h3>
-          <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
-            Ces projets représentent des idées que je peux développer pour enrichir
-            mon portfolio. Si vous souhaitez collaborer sur un projet similaire ou
-            avez des besoins spécifiques, n&apos;hésitez pas à me contacter !
+          <p className="text-stone-600 mb-8 max-w-xl mx-auto">
+            Let's discuss
           </p>
           <a href="#contact" className="btn-primary inline-block">
-            Discutons de votre projet
+            Get in touch
           </a>
         </div>
       </div>

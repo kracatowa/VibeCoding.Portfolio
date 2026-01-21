@@ -59,9 +59,9 @@ function DemoHeader({
     { href: "/about", label: "About" }
   ];
   const links = navLinks ?? defaultLinks;
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { className: "flex items-center justify-between px-5 py-3 border-b border-white/5 from-slate-900/90 to-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { className: "flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white backdrop-blur-md sticky top-0 z-50 w-full shadow-vintage", children: [
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "shrink-0", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Logo, {}) }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { className: "flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: l.href, className: "text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100", children: l.label }) }, l.href)) }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { className: "flex gap-8 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: l.href, className: "text-stone-600 no-underline text-sm font-medium px-3 py-2 rounded transition-colors duration-200 hover:text-terracotta-600 hover:bg-terracotta-50", children: l.label }) }, l.href)) }) }),
     rightContent && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "shrink-0 ml-4", children: rightContent })
   ] });
 }
@@ -69,13 +69,13 @@ function DemoHeader({
 // src/DemoFooter.tsx
 var import_jsx_runtime3 = require("react/jsx-runtime");
 function DemoFooter({ links }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { className: "border-t border-slate-800/30 py-5 px-5 text-center bg-gradient-to-t from-teal-500/5 to-transparent", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "m-0 text-sm text-slate-100", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { className: "border-t-2 border-stone-200 py-8 px-6 text-center bg-warm-50", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "m-0 text-sm text-stone-600 font-light", children: [
       "\xA9 ",
       (/* @__PURE__ */ new Date()).getFullYear(),
-      " Oc\xE9an Barras \u2014 Demo site"
+      " Oc\xE9an Barras \u2014 Demo"
     ] }),
-    links && links.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "flex gap-3 justify-center mt-2", children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("a", { href: l.href, className: "text-slate-100 no-underline text-sm opacity-85 hover:opacity-100 hover:text-sky-500 transition-colors", children: l.label }, l.href)) })
+    links && links.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "flex gap-4 justify-center mt-3", children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("a", { href: l.href, className: "text-stone-500 no-underline text-sm hover:text-terracotta-600 transition-colors", children: l.label }, l.href)) })
   ] });
 }
 
@@ -87,9 +87,9 @@ function DemoLayout({
   footerLinks,
   headerRightContent
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "min-h-screen flex flex-col", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "min-h-screen flex flex-col bg-ivory-50", children: [
     /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DemoHeader, { navLinks: headerLinks, rightContent: headerRightContent }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("main", { className: "flex-1 py-7 px-5 max-w-6xl mx-auto w-full", children }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("main", { className: "flex-1 py-12 px-6 max-w-7xl mx-auto w-full", children }),
     /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(DemoFooter, { links: footerLinks })
   ] });
 }

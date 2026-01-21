@@ -63,10 +63,10 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
   return (
     <section id="manual-trigger" className="px-6 scroll-mt-20" >
-      <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-          <span className="text-2xl"><FontAwesomeIcon icon={faBullseye} className="text-blue-400"/></span>
-          Déclenchement manuel
+      <div className="bg-white rounded-xl p-8 border-2 border-stone-200 shadow-vintage">
+        <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{fontFamily: 'Georgia, serif'}}>
+          <span className="text-2xl"><FontAwesomeIcon icon={faBullseye} className="text-terracotta-500"/></span>
+          Manual Trigger
         </h2>
 
         <div className="space-y-4">
@@ -93,8 +93,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
           {/* Sélection de la source */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-3">
-              Source de données
+            <label className="block text-sm font-medium text-stone-700 mb-4">
+              Data Source
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {!sources ? (
@@ -107,8 +107,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                   disabled={isRunning}
                   className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                     selectedSourceId === source.id
-                      ? 'border-blue-500 bg-blue-500/10'
-                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                      ? 'border-terracotta-400 bg-terracotta-50 shadow-vintage'
+                      : 'border-stone-200 bg-white hover:border-terracotta-300 hover:shadow-vintage'
                   } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
                   <div className="text-3xl mb-2"><FontAwesomeIcon icon={sourceStyles.find(s => s.id === source.id)?.icon } className={sourceStyles.find(s => s.id === source.id)?.colorClass} /></div>
@@ -121,8 +121,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
           {/* Sélection de l'intervalle */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-3">
-              intervalle de temps
+            <label className="block text-sm font-medium text-stone-700 mb-4">
+              Time Interval
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {intervals.map((interval) => (
@@ -132,8 +132,8 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                   disabled={isRunning}
                   className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                     selectedInterval === interval
-                      ? 'border-blue-500 bg-blue-500/10'
-                      : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                      ? 'border-dustyBlue-400 bg-dustyBlue-50 shadow-vintage'
+                      : 'border-stone-200 bg-white hover:border-dustyBlue-300 hover:shadow-vintage'
                   } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
                   <div className="font-medium">{interval}</div>
@@ -144,18 +144,18 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
             {/*TODO STACK ON ROW LARGE SCREEN*/}
             {/* Template selector */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-3">Template CSV</label>
+              <label className="block text-sm font-medium text-stone-700 mb-3">CSV Template</label>
               <div className="grid grid-cols-1">
                 <select
                   value={selectedTemplateId ?? ''}
                   onChange={(e) => setSelectedTemplateId(e.target.value)}
                   disabled={loadingTemplates || templates?.length === 0}
-                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
+                  className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
                 >
                   {loadingTemplates ? (
-                    <option>Chargement...</option>
+                    <option>Loading...</option>
                   ) : templates?.length === 0 ? (
-                    <option>Aucun template</option>
+                    <option>No templates</option>
                   ) : (
                     templates?.map((t) => (
                       <option key={t.id} value={t.id}>{t.name}</option>
@@ -167,18 +167,18 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
 
             {/* Destination selector */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-3">Destination</label>
+              <label className="block text-sm font-medium text-stone-700 mb-3">Destination</label>
               <div className="grid grid-cols-1">
                 <select
                   value={selectedDestinationId ?? ''}
                   onChange={(e) => setSelectedDestinationId(e.target.value)}
                   disabled={loadingDestinations || destinations?.length === 0}
-                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200"
+                  className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
                 >
                   {loadingDestinations ? (
-                    <option>Chargement...</option>
+                    <option>Loading...</option>
                   ) : destinations?.length === 0 ? (
-                    <option>Aucun destination</option>
+                    <option>No destinations</option>
                   ) : (
                     destinations?.map((d) => (
                       <option key={d.id} value={d.id}>{d.name}</option>
@@ -194,26 +194,26 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
             disabled={isRunning || !selectedSourceId}
             className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 ${
               isRunning
-                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                : 'bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl'
+                ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                : 'bg-terracotta-500 hover:bg-terracotta-600 text-white shadow-vintage hover:shadow-vintage-lg'
             }`}
           >
             {isRunning ? (
               <>
-                <FontAwesomeIcon icon={faSpinner} spin className="text-yellow-400" />
-                Extraction en cours...
+                <FontAwesomeIcon icon={faSpinner} spin className="text-amber-500" />
+                Extraction in progress...
               </>
             ) : (
               <>
                 <FontAwesomeIcon icon={faRocket} className="text-white" />
-                Déclencher l&apos;extraction
+                Start Extraction
               </>
             )}
           </button>
 
           {/* Info */}
-          <p className="text-gray-500 text-sm text-center">
-            Lance une extraction immédiate depuis la source sélectionnée
+          <p className="text-stone-600 text-sm text-center">
+            Launch an immediate extraction from the selected source
           </p>
         </div>
       </div>

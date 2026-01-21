@@ -28,26 +28,26 @@ export default function Alert({
 
   const styles = variant === 'success'
     ? {
-        bg: 'bg-green-500/10',
-        border: 'border-green-500/30',
-        text: 'text-green-400',
-        icon: 'text-green-500',
-        button: 'bg-green-600 hover:bg-green-700'
+        bg: 'bg-sage-50',
+        border: 'border-sage-300',
+        text: 'text-sage-800',
+        icon: 'text-sage-600',
+        button: 'bg-sage-500 hover:bg-sage-600'
       }
     : variant === 'warning'
     ? {
-        bg: 'bg-orange-500/10',
-        border: 'border-orange-500/30',
-        text: 'text-orange-400',
-        icon: 'text-orange-500',
-        button: 'bg-orange-600 hover:bg-orange-700'
+        bg: 'bg-amber-50',
+        border: 'border-amber-300',
+        text: 'text-amber-800',
+        icon: 'text-amber-600',
+        button: 'bg-amber-500 hover:bg-amber-600'
       }
     : {
-        bg: 'bg-red-500/10',
-        border: 'border-red-500/30',
-        text: 'text-red-400',
-        icon: 'text-red-500',
-        button: 'bg-red-600 hover:bg-red-700'
+        bg: 'bg-terracotta-50',
+        border: 'border-terracotta-300',
+        text: 'text-terracotta-800',
+        icon: 'text-terracotta-600',
+        button: 'bg-terracotta-500 hover:bg-terracotta-600'
       };
 
   const icon = variant === 'success' ? faCheckCircle : faExclamationCircle;
@@ -74,15 +74,15 @@ export default function Alert({
               title="Réessayer"
             >
               <FontAwesomeIcon icon={faRedo} className="text-xs" />
-              Réessayer
+              Retry
             </button>
           )}
 
           {onDismiss && (
             <button
               onClick={onDismiss}
-              className="text-gray-500 hover:text-gray-300 transition-colors p-1"
-              title="Fermer"
+              className="text-stone-500 hover:text-charcoal-700 transition-colors p-1"
+              title="Close"
             >
               <FontAwesomeIcon icon={faTimes} className="text-sm" />
             </button>

@@ -27,11 +27,11 @@ const getNotificationIcon = (type: NotificationType) => {
 const getNotificationColor = (type: NotificationType) => {
   switch (type) {
     case 'start':
-      return 'border-blue-500/30 bg-blue-500/10';
+      return 'border-dustyBlue-300 bg-dustyBlue-50';
     case 'success':
-      return 'border-green-500/30 bg-green-500/10';
+      return 'border-sage-300 bg-sage-50';
     case 'error':
-      return 'border-red-500/30 bg-red-500/10';
+      return 'border-terracotta-300 bg-terracotta-50';
   }
 };
 
@@ -84,14 +84,14 @@ export default function NotificationBell({
       {/* Bouton cloche */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg hover:bg-gray-800 transition-colors"
+        className="relative p-2 rounded-lg hover:bg-stone-100 transition-colors"
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} non lues)` : ''}`}
       >
-        <FontAwesomeIcon icon={faBell} className="text-gray-400 text-xl" />
+        <FontAwesomeIcon icon={faBell} className="text-stone-600 text-xl" />
         
         {unreadCount > 0 && (
           <span
-            className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse"
+            className="absolute -top-1 -right-1 bg-terracotta-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse"
             aria-live="polite"
           >
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -101,25 +101,25 @@ export default function NotificationBell({
 
       {/* Panneau déroulant */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-96 bg-gray-900 border border-gray-700 rounded-xl shadow-xl z-50 max-h-[600px] flex flex-col">
+        <div className="absolute right-0 mt-2 w-96 bg-white border border-stone-200 rounded-xl shadow-vintage-xl z-50 max-h-[600px] flex flex-col">
           {/* En-tête */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700">
-            <h3 className="font-semibold text-white">Notifications</h3>
+          <div className="flex items-center justify-between p-4 border-b border-stone-200">
+            <h3 className="font-semibold text-charcoal-900">Notifications</h3>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
                 <button
                   onClick={onMarkAllAsRead}
-                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                  className="text-xs text-dustyBlue-600 hover:text-dustyBlue-700 transition-colors flex items-center gap-1"
                   title="Tout marquer comme lu"
                 >
                   <FontAwesomeIcon icon={faCheckDouble} />
-                  Tout lire
+                  Mark all as read
                 </button>
               )}
               {notifications.length > 0 && (
                 <button
                   onClick={onClearAll}
-                  className="text-xs text-gray-400 hover:text-red-400 transition-colors flex items-center gap-1"
+                  className="text-xs text-stone-500 hover:text-terracotta-500 transition-colors flex items-center gap-1"
                   title="Tout effacer"
                 >
                   <FontAwesomeIcon icon={faTrash} />
@@ -131,19 +131,19 @@ export default function NotificationBell({
           {/* Liste des notifications */}
           <div className="overflow-y-auto flex-1">
             {recentNotifications.length === 0 ? (
-              <div className="p-8 text-center text-gray-400">
+              <div className="p-8 text-center text-stone-500">
                 <span className="text-4xl">🔔</span>
-                <p className="mt-2 text-sm">Aucune notification</p>
+                <p className="mt-2 text-sm">No notifications</p>
               </div>
             ) : (
-              <div className="divide-y divide-gray-800">
+              <div className="divide-y divide-stone-100">
                 {recentNotifications.map((notification) => (
                   <div
                     key={notification.id}
                     className={`p-4 transition-all duration-200 ${
                       !notification.read
-                        ? 'bg-gray-800/50 hover:bg-gray-800/70'
-                        : 'hover:bg-gray-800/30'
+                        ? 'bg-stone-50 hover:bg-stone-100'
+                        : 'hover:bg-stone-50'
                     } cursor-pointer`}
                     onClick={() => {
                       if (!notification.read) {
@@ -159,10 +159,12 @@ export default function NotificationBell({
 
                       {/* Contenu */}
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm ${!notification.read ? 'text-white font-medium' : 'text-gray-300'}`}>
+                        <p className={`text-sm ${
+                          !notification.read ? 'text-charcoal-900 font-medium' : 'text-charcoal-600'
+                        }`}>
                           {notification.message}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-stone-500 mt-1">
                           {formatTimestamp(notification.timestamp)}
                         </p>
                       </div>
@@ -174,7 +176,7 @@ export default function NotificationBell({
                             e.stopPropagation();
                             onMarkAsRead(notification.id);
                           }}
-                          className="text-blue-400 hover:text-blue-300 transition-colors"
+                          className="text-dustyBlue-600 hover:text-dustyBlue-700 transition-colors"
                           title="Marquer comme lu"
                         >
                           <FontAwesomeIcon icon={faCheck} className="text-xs" />
@@ -189,9 +191,9 @@ export default function NotificationBell({
 
           {/* Pied de page */}
           {notifications.length > 10 && (
-            <div className="p-3 border-t border-gray-700 text-center">
-              <p className="text-xs text-gray-400">
-                {notifications.length - 10} notification(s) plus ancienne(s)
+            <div className="p-3 border-t border-stone-200 text-center">
+              <p className="text-xs text-stone-500">
+                {notifications.length - 10} older notification(s)
               </p>
             </div>
           )}

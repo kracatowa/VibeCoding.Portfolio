@@ -17,16 +17,16 @@ export default function DemoHeader({
   const links = navLinks ?? defaultLinks;
 
   return (
-    <header className="flex items-center justify-between px-5 py-3 border-b border-white/5 from-slate-900/90 to-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg">
+    <header className="flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white backdrop-blur-md sticky top-0 z-50 w-full shadow-vintage">
       <div className="shrink-0">
         <Logo />
       </div>
 
       <nav aria-label="Demo navigation" className="flex-1 flex gap-3 items-center justify-center">
-        <ul className="flex gap-6 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap">
+        <ul className="flex gap-8 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="text-slate-100 no-underline text-base font-semibold px-3 py-1.5 rounded transition-colors duration-150 opacity-90 hover:text-sky-500 hover:opacity-100">{l.label}</a>
+              <a href={l.href} className="text-stone-600 no-underline text-sm font-medium px-3 py-2 rounded transition-colors duration-200 hover:text-terracotta-600 hover:bg-terracotta-50">{l.label}</a>
             </li>
           ))}
         </ul>
