@@ -129,7 +129,10 @@ export default function AddSourceForm() {
     try {
       await apiFetch('/api/admin/sources', {
         method: 'POST',
-        body: formData
+        body: {
+          ...formData,
+          sampleResponse: testResponse
+        }
       });
 
       setSaveSuccess(true);

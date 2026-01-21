@@ -30,7 +30,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, apiUrl, authType, authToken, headers } = body;
+    const { name, apiUrl, authType, authToken, headers, sampleResponse } = body;
 
     if (!name || !apiUrl) {
       return NextResponse.json(
@@ -55,7 +55,8 @@ export async function POST(request: NextRequest) {
       apiUrl,
       authType: authType || 'none',
       authToken,
-      headers: headers || {}
+      headers: headers || {},
+      sampleResponse: sampleResponse || null
     };
 
     const created = createSource(newSource);
