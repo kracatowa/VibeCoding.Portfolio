@@ -106,7 +106,7 @@ export default function Portfolio() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="section-title">
-            <span className="text-dustyBlue-600 font-semibold">Projects</span>
+            <span className="text-dustyBlue-600 font-semibold">Projets</span>
           </h2>
         </div>
 

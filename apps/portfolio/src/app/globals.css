@@ -270,6 +270,25 @@ body {
   }
 }
 
+@keyframes pulseDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 0.98;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-down {
+  animation: pulseDown 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.7s ease forwards;
 }
