@@ -20,7 +20,7 @@ export function Skeleton({
   height,
   rounded = 'md'
 }: SkeletonProps) {
-  const baseClasses = 'animate-pulse bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-[length:200%_100%]';
+  const baseClasses = 'animate-pulse bg-stone-200';
   
   const roundedClasses = {
     sm: 'rounded-sm',
@@ -53,7 +53,7 @@ export function Skeleton({
  */
 export function TableRowSkeleton({ columns = 9 }: { columns?: number }) {
   return (
-    <tr className="border-b border-gray-800">
+    <tr className="border-b border-stone-100">
       {Array.from({ length: columns }).map((_, i) => (
         <td key={i} className="py-4 px-4">
           <Skeleton height={16} width={i === 0 ? 120 : i === 2 ? 80 : 60} />

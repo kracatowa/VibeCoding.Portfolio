@@ -34,7 +34,7 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
     return (
       <button
         onClick={toggleMenu}
-        className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all duration-200"
+        className="p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
         aria-label="Menu"
       >
         <FontAwesomeIcon icon={faBars} className="text-lg" />
@@ -47,7 +47,7 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
       {/* Close button */}
       <button
         onClick={toggleMenu}
-        className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all duration-200"
+        className="p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
         aria-label="Close Menu"
       >
         <FontAwesomeIcon icon={faTimes} className="text-lg" />
@@ -62,23 +62,23 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
 
       {/* Side menu */}
       <div
-        className="fixed top-0 right-0 h-full w-80 bg-linear-to-b from-gray-900 to-gray-950 shadow-2xl border-l border-gray-800 transform transition-transform duration-300 ease-in-out"
+        className="fixed top-0 right-0 h-full w-80 bg-white shadow-vintage-xl border-l border-stone-200 transform transition-transform duration-300 ease-in-out"
         style={{ zIndex: 50 }}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-2 border-b border-gray-800/50">
-            <h2 className="text-xl font-semibold text-white">Menu</h2>
+          <div className="flex items-center justify-between px-6 py-2 border-b border-stone-200">
+            <h2 className="text-xl font-semibold text-charcoal-900">Menu</h2>
             <button 
               onClick={closeMenu} 
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200"
+              className="p-2 text-stone-600 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
 
           {/* Menu items */}
-          <nav className="px-4 py-3 bg-gray-950/50">
+          <nav className="px-4 py-3 bg-stone-50">
             <div className="space-y-2">
               {menuItems.map((item) => (
                 <div key={item.label}>
@@ -86,28 +86,28 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
                     <div>
                       <button
                         onClick={() => toggleSection(item.label)}
-                        className="w-full flex items-center justify-between px-4 py-3 text-gray-300 bg-gray-800/40 hover:bg-gray-800 rounded-lg transition-all duration-200 group"
+                        className="w-full flex items-center justify-between px-4 py-3 text-charcoal-700 bg-white hover:bg-stone-100 rounded-lg transition-all duration-200 group border border-stone-200"
                       >
                         <span className="flex items-center gap-3 font-medium">
-                          {item.icon && <FontAwesomeIcon icon={item.icon} className="text-blue-400" />}
+                          {item.icon && <FontAwesomeIcon icon={item.icon} className="text-terracotta-500" />}
                           {item.label}
                         </span>
                         <FontAwesomeIcon
                           icon={expandedSections[item.label] ? faChevronDown : faChevronRight}
-                          className={`text-sm text-gray-500 group-hover:text-gray-300 transition-all duration-200 ${
+                          className={`text-sm text-stone-500 group-hover:text-charcoal-700 transition-all duration-200 ${
                             expandedSections[item.label] ? 'rotate-0' : ''
                           }`}
                         />
                       </button>
                       {expandedSections[item.label] && (
-                        <div className="ml-4 mt-1 pl-4 border-l-2 border-gray-700/50 space-y-1">
+                        <div className="ml-4 mt-1 pl-4 border-l-2 border-stone-200 space-y-1">
                           {item.children.map((child) => (
                             child.href && (
                               <Link
                                 key={child.label}
                                 href={child.href}
                                 onClick={closeMenu}
-                                className="flex items-center gap-3 px-4 py-2.5 text-gray-400 bg-gray-800/20 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                                className="flex items-center gap-3 px-4 py-2.5 text-stone-600 bg-stone-50 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
                               >
                                 {child.icon && <FontAwesomeIcon icon={child.icon} className="text-sm" />}
                                 {child.label}
@@ -122,9 +122,9 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
                       <Link
                         href={item.href}
                         onClick={closeMenu}
-                        className="flex items-center gap-3 px-4 py-3 text-gray-300 bg-gray-800/40 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 font-medium"
+                        className="flex items-center gap-3 px-4 py-3 text-charcoal-700 bg-white hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200 font-medium border border-stone-200"
                       >
-                        {item.icon && <FontAwesomeIcon icon={item.icon} className="text-blue-400" />}
+                        {item.icon && <FontAwesomeIcon icon={item.icon} className="text-terracotta-500" />}
                         {item.label}
                       </Link>
                     )
@@ -135,8 +135,8 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
           </nav>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-800/50">
-            <p className="text-xs text-gray-500 text-center">
+          <div className="px-6 py-4 border-t border-stone-200">
+            <p className="text-xs text-stone-500 text-center">
               Data Integration Hub
             </p>
           </div>

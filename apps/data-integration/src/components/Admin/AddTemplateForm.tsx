@@ -90,14 +90,14 @@ export default function AddTemplateForm() {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold flex items-center gap-2">
-        <FontAwesomeIcon icon={faPlus} className="text-green-400" />
-        Ajouter un nouveau template CSV
+        <FontAwesomeIcon icon={faPlus} className="text-sage-500" />
+        Add New CSV Template
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Template Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
+          <label className="block text-sm font-medium text-stone-700 mb-2">
             Nom du template <span className="text-red-400">*</span>
           </label>
           <input
@@ -106,22 +106,22 @@ export default function AddTemplateForm() {
             value={formData.name}
             onChange={(e) => handleInputChange('name', e.target.value)}
             placeholder="Ex: Export Contacts"
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+            className="w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
           />
         </div>
 
         {/* Source Selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
-            Source associée <span className="text-red-400">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-2">
+            Associated Source <span className="text-terracotta-500">*</span>
           </label>
           
           <div>
-          <label className="block text-sm font-medium text-gray-400 mb-3">Source</label>
+          <label className="block text-sm font-medium text-stone-700 mb-3">Source</label>
           <select
             value={selectedSourceId}
             onChange={(e) => setSelectedSourceId(e.target.value)}
-            className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-gray-200 w-full"
+            className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 w-full focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
           >
             {sources?.map((s) => (
               <option key={s.id} value={s.id}>
@@ -135,16 +135,16 @@ export default function AddTemplateForm() {
         {/* CSV Field Mappings */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="block text-sm font-medium text-gray-400">
-              Mapping des champs CSV
+            <label className="block text-sm font-medium text-stone-700">
+              CSV Field Mapping
             </label>
             <button
               type="button"
               onClick={addField}
-              className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg transition-colors flex items-center gap-1"
+              className="px-3 py-1 bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm rounded-lg transition-colors flex items-center gap-1 shadow-vintage"
             >
               <FontAwesomeIcon icon={faPlus} className="text-xs" />
-              Ajouter un champ
+              Add Field
             </button>
           </div>
 
@@ -157,8 +157,8 @@ export default function AddTemplateForm() {
                     required
                     value={field.header}
                     onChange={(e) => handleFieldChange(index, 'header', e.target.value)}
-                    placeholder="En-tête CSV (ex: Email)"
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="CSV Header (e.g. Email)"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-4 py-2 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
                   />
                 </div>
                 <div className="flex-1">
@@ -167,8 +167,8 @@ export default function AddTemplateForm() {
                     required
                     value={field.jsonPath}
                     onChange={(e) => handleFieldChange(index, 'jsonPath', e.target.value)}
-                    placeholder="Chemin JSON (ex: user.email)"
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="JSON Path (e.g. user.email)"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-4 py-2 text-charcoal-800 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
                   />
                 </div>
                 <button

@@ -22,33 +22,33 @@ const STATUS_CONFIG = {
   completed: {
     icon: faCheckCircle,
     text: 'Terminé',
-    classes: 'bg-green-500/20 text-green-400',
-    badgeClasses: 'bg-green-500/20 text-green-400',
-    iconClasses: 'text-green-400',
+    classes: 'bg-sage-100 text-sage-700 border border-sage-300',
+    badgeClasses: 'bg-sage-100 text-sage-700 border border-sage-300',
+    iconClasses: 'text-sage-600',
     spin: false
   },
   running: {
     icon: faSpinner,
     text: 'En cours',
-    classes: 'bg-yellow-500/20 text-yellow-400',
-    badgeClasses: 'bg-yellow-500/20 text-yellow-400 animate-pulse',
-    iconClasses: 'text-yellow-400',
+    classes: 'bg-amber-100 text-amber-700 border border-amber-300',
+    badgeClasses: 'bg-amber-100 text-amber-700 border border-amber-300 animate-pulse',
+    iconClasses: 'text-amber-600',
     spin: true
   },
   failed: {
     icon: faTimesCircle,
     text: 'Échoué',
-    classes: 'bg-red-500/20 text-red-400',
-    badgeClasses: 'bg-red-500/20 text-red-400',
-    iconClasses: 'text-red-400',
+    classes: 'bg-terracotta-100 text-terracotta-700 border border-terracotta-300',
+    badgeClasses: 'bg-terracotta-100 text-terracotta-700 border border-terracotta-300',
+    iconClasses: 'text-terracotta-600',
     spin: false
   },
   pending: {
     icon: faPauseCircle,
     text: 'En attente',
-    classes: 'bg-gray-500/20 text-gray-400',
-    badgeClasses: 'bg-gray-500/20 text-gray-400',
-    iconClasses: 'text-gray-400',
+    classes: 'bg-stone-100 text-stone-600 border border-stone-300',
+    badgeClasses: 'bg-stone-100 text-stone-600 border border-stone-300',
+    iconClasses: 'text-stone-500',
     spin: false
   }
 } as const;
@@ -107,25 +107,25 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
 
   return (
     <section id="extraction-history" className="py-4 px-6 scroll-mt-20">
-      <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-          <span className="text-2xl"><FontAwesomeIcon icon={faScroll} /></span>
-          Historique des extractions
+      <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-vintage">
+        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-charcoal-900">
+          <span className="text-2xl text-terracotta-500"><FontAwesomeIcon icon={faScroll} /></span>
+          Extraction History
         </h2>
 
         <div className="overflow-x-auto w-full">
           <table className="w-auto table-auto min-w-full border-collapse">
             <thead>
-              <tr className="border-b border-gray-700">
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Source</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Statut</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Durée</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Enregistrements</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Template</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Destination</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Intervalle</th>
-                <th className="text-left py-3 px-4 text-gray-400 font-medium">Fichier</th>
+              <tr className="border-b border-stone-200">
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Source</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Date</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Status</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Duration</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Records</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Template</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Destination</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Interval</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">File</th>
               </tr>
             </thead>
             <tbody>
@@ -133,24 +133,24 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                 Array.from({ length: 5 }).map((_, i) => <TableRowSkeleton key={i} columns={9} />)
               ) : extractions.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="text-center py-12 text-gray-400">
-                    <span className="text-4xl"><FontAwesomeIcon icon={faInbox} /></span>
-                    <p className="mt-2">Aucune extraction enregistrée</p>
+                  <td colSpan={9} className="text-center py-12 text-stone-500">
+                    <span className="text-4xl text-stone-400"><FontAwesomeIcon icon={faInbox} /></span>
+                    <p className="mt-2">No extractions recorded</p>
                   </td>
                 </tr>
               ) : (
                 extractions.map((extraction) => (
                   <tr
                     key={extraction.id}
-                    className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
+                    className="border-b border-stone-100 hover:bg-stone-50 transition-colors"
                   >
                     {/* Source */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.source.name}</span>
+                        <span className="font-medium whitespace-nowrap text-charcoal-800">{extraction.source.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-gray-300 whitespace-nowrap">
+                    <td className="py-4 px-4 text-charcoal-600 whitespace-nowrap">
                       {formatDate(extraction.startedAt)}
                     </td>
                     {/* Statut */}
@@ -161,39 +161,39 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                       </span>
                     </td>
                     {/* Durée */}
-                    <td className="py-4 px-4 text-gray-300 whitespace-nowrap">
+                    <td className="py-4 px-4 text-charcoal-600 whitespace-nowrap">
                       {getDuration(extraction.startedAt, extraction.completedAt)}
                     </td>
                     {/* Nombre d'enregistrement */}
                     <td className="py-4 px-4">
                       {extraction.recordsCount !== undefined ? (
-                        <span className="text-blue-400 font-medium">
+                        <span className="text-dustyBlue-600 font-medium">
                           {extraction.recordsCount.toLocaleString('fr-CA')}
                         </span>
                       ) : extraction.error ? (
-                        <span className="text-red-400 text-sm" title={extraction.error}>
-                          Erreur
+                        <span className="text-terracotta-600 text-sm" title={extraction.error}>
+                          Error
                         </span>
                       ) : (
-                        <span className="text-gray-500">-</span>
+                        <span className="text-stone-400">-</span>
                       )}
                     </td>
                     {/* Template */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.template?.name}</span>
+                        <span className="font-medium whitespace-nowrap text-charcoal-800">{extraction.template?.name}</span>
                       </div>
                     </td>
                     {/* Destination */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.destination?.name}</span>
+                        <span className="font-medium whitespace-nowrap text-charcoal-800">{extraction.destination?.name}</span>
                       </div>
                     </td>
                     {/* Interval */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium whitespace-nowrap">{extraction.interval}</span>
+                        <span className="font-medium whitespace-nowrap text-charcoal-800">{extraction.interval}</span>
                       </div>
                     </td>
                     {/* Filename */}
@@ -216,31 +216,31 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
 
         {/* Statistiques */}
         {extractions.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-gray-800 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="mt-6 pt-6 border-t border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-400">{extractions.length}</p>
-              <p className="text-gray-400 text-sm">Total extractions</p>
+              <p className="text-2xl font-bold text-dustyBlue-600">{extractions.length}</p>
+              <p className="text-stone-600 text-sm">Total Extractions</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-green-400">
+              <p className="text-2xl font-bold text-sage-600">
                 {extractions.filter((e) => e.status === 'completed').length}
               </p>
-              <p className="text-gray-400 text-sm">Réussies</p>
+              <p className="text-stone-600 text-sm">Successful</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-red-400">
+              <p className="text-2xl font-bold text-terracotta-600">
                 {extractions.filter((e) => e.status === 'failed').length}
               </p>
-              <p className="text-gray-400 text-sm">Échouées</p>
+              <p className="text-stone-600 text-sm">Failed</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-400">
+              <p className="text-2xl font-bold text-lavender-600">
                 {extractions
                   .filter((e) => e.recordsCount)
                   .reduce((acc, e) => acc + (e.recordsCount || 0), 0)
                   .toLocaleString('fr-CA')}
               </p>
-              <p className="text-gray-400 text-sm">Enregistrements traités</p>
+              <p className="text-stone-600 text-sm">Records Processed</p>
             </div>
           </div>
         )}
