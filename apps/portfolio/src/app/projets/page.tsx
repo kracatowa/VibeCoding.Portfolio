@@ -99,26 +99,6 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* Experience Summary */}
-      <section className="py-16 px-6 bg-white/40">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-dustyBlue-600 mb-2">5+</div>
-              <div className="text-stone-600">Années d'expérience</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-dustyBlue-600 mb-2">5000+</div>
-              <div className="text-stone-600">Transactions/jour traitées</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-dustyBlue-600 mb-2">30+</div>
-              <div className="text-stone-600">Filiales intégrées</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-16 px-6 bg-dustyBlue-600">
         <div className="max-w-4xl mx-auto text-center">

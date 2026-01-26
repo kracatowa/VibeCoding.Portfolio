@@ -136,8 +136,7 @@ export default function AboutPage() {
                   <strong className="text-stone-800">intégration de données</strong>.
                 </p>
                 <p className="text-stone-600 mb-6 leading-relaxed">
-                  J'ai travaillé pour des organisations comme Industrielle Alliance et le
-                  Ministère de la Santé, où j'ai développé des solutions critiques traitant
+                  J'ai travaillé pour des organisations du secteur financier et certains ministères, où j'ai développé des solutions critiques traitant
                   des milliers de transactions quotidiennes.
                 </p>
                 <div className="flex flex-wrap gap-4">
