@@ -40,7 +40,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 scroll-mt-20">
+    <section id="contact" className="py-6 px-6 scroll-mt-20">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-light mb-4" style={{fontFamily: 'Georgia, serif'}}>
@@ -48,12 +48,12 @@ export default function Contact() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
+        <div className="grid md:grid-cols-3 gap-6 mb-16 ">
           <a
             href="mailto:ocean.barras@hotmail.com"
-            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all"
+            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all border border-stone-200/60"
           >
-            <div className="text-terracotta-500 mb-3 flex justify-center">
+            <div className="text-terracotta-500 mb-3 flex justify-center ">
               <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
             </div>
             <h3 className="font-medium mb-2 text-stone-800 text-sm">Email</h3>
@@ -64,7 +64,7 @@ export default function Contact() {
 
           <a
             href="tel:418-520-5929"
-            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all"
+            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all border border-stone-200/60"
           >
             <div className="text-dustyBlue-500 mb-3 flex justify-center">
               <FontAwesomeIcon icon={faPhone} className="w-6 h-6" />
@@ -79,7 +79,7 @@ export default function Contact() {
             href="https://linkedin.com/in/ocean-barras"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all"
+            className="bg-white/40 backdrop-blur-sm p-6 rounded-md text-center group hover:bg-white/60 transition-all border border-stone-200/60"
           >
             <div className="text-sage-500 mb-3 flex justify-center">
               <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />

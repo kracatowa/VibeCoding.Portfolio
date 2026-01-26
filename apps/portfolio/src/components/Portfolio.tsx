@@ -112,7 +112,7 @@ export default function Portfolio() {
 
         <div className="grid lg:grid-cols-1 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className="bg-white/40 backdrop-blur-sm p-6 rounded-md flex flex-col h-full">
+            <div key={index} className="bg-white/40 backdrop-blur-sm p-6 rounded-md flex flex-col h-full border border-stone-200/60">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-medium text-stone-800">{project.title}</h3>
                 <span className={`text-xs px-3 py-1 rounded-full font-medium ${
@@ -162,7 +162,7 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-16 bg-white/40 backdrop-blur-sm p-8 rounded-md text-center">
+        <div className="mt-8 bg-white/40 backdrop-blur-sm p-8 rounded-md text-center border border-stone-200/60">
           <h3 className="text-xl font-light mb-3 text-stone-800" style={{fontFamily: 'Georgia, serif'}}>
             Have a project?
           </h3>
