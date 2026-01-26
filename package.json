@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
-    "@fortawesome/react-fontawesome": "^3.1.1",
-    "resend": "^6.8.0"
+    "@fortawesome/react-fontawesome": "^3.1.1"
   }
 }
