@@ -13,7 +13,7 @@
     "build:shared-ui": "npm run build --workspace=@portfolio/shared-ui",
     "build": "npm run build:shared-ui && npm run build --workspaces",
     "build:portfolio": "npm run build --workspace=portfolio",
-    "build:data-integration": "npm run build --workspace=data-integration"
+    "build:data-integration": "npm run build:shared-ui && npm run build --workspace=data-integration"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
