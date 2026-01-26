@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import { baseMetadata, personJsonLd, websiteJsonLd } from '@/lib/seo';
 
 config.autoAddCss = false
 
@@ -16,18 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Océan Barras | Développeur Full-Stack .NET",
-  description: "Portfolio d'Océan Barras, développeur Full-Stack spécialisé en .NET, Azure et React. Plus de 5 ans d'expérience dans le développement d'applications d'entreprise robustes et évolutives.",
-  keywords: ["développeur", ".NET", "Azure", "React", "C#", "full-stack", "Québec", "portfolio"],
-  authors: [{ name: "Océan Barras" }],
-  openGraph: {
-    title: "Océan Barras | Développeur Full-Stack .NET",
-    description: "Développeur Full-Stack spécialisé en .NET, Azure et React",
-    type: "website",
-    locale: "fr_CA",
-  },
-};
+export const metadata: Metadata = baseMetadata;
 
 export default function RootLayout({
   children,
@@ -36,12 +28,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-ivory-50`}
       >
-        
+        <Navigation />
+        <main className="pt-16 min-h-screen">
           {children}
-
+        </main>
+        <Footer />
       </body>
     </html>
   );
