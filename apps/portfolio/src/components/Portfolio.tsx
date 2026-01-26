@@ -1,3 +1,5 @@
+const DATA_INTEGRATION_URL = process.env.NEXT_PUBLIC_DATA_INTEGRATION_URL || 'https://ocean-barras-data-integration.vercel.app';
+
 const projects = [
   {
     title: 'Data Integration Hub',
@@ -11,7 +13,7 @@ const projects = [
       'Export CSV avec suivi en temps réel',
       'Planification automatique par jour/heure',
     ],
-    liveDemo: '/projects/data-integration',
+    liveDemo: DATA_INTEGRATION_URL,
     isLive: true,
   },
 ];
