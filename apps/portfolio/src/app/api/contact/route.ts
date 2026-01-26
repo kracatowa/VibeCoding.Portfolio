@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     // Envoi avec Resend
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio <contact@votre-domaine.com>', // Remplacez par votre domaine vérifié
+      from: 'Portfolio Contact <onboarding@resend.dev>', // Adresse par défaut (gratuit)
       to: ['oce.barras@gmail.com'], // Votre email où recevoir les messages
       replyTo: email,
       subject: `[Portfolio] ${subjectText} - ${name}`,
