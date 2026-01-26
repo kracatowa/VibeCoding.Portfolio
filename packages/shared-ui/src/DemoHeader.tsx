@@ -3,10 +3,10 @@ import type { ReactNode } from 'react';
 
 export type LinkItem = { href: string; label: string };
 
-export default function DemoHeader({ 
-  navLinks, 
-  rightContent 
-}: { 
+export default function DemoHeader({
+  navLinks,
+  rightContent
+}: {
   navLinks?: LinkItem[];
   rightContent?: ReactNode;
 }) {
@@ -17,7 +17,7 @@ export default function DemoHeader({
   const links = navLinks ?? defaultLinks;
 
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white backdrop-blur-md sticky top-0 z-50 w-full shadow-vintage">
+    <header className="flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white sticky top-0 z-50 w-full shadow-vintage">
       <div className="shrink-0">
         <Logo />
       </div>

@@ -33,12 +33,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClientLayoutWrapper
-          headerLinks={[{ href: '#manual-trigger', label: 'Manual' }, 
-                        { href: '#extraction-steps', label: 'Steps' },
-                        { href: '#extraction-history', label: 'History' }, 
-                        { href: '#automatic-scheduler', label: 'Automation' }]}
-          footerLinks={[{ href: '/terms', label: 'Terms' }, 
-                        { href: '/help', label: 'Help' }]}
+          headerLinks={[{ href: '/projects/data-integration', label: 'Tableau de bord' }]}
+          footerLinks={[{ href: '/terms', label: 'Terms' },
+          { href: '/help', label: 'Help' }]}
         >
           {children}
         </ClientLayoutWrapper>

@@ -87,78 +87,78 @@ const db: Database = {
       sourceId: '1',
       templateId: '1',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     },
     {
       id: '2',
       sourceId: '1',
       templateId: '2',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     },
     {
       id: '3',
       sourceId: '2',
       templateId: '3',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     },
     {
       id: '4',
       sourceId: '2',
       templateId: '4',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     },
     {
       id: '5',
       sourceId: '3',
       templateId: '5',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     },
     {
       id: '6',
       sourceId: '3',
       templateId: '6',
       schedulePreferences: [
-      { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
-      { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
-      { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
-      { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
-      { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
-      { dayOfWeek: 6, time: '', enabled: false },      // Samedi
-      { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
+        { dayOfWeek: 1, time: '08:00', enabled: true },  // Lundi
+        { dayOfWeek: 2, time: '08:00', enabled: true },  // Mardi
+        { dayOfWeek: 3, time: '08:00', enabled: true },  // Mercredi
+        { dayOfWeek: 4, time: '08:00', enabled: true },  // Jeudi
+        { dayOfWeek: 5, time: '08:00', enabled: true },  // Vendredi
+        { dayOfWeek: 6, time: '', enabled: false },      // Samedi
+        { dayOfWeek: 0, time: '', enabled: false }]      // Dimanche
     }
   ],
   templates: [
@@ -182,7 +182,8 @@ const db: Database = {
       apiUrl: 'https://api.salesforce.com/data',
       authType: 'bearer',
       authToken: '',
-      createdAt: '2026-01-01T10:00:00'
+      createdAt: '2026-01-01T10:00:00',
+      sampleResponse: `{ "records": [ { "Id": "001xx000003DGbYAAW", "Name": "Acme Corporation", "Industry": "Manufacturing" } ] }`
     },
     {
       id: '2',
@@ -190,7 +191,8 @@ const db: Database = {
       apiUrl: 'https://api.hubspot.com/data',
       authType: 'apikey',
       authToken: '',
-      createdAt: '2026-01-02T11:30:00'
+      createdAt: '2026-01-02T11:30:00',
+      sampleResponse: `{ "results": [ { "id": "12345", "properties": { "name": "Beta LLC", "domain": "beta.com" } } ] }`
     },
     {
       id: '3',
@@ -198,7 +200,8 @@ const db: Database = {
       apiUrl: 'https://api.zendesk.com/data',
       authType: 'none',
       authToken: '',
-      createdAt: '2026-01-03T09:15:00'
+      createdAt: '2026-01-03T09:15:00',
+      sampleResponse: `{ "tickets": [ { "id": 67890, "subject": "Issue with product", "status": "open" } ] }`
     }
   ],
   adminTemplates: []
@@ -227,7 +230,7 @@ export function createExtraction(extraction: Omit<Extraction, 'id'>): Extraction
 export function updateExtraction(id: string, updates: Partial<Extraction>): Extraction | null {
   const index = db.extractions.findIndex((e) => e.id === id);
   if (index === -1) return null;
-  
+
   db.extractions[index] = { ...db.extractions[index], ...updates };
   return db.extractions[index];
 }
@@ -252,15 +255,15 @@ export function getTemplates(sourceId?: string): Template[] {
 }
 
 export function getSources(): Source[] {
-  const list =  db.adminSources;;
-  if (!list || list.length === 0) return [ { id: 'default', name: 'has default' } ];
+  const list = db.adminSources;;
+  if (!list || list.length === 0) return [{ id: 'default', name: 'has default' }];
   return [...list];
 }
 
 export function getDestinations(): Destination[] {
-  const list =  db.destinations;
-  if (!list || list.length === 0) return [ { id: 'default', name: 'has default' } ];
-return [...list];
+  const list = db.destinations;
+  if (!list || list.length === 0) return [{ id: 'default', name: 'has default' }];
+  return [...list];
 }
 
 // Fonctions CRUD pour les notifications
@@ -276,19 +279,19 @@ export function createNotification(notification: Omit<Notification, 'id'>): Noti
     id: Date.now().toString(),
   };
   db.notifications.push(newNotification);
-  
+
   // Limiter à 50 notifications maximum
   if (db.notifications.length > 50) {
     db.notifications = db.notifications.slice(0, 50);
   }
-  
+
   return newNotification;
 }
 
 export function markNotificationAsRead(id: string): Notification | null {
   const notification = db.notifications.find((n) => n.id === id);
   if (!notification) return null;
-  
+
   notification.read = true;
   return notification;
 }

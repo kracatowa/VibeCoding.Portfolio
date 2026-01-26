@@ -5,6 +5,6 @@ export interface AdminSource {
   authType: 'none' | 'bearer' | 'apikey';
   authToken?: string;
   headers?: Record<string, string>;
-  sampleResponse?: any; // JSON response sample for mapping reference
+  sampleResponse: string; // JSON response sample for mapping reference
   createdAt: string;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
@@ -19,6 +19,7 @@ interface HamburgerMenuProps {
 export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -30,47 +31,53 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
     }));
   };
 
-  if (!isOpen) {
-    return (
-      <button
-        onClick={toggleMenu}
-        className="p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
-        aria-label="Menu"
-      >
-        <FontAwesomeIcon icon={faBars} className="text-lg" />
-      </button>
-    );
-  }
+  // close menu when clicking outside the menu container
+  useEffect(() => {
+    if (!isOpen) return;
+    const handlePointerDown = (e: PointerEvent) => {
+      const target = e.target as Node | null;
+      if (!menuRef.current || !target) return;
+      if (!menuRef.current.contains(target)) closeMenu();
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [isOpen]);
 
   return (
     <>
-      {/* Close button */}
+      {/* Toggle button (always present) */}
       <button
         onClick={toggleMenu}
-        className="p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
-        aria-label="Close Menu"
+        aria-expanded={isOpen}
+        className="relative p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
+        aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
       >
-        <FontAwesomeIcon icon={faTimes} className="text-lg" />
+        <FontAwesomeIcon
+          icon={isOpen ? faTimes : faBars}
+          className={`text-lg transform transition-transform duration-300 ${isOpen ? 'rotate-90 scale-105' : 'rotate-0 scale-100'}`}
+        />
       </button>
 
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
+        className={`fixed inset-0 bg-black/20 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         style={{ zIndex: 40 }}
         onClick={closeMenu}
       />
 
-      {/* Side menu */}
-      <div
-        className="fixed top-0 right-0 h-full w-80 bg-white shadow-vintage-xl border-l border-stone-200 transform transition-transform duration-300 ease-in-out"
+      {/* Side menu (kept in DOM to allow transitions) */}
+      <aside
+        ref={menuRef}
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-vintage-xl border-l border-stone-200 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         style={{ zIndex: 50 }}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-2 border-b border-stone-200">
             <h2 className="text-xl font-semibold text-charcoal-900">Menu</h2>
-            <button 
-              onClick={closeMenu} 
+            <button
+              onClick={closeMenu}
               className="p-2 text-stone-600 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
             >
               <FontAwesomeIcon icon={faTimes} />
@@ -94,9 +101,8 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
                         </span>
                         <FontAwesomeIcon
                           icon={expandedSections[item.label] ? faChevronDown : faChevronRight}
-                          className={`text-sm text-stone-500 group-hover:text-charcoal-700 transition-all duration-200 ${
-                            expandedSections[item.label] ? 'rotate-0' : ''
-                          }`}
+                          className={`text-sm text-stone-500 group-hover:text-charcoal-700 transition-all duration-200 ${expandedSections[item.label] ? 'rotate-0' : ''
+                            }`}
                         />
                       </button>
                       {expandedSections[item.label] && (
@@ -141,7 +147,7 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
             </p>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

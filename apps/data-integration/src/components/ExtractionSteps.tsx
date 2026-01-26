@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import type React from 'react';
@@ -52,11 +52,11 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
     const statusKey = getStepStatusKey(stepId);
     switch (statusKey) {
       case STATUS.PROCESSING:
-        return <FontAwesomeIcon icon={faSpinner} spin className='text-yellow-400'/>;
+        return <FontAwesomeIcon icon={faSpinner} spin className='text-yellow-400' />;
       case STATUS.PROCESSED:
         return <FontAwesomeIcon icon={faCheckCircle} className="text-green-400" />;
       default:
-        return <FontAwesomeIcon icon={faPauseCircle} className='text-blue-400'/>;
+        return <FontAwesomeIcon icon={faPauseCircle} className='text-blue-400' />;
     }
   };
 
@@ -142,9 +142,9 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
   );
 
   return (
-   <section id="extraction-steps" className="py-4 px-6 scroll-mt-20">
+    <section id="extraction-steps" className="py-4 px-6 scroll-mt-20">
       <div className="bg-white rounded-xl p-8 border-2 border-stone-200 shadow-vintage">
-        <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{fontFamily: 'Georgia, serif'}}>
+        <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{ fontFamily: 'Georgia, serif' }}>
           <span className="text-2xl">📋</span>
           Extraction Steps
         </h2>
@@ -153,7 +153,7 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
           {steps.map((step) => (
             <div key={step.id} className={`${getStepClasses(step.id)} flex flex-col`}>
               {/* Numéro de l'étape */}
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-900 border-2 border-gray-700 rounded-full flex items-center justify-center text-sm font-bold">
+              <div className="absolute -top-3 -left-3 w-8 h-8 border-stone-300 bg-white border-2 rounded-full flex items-center justify-center text-sm font-bold">
                 {step.id}
               </div>
 
