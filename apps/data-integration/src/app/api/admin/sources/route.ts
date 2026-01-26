@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
-  getAllSources, 
-  createSource, 
+import {
+  getAllSources,
+  createSource,
   deleteSource
 } from '@/lib/database';
 import { AdminSource } from './sources.dto';
@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedUrl = apiUrl.trim().toLowerCase();
+
+    console.log(getAllSources())
 
     const existing = getAllSources().find(s => s.apiUrl?.trim().toLowerCase() === normalizedUrl);
     if (existing) {
@@ -88,7 +90,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const success = deleteSource(id);
-    
+
     if (!success) {
       return NextResponse.json(
         { error: 'Source non trouvée' },

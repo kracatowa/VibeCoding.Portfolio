@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import ExtractionSteps from '@/components/ExtractionSteps';
-import ExtractionHistory from '@/components/ExtractionHistory';
-import ManualTrigger from '@/components/ManualTrigger';
-import AutomaticScheduler from '@/components/AutomaticScheduler';
+import ExtractionSteps from '@/components/LandingPage/ExtractionSteps';
+import ExtractionHistory from '@/components/LandingPage/ExtractionHistory';
+import ManualTrigger from '@/components/LandingPage/ManualTrigger';
+import AutomaticScheduler from '@/components/LandingPage/AutomaticScheduler';
 import ErrorBoundaryTest from '@/components/Errors/ErrorBoundaryTest';
 import ErrorAlertTest from '@/components/Errors/ErrorAlertTest';
 import { useNotificationContext } from '@/hooks/NotificationContext';
@@ -46,7 +46,7 @@ export default function Home() {
   useEffect(() => {
     fetchExtractions();
   }, [fetchExtractions]);
-  
+
   // Polling pour suivre l'extraction en cours
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -75,7 +75,7 @@ export default function Home() {
               data.id,
               data.source?.name || data.source || 'Source inconnue'
             );
-            
+
             setIsRunning(false);
             setStepStatus(null);
             fetchExtractions();
@@ -104,7 +104,7 @@ export default function Home() {
       });
       const data = await response.json();
       setCurrentExtraction(data);
-      
+
       // Add notification for extraction start
       addNotification('start', data.id, data.source?.name || data.source || 'Source inconnue');
     } catch (error) {
@@ -118,26 +118,26 @@ export default function Home() {
 
   return (
     <>
-       {isDevelopment && <ErrorBoundaryTest />}
-       {isDevelopment && <ErrorAlertTest />}
-       {isDevelopment && <NetworkBannerTest />}
+      {isDevelopment && <ErrorBoundaryTest />}
+      {isDevelopment && <ErrorAlertTest />}
+      {isDevelopment && <NetworkBannerTest />}
 
       <ManualTrigger
         onTrigger={handleTriggerExtraction}
         isRunning={isRunning}
       />
-            <ExtractionSteps
-              currentStep={currentExtraction?.currentStep || null}
-              stepStatus={stepStatus}
-              isRunning={isRunning}
-            />
-            <ExtractionHistory
-              extractions={extractions}
-              isLoading={isLoadingHistory}
-            />
-            
-              <AutomaticScheduler
-              />
-      </> 
+      <ExtractionSteps
+        currentStep={currentExtraction?.currentStep || null}
+        stepStatus={stepStatus}
+        isRunning={isRunning}
+      />
+      <ExtractionHistory
+        extractions={extractions}
+        isLoading={isLoadingHistory}
+      />
+
+      <AutomaticScheduler
+      />
+    </>
   );
 }

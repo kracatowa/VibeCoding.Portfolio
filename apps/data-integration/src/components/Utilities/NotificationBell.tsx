@@ -38,12 +38,12 @@ const getNotificationColor = (type: NotificationType) => {
 const formatTimestamp = (timestamp: string): string => {
   const now = Date.now();
   const diff = now - new Date(timestamp).getTime();
-  
+
   const seconds = Math.floor(diff / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
-  
+
   if (days > 0) return `il y a ${days}j`;
   if (hours > 0) return `il y a ${hours}h`;
   if (minutes > 0) return `il y a ${minutes}min`;
@@ -88,7 +88,7 @@ export default function NotificationBell({
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} non lues)` : ''}`}
       >
         <FontAwesomeIcon icon={faBell} className="text-stone-600 text-xl" />
-        
+
         {unreadCount > 0 && (
           <span
             className="absolute -top-1 -right-1 bg-terracotta-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse"
@@ -140,11 +140,10 @@ export default function NotificationBell({
                 {recentNotifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`p-4 transition-all duration-200 ${
-                      !notification.read
+                    className={`p-4 transition-all duration-200 ${!notification.read
                         ? 'bg-stone-50 hover:bg-stone-100'
                         : 'hover:bg-stone-50'
-                    } cursor-pointer`}
+                      } cursor-pointer`}
                     onClick={() => {
                       if (!notification.read) {
                         onMarkAsRead(notification.id);
@@ -159,9 +158,8 @@ export default function NotificationBell({
 
                       {/* Contenu */}
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm ${
-                          !notification.read ? 'text-charcoal-900 font-medium' : 'text-charcoal-600'
-                        }`}>
+                        <p className={`text-sm ${!notification.read ? 'text-charcoal-900 font-medium' : 'text-charcoal-600'
+                          }`}>
                           {notification.message}
                         </p>
                         <p className="text-xs text-stone-500 mt-1">

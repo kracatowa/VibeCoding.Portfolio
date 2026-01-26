@@ -11,7 +11,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Extraction } from '@/app/api/extractions/extractions.dto';
-import { TableRowSkeleton } from './Skeleton';
+import { TableRowSkeleton } from '../Utilities/Skeleton';
 
 interface Props {
   extractions: Extraction[];
@@ -97,7 +97,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
     const seconds = Math.floor(durationMs / 1000);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    
+
     if (minutes > 0) {
       return `${minutes}m ${remainingSeconds}s`;
     }
@@ -200,7 +200,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     <td className="py-4 px-4">
                       {extraction.fileName ? (
                         <span className="text-green-400 text-sm font-mono flex">
-                          <FontAwesomeIcon icon={faFileAlt} className="mr-2" /> 
+                          <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
                           <span className="whitespace-nowrap">{extraction.fileName}</span>
                         </span>
                       ) : (

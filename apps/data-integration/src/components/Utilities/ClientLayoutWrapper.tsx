@@ -2,11 +2,11 @@
 
 import { DemoLayout, type LinkItem } from '@portfolio/shared-ui';
 import NotificationBell from './NotificationBell';
-import HamburgerMenu from './HamburgerMenu';
+import HamburgerMenu from '../LandingPage/HamburgerMenu';
 import { NotificationProvider, useNotificationContext } from '@/hooks/NotificationContext';
 import { NetworkErrorProvider } from '@/hooks/NetworkErrorContext';
-import NetworkBanner from './Errors/NetworkBanner';
-import ErrorBoundary from './Errors/ErrorBoundary';
+import NetworkBanner from '../Errors/NetworkBanner';
+import ErrorBoundary from '../Errors/ErrorBoundary';
 import { faCog, faUser } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -52,7 +52,7 @@ function LayoutContent({ children, headerLinks, footerLinks }: Props) {
             onMarkAllAsRead={markAllAsRead}
             onClearAll={clearAll}
           />
-          <HamburgerMenu menuItems={menuItems} />
+          {/* <HamburgerMenu menuItems={menuItems} /> */}
         </div>
       }
     >
