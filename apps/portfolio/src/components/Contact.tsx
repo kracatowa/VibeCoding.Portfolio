@@ -40,41 +40,37 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 px-6">
+    <section id="contact" className="py-12 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">
-            Me <span className="gradient-text">Contacter</span>
+          <h2 className="text-5xl font-light mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            <span className="text-dustyBlue-600 font-semibold">Contact</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Vous avez un projet en tête ou souhaitez discuter d&apos;une opportunité ?
-            Je serais ravi d&apos;échanger avec vous.
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-6 mb-16 ">
           <a
             href="mailto:ocean.barras@hotmail.com"
-            className="card p-6 text-center group hover:border-sky-500"
+            className="bg-white/40 p-6 rounded-md text-center group hover:bg-white/60 transition-all border-2 border-stone-400/60"
           >
-            <div className="text-sky-500 mb-4 flex justify-center">
-              <FontAwesomeIcon icon={faEnvelope} className="w-10 h-10" />
+            <div className="text-terracotta-500 mb-3 flex justify-center ">
+              <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
             </div>
-            <h3 className="font-semibold mb-2">Courriel</h3>
-            <p className="text-gray-400 text-sm group-hover:text-sky-500 transition-colors">
+            <h3 className="font-medium mb-2 text-stone-800 text-sm">Email</h3>
+            <p className="text-stone-600 text-xs">
               ocean.barras@hotmail.com
             </p>
           </a>
 
           <a
             href="tel:418-520-5929"
-            className="card p-6 text-center group hover:border-sky-500"
+            className="bg-white/40 p-6 rounded-md text-center group hover:bg-white/60 transition-all border-2 border-stone-400/60"
           >
-            <div className="text-sky-500 mb-4 flex justify-center">
-              <FontAwesomeIcon icon={faPhone} className="w-10 h-10" />
+            <div className="text-dustyBlue-500 mb-3 flex justify-center">
+              <FontAwesomeIcon icon={faPhone} className="w-6 h-6" />
             </div>
-            <h3 className="font-semibold mb-2">Téléphone</h3>
-            <p className="text-gray-400 text-sm group-hover:text-sky-500 transition-colors">
+            <h3 className="font-medium mb-2 text-stone-800 text-sm">Phone</h3>
+            <p className="text-stone-600 text-xs">
               418-520-5929
             </p>
           </a>
@@ -83,47 +79,47 @@ export default function Contact() {
             href="https://linkedin.com/in/ocean-barras"
             target="_blank"
             rel="noopener noreferrer"
-            className="card p-6 text-center group hover:border-sky-500"
+            className="bg-white/40 p-6 rounded-md text-center group hover:bg-white/60 transition-all border-2 border-stone-400/60"
           >
-            <div className="text-sky-500 mb-4 flex justify-center">
-              <FontAwesomeIcon icon={faLinkedin} className="w-10 h-10" />
+            <div className="text-sage-500 mb-3 flex justify-center">
+              <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />
             </div>
-            <h3 className="font-semibold mb-2">LinkedIn</h3>
-            <p className="text-gray-400 text-sm group-hover:text-sky-500 transition-colors">
+            <h3 className="font-medium mb-2 text-stone-800 text-sm">LinkedIn</h3>
+            <p className="text-stone-600 text-xs">
               linkedin.com/in/ocean-barras
             </p>
           </a>
         </div>
-        
-        <div className="card p-8">
-          <h3 className="text-2xl font-semibold mb-6 text-center">Envoyez-moi un message</h3>
+
+        <div className="bg-white/40 p-8 rounded-md">
+          <h3 className="text-2xl font-light mb-6 text-center text-stone-800" style={{ fontFamily: 'Georgia, serif' }}>Send a message</h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Nom complet *
+                <label htmlFor="name" className="block text-xs font-medium mb-2 text-stone-600">
+                  Name *
                 </label>
                 <input
                   type="text"
                   id="name"
                   required
-                  className="w-full p-4 bg-slate-900/80 border border-white/10 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 placeholder:text-gray-500"
-                  placeholder="Votre nom"
+                  className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
+                  placeholder="Your name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Courriel *
+                <label htmlFor="email" className="block text-xs font-medium mb-2 text-stone-600">
+                  Email *
                 </label>
                 <input
                   type="email"
                   id="email"
                   required
-                  className="w-full p-4 bg-slate-900/80 border border-white/10 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 placeholder:text-gray-500"
-                  placeholder="votre@email.com"
+                  className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
+                  placeholder="your@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -131,47 +127,47 @@ export default function Contact() {
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="company" className="block text-sm font-medium mb-2">
-                  Entreprise
+                <label htmlFor="company" className="block text-xs font-medium mb-2 text-stone-600">
+                  Company
                 </label>
                 <input
                   type="text"
                   id="company"
-                  className="w-full p-4 bg-slate-900/80 border border-white/10 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 placeholder:text-gray-500"
-                  placeholder="Votre entreprise"
+                  className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
+                  placeholder="Your company"
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 />
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Sujet *
+                <label htmlFor="subject" className="block text-xs font-medium mb-2 text-stone-600">
+                  Subject *
                 </label>
                 <select
                   id="subject"
                   required
-                  className="w-full p-4 bg-slate-900/80 border border-white/10 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                  className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 >
-                  <option value="">Sélectionnez un sujet</option>
-                  <option value="project">Projet de développement</option>
-                  <option value="consulting">Consultation technique</option>
-                  <option value="job">Opportunité d&apos;emploi</option>
-                  <option value="other">Autre</option>
+                  <option value="">Select a subject</option>
+                  <option value="project">Development project</option>
+                  <option value="consulting">Technical consulting</option>
+                  <option value="job">Job opportunity</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
             </div>
             <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
+              <label htmlFor="message" className="block text-xs font-medium mb-2 text-stone-600">
                 Message *
               </label>
               <textarea
                 id="message"
                 required
                 rows={6}
-                className="w-full p-4 bg-slate-900/80 border border-white/10 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 placeholder:text-gray-500 resize-none"
-                placeholder="Décrivez votre projet ou votre demande..."
+                className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400 resize-none"
+                placeholder="Tell me about your project..."
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               />
@@ -180,27 +176,27 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center border px-6 py-3 rounded-md text-sm font-medium bg-white/40 text-dustyBlue-700 hover:bg-white/60 transform transition duration-200 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {status === 'loading' ? (
                   <span className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faSpinner} spin className="h-5 w-5" />
-                    Envoi en cours...
+                    <FontAwesomeIcon icon={faSpinner} spin className="h-4 w-4" />
+                    Sending...
                   </span>
                 ) : (
-                  'Envoyer le message'
+                  'Send message'
                 )}
               </button>
             </div>
             {status === 'success' && (
-              <div className="text-center text-green-400 bg-green-400/10 p-4 rounded-lg">
-                ✓ Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.
+              <div className="text-center text-sage-700 bg-sage-100/60 p-3 rounded-md text-sm">
+                ✓ Message sent successfully!
               </div>
             )}
 
             {status === 'error' && (
-              <div className="text-center text-red-400 bg-red-400/10 p-4 rounded-lg">
-                ✗ Une erreur est survenue. Veuillez réessayer ou me contacter directement par courriel.
+              <div className="text-center text-terracotta-700 bg-terracotta-100/60 p-3 rounded-md text-sm">
+                ✗ An error occurred. Please try again.
               </div>
             )}
           </form>

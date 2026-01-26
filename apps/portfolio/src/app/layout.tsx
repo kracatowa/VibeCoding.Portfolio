@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import { DemoLayout } from '@portfolio/shared-ui'
 
 config.autoAddCss = false
 
@@ -40,19 +39,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DemoLayout
-          headerLinks={[
-            { href: '#accueil', label: 'Accueil' },
-            { href: '#competences', label: 'Compétences' },
-            { href: '#qualite', label: 'Qualité' },
-            { href: '#experience', label: 'Expérience' },
-            { href: '#portfolio', label: 'Portfolio' },
-            { href: '#contact', label: 'Contact' },
-          ]}
-          footerLinks={[{ href: '/privacy', label: 'Privacy' }, { href: '/sitemap', label: 'Sitemap' }]}
-        >
+        
           {children}
-        </DemoLayout>
+
       </body>
     </html>
   );

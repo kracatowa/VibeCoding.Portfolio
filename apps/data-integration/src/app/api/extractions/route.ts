@@ -4,9 +4,12 @@ import {
   createExtraction,
   updateExtraction,
   getExtractionById,
-  type Extraction,
+  getSources,
+  getDestinations,
+  getTemplates,
 } from '@/lib/database';
 import { randomInt } from 'crypto';
+import { Source } from '../sources/sources.dto';
 
 // Store pour les extractions en cours (pour le SSE)
 const runningExtractions = new Map<string, { step: number; status: string }>();
@@ -19,18 +22,44 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { source } = body;
+    const { sourceId, destinationId, templateId, interval } = body as {
+      sourceId: string;
+      destinationId: string;
+      templateId: string;
+      interval: string;
+    };
 
-    if (!source) {
-      return NextResponse.json({ error: 'Source requise' }, { status: 400 });
+    if (!sourceId || !templateId || !destinationId || !interval) {
+      return NextResponse.json({ error: 'Source, template, destination et interval requis' }, { status: 400 });
     }
 
     // Créer l'extraction
+    const source = getSources().find(s => s.id === sourceId);
+
+    if (!source) {
+      return NextResponse.json({ error: 'Source invalide' }, { status: 400 });
+    }
+
+    const template = getTemplates(sourceId).find(t => t.id === templateId);
+
+    if (!template) {
+      return NextResponse.json({ error: 'Template invalide' }, { status: 400 });
+    }
+
+    const destination = getDestinations().find(d => d.id === destinationId);
+
+    if (!destination) {
+      return NextResponse.json({ error: 'Destination invalide' }, { status: 400 });
+    }
+
     const extraction = createExtraction({
       source,
       status: 'running',
       startedAt: new Date().toISOString(),
       currentStep: 1,
+      template,
+      destination: destination,
+      interval,
     });
 
     // Démarrer le processus d'extraction en arrière-plan
@@ -46,7 +75,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function processExtraction(extractionId: string, source: string) {
+async function processExtraction(extractionId: string, source: Source) {
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   try {
@@ -72,7 +101,7 @@ async function processExtraction(extractionId: string, source: string) {
     runningExtractions.set(extractionId, { step: 3, status: 'processing' });
     await delay(1000);
 
-    const fileName = `${source.toLowerCase()}_export_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.csv`;
+    const fileName = `${source.name.toLowerCase()}_export_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.csv`;
 
     runningExtractions.set(extractionId, { step: 3, status: 'processed' });
     await delay(500);

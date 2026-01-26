@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import type React from 'react';
@@ -38,7 +38,7 @@ const steps: ExtractionStep[] = [
 ];
 
 export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: Props) {
-  const [animatedStep, setAnimatedStep] = useState<number | null>(null);
+  const [, setAnimatedStep] = useState<number | null>(null);
 
   useEffect(() => {
     if (stepStatus?.status === STATUS.PROCESSING) {
@@ -52,11 +52,11 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
     const statusKey = getStepStatusKey(stepId);
     switch (statusKey) {
       case STATUS.PROCESSING:
-        return <FontAwesomeIcon icon={faSpinner} spin className='text-yellow-400'/>;
+        return <FontAwesomeIcon icon={faSpinner} spin className='text-yellow-400' />;
       case STATUS.PROCESSED:
         return <FontAwesomeIcon icon={faCheckCircle} className="text-green-400" />;
       default:
-        return <FontAwesomeIcon icon={faPauseCircle} className='text-blue-400'/>;
+        return <FontAwesomeIcon icon={faPauseCircle} className='text-blue-400' />;
     }
   };
 
@@ -98,10 +98,10 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
 
   const getStatusClasses = (stepId: number): string => {
     const status = getStepStatusKey(stepId);
-    if (status === STATUS.PROCESSED) return 'bg-green-500/20 text-green-400';
-    if (status === STATUS.PROCESSING) return 'bg-yellow-500/20 text-yellow-400';
-    if (status === STATUS.FAILED) return 'bg-red-500/20 text-red-400';
-    return 'bg-gray-500/20 text-gray-400';
+    if (status === STATUS.PROCESSED) return 'bg-sage-100 text-sage-700 border border-sage-300';
+    if (status === STATUS.PROCESSING) return 'bg-amber-100 text-amber-700 border border-amber-300';
+    if (status === STATUS.FAILED) return 'bg-terracotta-100 text-terracotta-700 border border-terracotta-300';
+    return 'bg-stone-100 text-stone-600 border border-stone-300';
   };
 
   /**
@@ -114,7 +114,7 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
 
     // If nothing is running and there's no current step, show a subdued card.
     if (!isRunning && currentStep === null) {
-      return `${baseClasses} bg-gray-800/50 border-gray-700`;
+      return `${baseClasses} bg-white border-stone-200`;
     }
 
     // Use the canonical status key for this step and map it to styles.
@@ -122,13 +122,13 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
 
     switch (status) {
       case STATUS.PROCESSING:
-        return `${baseClasses} bg-yellow-500/10 border-yellow-500 shadow-lg shadow-yellow-500/20`;
+        return `${baseClasses} bg-amber-50 border-amber-400 shadow-vintage-lg`;
       case STATUS.PROCESSED:
-        return `${baseClasses} bg-green-500/10 border-green-500`;
+        return `${baseClasses} bg-sage-50 border-sage-400`;
       case STATUS.FAILED:
-        return `${baseClasses} bg-red-500/10 border-red-500`;
+        return `${baseClasses} bg-terracotta-50 border-terracotta-400`;
       default:
-        return `${baseClasses} bg-blue-500/10 border-blue-500`;
+        return `${baseClasses} bg-dustyBlue-50 border-dustyBlue-300`;
     }
   };
 
@@ -142,18 +142,18 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
   );
 
   return (
-   <section className="py-4 px-6">
-      <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800">
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+    <section id="extraction-steps" className="py-4 px-6 scroll-mt-20">
+      <div className="bg-white rounded-xl p-8 border-2 border-stone-200 shadow-vintage">
+        <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{ fontFamily: 'Georgia, serif' }}>
           <span className="text-2xl">📋</span>
-          Étapes de l&apos;extraction
+          Extraction Steps
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {steps.map((step) => (
             <div key={step.id} className={`${getStepClasses(step.id)} flex flex-col`}>
               {/* Numéro de l'étape */}
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-900 border-2 border-gray-700 rounded-full flex items-center justify-center text-sm font-bold">
+              <div className="absolute -top-3 -left-3 w-8 h-8 border-stone-300 bg-white border-2 rounded-full flex items-center justify-center text-sm font-bold">
                 {step.id}
               </div>
 
@@ -183,7 +183,7 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
           <div className="mt-6">
             <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
               <div
-                className="h-full bg-linear-to-r from-blue-500 to-purple-500 transition-all duration-500"
+                className="h-full bg-dustyBlue-500 transition-all duration-500"
                 style={{
                   width: `${progressPercent}%`,
                 }}

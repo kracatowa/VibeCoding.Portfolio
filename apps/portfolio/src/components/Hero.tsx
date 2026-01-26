@@ -1,73 +1,62 @@
+'use client';
+
+import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faPhone, faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default function Hero() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/ascii-1920-3.png';
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
-    <section
-      id="accueil"
-      className="pt-20 flex justify-center"
-    >
-      <div className="max-w-6xl mx-auto text-center">
-        <div className="animate-fade-in-up">
-          <p className="text-[#0ea5e9] font-medium mb-4 text-lg">
-            Bonjour, je suis
-          </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="gradient-text">Océan Barras</span>
-          </h1>
-          <h2 className="text-2xl md:text-3xl text-gray-300 mb-8">
-            Développeur Full-Stack <span className="text-[#0ea5e9]">.NET</span> |{' '}
-            <span className="text-[#8b5cf6]">Azure</span> |{' '}
-            <span className="text-[#0ea5e9]">React</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-            Plus de 5 ans d&apos;expérience dans le développement d&apos;applications
-            d&apos;entreprise robustes et évolutives. Spécialisé dans l&apos;écosystème
-            Microsoft et les architectures cloud modernes.
-          </p>
+    <>
+      <section
+        id="accueil"
+        className="pb-12 px-6 relative min-h-screen flex items-center justify-center"
+      >
+        <div className="max-w-auto text-center">
+          <div className="animate-fade-in-up">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-light mb-4 tracking-tight text-center" style={{ fontFamily: 'Georgia, serif' }}>
+              <span className="text-dustyBlue-600 font-semibold">Océan Barras</span>
+            </h1>
+            <p className="text-lg md:text-2xl text-stone-600 font-light mb-8 mx-auto">
+              <span className="block md:inline">Développeur logiciels</span>
+              <span className="hidden md:inline"> • </span>
+              <span className="block md:inline">Cloud & Intégration de données</span>
+            </p>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <a href="#contact" className="btn-primary">
-              Me contacter
-            </a>
-            <a href="#portfolio" className="btn-secondary">
-              Voir mes projets
-            </a>
-          </div>
+            <p className="text-lg md:text-2xl text-stone-600 font-light mb-8 mx-auto">
+              Pour des petits et moyen projets en développement logiciel, intégration de données et automatisation cloud.
+            </p>
 
-          <div className="flex justify-center gap-6">
-            <a
-              href="mailto:ocean.barras@hotmail.com"
-              className="text-gray-400 hover:text-[#0ea5e9] transition-colors"
-              aria-label="Email"
-            >
-              <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
-            </a>
-            <a
-              href="https://linkedin.com/in/ocean-barras"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-[#0ea5e9] transition-colors"
-              aria-label="LinkedIn"
-            >
-              <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />
-            </a>
-            <a
-              href="tel:418-520-5929"
-              className="text-gray-400 hover:text-[#0ea5e9] transition-colors"
-              aria-label="Téléphone"
-            >
-              <FontAwesomeIcon icon={faPhone} className="w-6 h-6" />
-            </a>
+            <p className="text-lg md:text-2xl text-stone-600 font-light mb-8 max-w-md mx-auto">
+              Taux abordable pour les startups et PME.
+            </p>
+
+            <div className="flex items-center justify-center gap-3 mt-12">
+              <a
+                href="#portfolio"
+                className="inline-flex items-center content-center px-4 py-2 rounded-md text-sm font-medium bg-dustyBlue-600 text-white hover:bg-dustyBlue-700 transform transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg"
+              >
+                Voir mes projets
+                <FontAwesomeIcon icon={faChevronDown} className={`w-4 h-4 ml-2 ${imageLoaded ? 'animate-pulse-down' : ''}`} />
+              </a>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border border-dustyBlue-600 text-dustyBlue-700 hover:bg-dustyBlue-50 transform transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg"
+              >
+                Me contacter
+              </a>
+            </div>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <FontAwesomeIcon icon={faChevronDown} className="w-6 h-6 text-gray-400" />
-          </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

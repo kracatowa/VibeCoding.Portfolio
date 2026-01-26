@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faSpinner, faCheckCircle, faSave, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { getSources, SchedulePreference, Source } from '@/lib/database';
-
-interface Props {
-  onSave: (schedules: SchedulePreference[]) => void;
-  isSaving: boolean;
-}
+import { useAsyncData } from '@/hooks/asyncResolver';
+import { Template } from '@/app/api/templates/templates.dto';
+import { Schedule, SchedulePreference } from '@/app/api/schedules/schedules.dto';
+import { apiFetch } from '@/lib/api/client';
+import Alert from './Errors/Alert';
+import { ScheduleGridSkeleton } from './Skeleton';
 
 const daysOfWeek = [
   { id: 1, name: 'Lundi', short: 'Lun' },
@@ -24,78 +24,65 @@ const daysOfWeek = [
 const getDefaultSchedules = (): SchedulePreference[] =>
   daysOfWeek.map((d) => ({
     dayOfWeek: d.id,
-    enabled: d.id >= 1 && d.id <= 5, // weekdays enabled by default
-    time: d.id >= 1 && d.id <= 5 ? '08:00' : '',
+    enabled: false
   }));
 
-
-export default function AutomaticScheduler({ onSave, isSaving }: Props) {
-  // initialize with sensible defaults so the UI keeps its space
-  const [schedules, setSchedules] = useState<SchedulePreference[]>(() => getDefaultSchedules());
-  // don't show the global loading placeholder that removes layout;
-  // we keep a light-weight fetching state instead if needed
-  const [isLoading, setIsLoading] = useState(false);
+export default function AutomaticScheduler() {
   const [hasChanges, setHasChanges] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [selectedScheduleId, setSelectedScheduleId] = useState<string>('');
+  const [selectedSourceId, setSelectedSourceId] = useState<string>("1");
+  const [selectedSchedulePreferences, setSelectedSchedulePreferences] = useState<SchedulePreference[]>(getDefaultSchedules());
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>("1");
+  const [isSaving, setIsSaving] = useState(false);
 
-
-  const [sources, setSources] = useState<Source[]>([]);
-  const [selectedSource, setSelectedSource] = useState<string>("");
-  const [loadingSources, setLoadingSources] = useState(false);
-
-  // fetch schedules whenever selectedSource changes
-  useEffect(() => {
-    fetchSchedules(selectedSource);
-
-    let mounted = true;
-    function loadTemplates() {
-          setLoadingSources(true);
-          
-          try {
-            const list = getSources();
-            if (mounted) {
-              setSources(list);
-              setSelectedSource(list[0]?.id || "");
-            }
-    
-          } catch (err) {
-            if (mounted) {
-              setSources([]);
-              setSelectedSource("Default");
-            }
-          } finally {
-            if (mounted) setLoadingSources(false);
-          }
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    loadTemplates()
-
-  }, []);
+  // SOURCES
+  const { data: sources, error: sourcesError, refetch: refetchSources } = useAsyncData({
+    fetcher: () => apiFetch('/api/sources') as Promise<Template[]>,
+    dependencies: [],
+  });
 
   useEffect(() => {
-    fetchSchedules(selectedSource);
-  }, [selectedSource]);
+    if(!sources) return;
+    setSelectedSourceId(sources?.[0]?.id ?? '');
+  }, [sources]);
 
-  const fetchSchedules = async (source: string) => {
-    // keep the existing schedules visible while fetching to avoid layout shift
-    try {
-      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      const response = await fetch(`${base}/api/schedules?source=${encodeURIComponent(source)}`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data: SchedulePreference[] = await response.json();
-      // fallback to defaults if API returns empty/malformed data
-      setSchedules(data && data.length ? data : getDefaultSchedules());
-    } catch (error) {
-      console.error('Erreur lors du chargement des planifications:', error);
-      setSchedules(getDefaultSchedules());
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // TEMPLATES
+  const { data: templates, error: templatesError, refetch: refetchTemplates } = useAsyncData({
+    fetcher: () => apiFetch(`/api/templates?source=${selectedSourceId}`) as Promise<Template[]>,
+    dependencies: [selectedSourceId],
+  });
 
+  useEffect(() => {
+    if (!templates) return;
+    setSelectedTemplateId(templates?.[0]?.id ?? '');
+  }, [templates]);
+
+  // SCHEDULES
+  const { data: schedules, error: schedulesError, refetch: refetchSchedules } = useAsyncData({
+    fetcher: () => apiFetch('/api/schedules') as Promise<Schedule[]>,
+    dependencies: [saveSuccess],
+  });
+
+  useEffect(() => {
+    if (!schedules || !templates) return;
+
+    setSelectedScheduleId(
+      schedules?.find((s) => s.sourceId === selectedSourceId && s.templateId === selectedTemplateId)?.id || ''
+    );
+  }, [schedules, templates, selectedSourceId, selectedTemplateId]);
+
+  useEffect(() => {
+    if (!schedules) return;
+
+    setSelectedSchedulePreferences(
+      schedules?.find((s) => s.id === selectedScheduleId)?.schedulePreferences || getDefaultSchedules()
+    );
+  }, [selectedScheduleId, schedules]);
+
+  // HANDLERS
   const handleToggleDay = (dayOfWeek: number) => {
-    setSchedules((prev) =>
+    setSelectedSchedulePreferences((prev) =>
       prev.map((s) =>
         s.dayOfWeek === dayOfWeek
           ? { ...s, enabled: !s.enabled, time: s.enabled ? '' : s.time || '08:00' }
@@ -107,7 +94,7 @@ export default function AutomaticScheduler({ onSave, isSaving }: Props) {
   };
 
   const handleTimeChange = (dayOfWeek: number, time: string) => {
-    setSchedules((prev) =>
+    setSelectedSchedulePreferences((prev) =>
       prev.map((s) => (s.dayOfWeek === dayOfWeek ? { ...s, time } : s))
     );
     setHasChanges(true);
@@ -115,161 +102,206 @@ export default function AutomaticScheduler({ onSave, isSaving }: Props) {
   };
 
   const handleSave = async () => {
-    // persist for the selected source on the server if needed,
-    // keep calling parent onSave(schedules) for existing behavior
-    try {
-      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      await fetch(`${base}/api/schedules?source=${encodeURIComponent(selectedSource)}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(schedules),
-      });
-    } catch (err) {
-      console.error('Erreur lors de la sauvegarde locale:', err);
-    }
+  try {
+    setIsSaving(true);
 
-    await onSave(schedules);
+    await apiFetch('/api/schedules', {
+      method: 'PUT',
+      body: {
+        scheduleId: selectedScheduleId,
+        updatedSchedulePreferences: selectedSchedulePreferences
+      },
+    });
+
     setHasChanges(false);
     setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3000);
+  } catch (err) {
+    console.error('Erreur lors de la sauvegarde:', err);
+  } finally {
+    setIsSaving(false);
+  }
   };
+
+  // Auto-hide success message after 3 seconds
+  useEffect(() => {
+    if (saveSuccess) {
+      const timer = setTimeout(() => {
+        setSaveSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [saveSuccess]);
 
   const getScheduleForDay = (dayOfWeek: number): SchedulePreference | undefined => {
-    return schedules.find((s) => s.dayOfWeek === dayOfWeek);
+    return selectedSchedulePreferences.find((s) => s.dayOfWeek === dayOfWeek);
   };
 
-  const enabledCount = schedules.filter((s) => s.enabled).length;
+  const enabledCount = selectedSchedulePreferences.filter((s) => s.enabled).length;
 
   return (
-    <section className='py-4 px-6'>
-      <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-        <span className="text-2xl"><FontAwesomeIcon icon={faClock} /></span>
-        Planification automatique
+    <section id="automatic-scheduler" className='py-4 px-6 scroll-mt-20'>
+      <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-vintage">
+      <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-charcoal-900">
+        <span className="text-2xl text-sage-500"><FontAwesomeIcon icon={faClock} /></span>
+        Automatic Scheduling
       </h2>
 
-      {/* Source selector */}
-      <div className="mb-4">
-        <label className="text-sm text-gray-400 mr-2">Source:</label>
-        <select
-          value={selectedSource}
-          onChange={(e) => setSelectedSource(e.target.value)}
-          className="bg-gray-800 border border-gray-700 text-white px-3 py-2 rounded-lg"
-        >
-          {sources.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Error alerts */}
+      {sourcesError && (
+        <Alert 
+          message={`Erreur lors du chargement des sources: ${sourcesError.message}`}
+          onRetry={refetchSources}
+        />
+      )}
+      {templatesError && (
+        <Alert 
+          message={`Erreur lors du chargement des templates: ${templatesError.message}`}
+          onRetry={refetchTemplates}
+        />
+      )}
+      {schedulesError && (
+        <Alert 
+          message={`Erreur lors du chargement des horaires: ${schedulesError.message}`}
+          onRetry={refetchSchedules}
+        />
+      )}
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <FontAwesomeIcon icon={faSpinner} spin className="text-2xl text-blue-500" />
+      {/* Source & Template selector */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        {/* Source selector */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-3">Source</label>
+          <select
+            value={selectedSourceId}
+            onChange={(e) => setSelectedSourceId(e.target.value)}
+            className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 w-full focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
+          >
+            {sources?.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {/* Grille des jours */}
-          <div className="space-y-3">
-            {daysOfWeek.map((day) => {
-              const schedule = getScheduleForDay(day.id);
-              const isEnabled = schedule?.enabled || false;
-              const time = schedule?.time || '';
 
-              return (
-                <div
+        {/* Template selector */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-3">Template</label>
+          <select
+            value={selectedTemplateId}
+            onChange={(e) => setSelectedTemplateId(e.target.value)}
+            className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 w-full focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
+          >
+            {templates?.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="space-y-4 py-4">
+        {/* Grille des jours */}
+        {!schedules ? (
+          <ScheduleGridSkeleton days={7} />
+        ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-3">
+          {daysOfWeek.map((day) => {
+            const schedule = getScheduleForDay(day.id);
+            const isEnabled = schedule?.enabled || false;
+            const time = schedule?.time || '';
+
+            return (
+              <div
                   key={day.id}
-                  className={`flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${
+                  className={`flex flex-row md:flex-col items-center md:items-stretch p-4 rounded-xl border transition-all duration-200 ${
                     isEnabled
-                      ? 'border-blue-500/50 bg-blue-500/10'
-                      : 'border-gray-700 bg-gray-800/30'
+                      ? 'border-terracotta-300 bg-terracotta-50'
+                      : 'border-stone-200 bg-stone-50'
                   }`}
                 >
-                  {/* Toggle et nom du jour */}
-                  <div className="flex items-center gap-4">
+                  {/* Toggle et nom du jour (row on small screens) */}
+                  <div className="flex items-center gap-3 mr-3 md:mb-3 md:mr-0">
                     <button
                       onClick={() => handleToggleDay(day.id)}
-                      className={`w-12 h-7 rounded-full relative transition-colors duration-200 ${
-                        isEnabled ? 'bg-blue-500' : 'bg-gray-600'
+                      className={`w-10 h-6 rounded-full relative transition-colors duration-200 shrink-0 ${
+                        isEnabled ? 'bg-terracotta-500' : 'bg-stone-300'
                       }`}
                     >
                       <div
-                        className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
-                          isEnabled ? 'translate-x-6' : 'translate-x-1'
+                        className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
+                          isEnabled ? 'translate-x-5' : 'translate-x-0.5'
                         }`}
                       />
                     </button>
-                    <span
-                      className={`font-medium ${
-                        isEnabled ? 'text-white' : 'text-gray-400'
-                      }`}
-                    >
+                    <span className={`font-medium text-sm ${
+                      isEnabled ? 'text-charcoal-900' : 'text-stone-500'
+                    } whitespace-nowrap`}>
                       {day.name}
                     </span>
                   </div>
 
                   {/* Input heure */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center flex-1 w-full">
                     {isEnabled ? (
-                      <>
-                        <input
-                          type="time"
-                          value={time}
-                          onChange={(e) => handleTimeChange(day.id, e.target.value)}
-                          className="bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
-                        />
-                      </>
+                      <input
+                        type="time"
+                        value={time}
+                        onChange={(e) => handleTimeChange(day.id, e.target.value)}
+                        className="bg-white border border-stone-300 rounded-lg px-1 py-1 text-charcoal-800 text-sm focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all w-full"
+                      />
                     ) : (
-                      <span className="text-gray-500 text-sm">Désactivé</span>
+                      <span className="text-stone-400 text-xs text-center w-full py-3">-</span>
                     )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Résumé */}
-          <div className="flex items-center justify-between py-4 border-t border-gray-700">
-            <div className="text-gray-400">
-              <span className="text-blue-400 font-bold">{enabledCount}</span> jour
-              {enabledCount > 1 ? 's' : ''} planifié{enabledCount > 1 ? 's' : ''}
-            </div>
-
-            {/* Bouton sauvegarder */}
-            <button
-              onClick={handleSave}
-              disabled={!hasChanges || isSaving}
-              className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
-                hasChanges
-                  ? 'bg-green-500 hover:bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-              }`}
-            >
-              {isSaving ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin />
-                  Sauvegarde...
-                </>
-              ) : saveSuccess ? (
-                <>
-                  <FontAwesomeIcon icon={faCheckCircle} />
-                  Sauvegardé !
-                </>
-              ) : (
-                <>
-                  <FontAwesomeIcon icon={faSave} />
-                  Sauvegarder
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Note informative */}
-          <p className="text-gray-500 text-sm">
-            <FontAwesomeIcon icon={faLightbulb} className="mr-2 text-yellow-400" />Les extractions automatiques seront déclenchées aux heures configurées pour <span className="font-medium text-white">{selectedSource}</span>.
-          </p>
+            );
+          })}
         </div>
-      )}
+        )}
+
+        {/* Résumé */}
+        <div className="flex items-center justify-between py-4 border-t border-stone-200">
+          <div className="text-stone-600">
+            <span className="text-dustyBlue-600 font-bold">{enabledCount}</span> day
+            {enabledCount > 1 ? 's' : ''} scheduled
+          </div>
+
+          {/* Bouton sauvegarder */}
+          <button
+            onClick={handleSave}
+            disabled={!hasChanges || isSaving}
+            className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+              hasChanges
+                ? 'bg-sage-500 hover:bg-sage-600 text-white shadow-vintage hover:shadow-vintage-lg'
+                : 'bg-stone-200 text-stone-400 cursor-not-allowed'
+            }`}
+          >
+            {isSaving ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin />
+                Sauvegarde...
+              </>
+            ) : saveSuccess ? (
+              <>
+                <FontAwesomeIcon icon={faCheckCircle} className="animate-bounce" />
+                Sauvegardé !
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faSave} />
+                Sauvegarder
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Note informative */}
+        <p className="text-stone-600 text-sm">
+          <FontAwesomeIcon icon={faLightbulb} className="mr-2 text-amber-500" />Automatic extractions will be triggered at the configured times for <span className="font-medium text-charcoal-900">{sources?.find(s => s.id === selectedSourceId)?.name}</span>.
+        </p>
+      </div>
+    </div>
     </section>
   );
 }

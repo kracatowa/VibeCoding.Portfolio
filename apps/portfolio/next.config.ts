@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { source: '/projects/data-integration/_next/:path*', destination: `${DATA_INTEGRATION_URL}/projects/data-integration/_next/:path*` },
     ];
   },
+  transpilePackages: ['@portfolio/shared-ui'],
 };
 
 export default nextConfig;

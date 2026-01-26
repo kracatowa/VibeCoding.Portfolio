@@ -1,9 +1,102 @@
 @import "tailwindcss";
+@source "../**/*.tsx";
 @source "../../../../packages/shared-ui/src/**/*.tsx";
 
+@theme {
+  --color-terracotta-50: #fef5f3;
+  --color-terracotta-100: #fce8e3;
+  --color-terracotta-200: #f8cec5;
+  --color-terracotta-300: #f3afa2;
+  --color-terracotta-400: #ed8b77;
+  --color-terracotta-500: #e26850;
+  --color-terracotta-600: #d04e39;
+  --color-terracotta-700: #ae4030;
+  --color-terracotta-800: #8e362b;
+  --color-terracotta-900: #752e27;
+  
+  --color-sage-50: #f7f9f7;
+  --color-sage-100: #eff3ef;
+  --color-sage-200: #dce6dc;
+  --color-sage-300: #c3d6c3;
+  --color-sage-400: #a3c0a3;
+  --color-sage-500: #7fa87f;
+  --color-sage-600: #5e8a5e;
+  --color-sage-700: #4a6d4a;
+  --color-sage-800: #3c573c;
+  --color-sage-900: #314831;
+  
+  --color-dustyBlue-50: #f5f7fa;
+  --color-dustyBlue-100: #ebeff5;
+  --color-dustyBlue-200: #d3dce8;
+  --color-dustyBlue-300: #b0c2d8;
+  --color-dustyBlue-400: #88a3c4;
+  --color-dustyBlue-500: #6886b0;
+  --color-dustyBlue-600: #526d96;
+  --color-dustyBlue-700: #445879;
+  --color-dustyBlue-800: #3a4b64;
+  --color-dustyBlue-900: #334055;
+  
+  --color-amber-50: #fffbf0;
+  --color-amber-100: #fef6dd;
+  --color-amber-200: #fceabb;
+  --color-amber-300: #f9d988;
+  --color-amber-400: #f5c04d;
+  --color-amber-500: #f0a726;
+  --color-amber-600: #df8a17;
+  --color-amber-700: #b96b14;
+  --color-amber-800: #955318;
+  --color-amber-900: #7a4418;
+  
+  --color-lavender-50: #f9f7fd;
+  --color-lavender-100: #f2eefa;
+  --color-lavender-200: #e7dff5;
+  --color-lavender-300: #d6c6eb;
+  --color-lavender-400: #bfa4dd;
+  --color-lavender-500: #a67fcc;
+  --color-lavender-600: #8c5fb8;
+  --color-lavender-700: #744b9d;
+  --color-lavender-800: #5f3e82;
+  --color-lavender-900: #4f356b;
+  
+  --color-stone-50: #fafaf9;
+  --color-stone-100: #f5f5f4;
+  --color-stone-200: #e7e5e4;
+  --color-stone-300: #d6d3d1;
+  --color-stone-400: #a8a29e;
+  --color-stone-500: #78716c;
+  --color-stone-600: #57534e;
+  --color-stone-700: #44403c;
+  --color-stone-800: #292524;
+  --color-stone-900: #1c1917;
+  
+  --color-charcoal-50: #fafaf9;
+  --color-charcoal-100: #f5f5f4;
+  --color-charcoal-200: #e7e5e4;
+  --color-charcoal-300: #d6d3d1;
+  --color-charcoal-400: #a8a29e;
+  --color-charcoal-500: #78716c;
+  --color-charcoal-600: #57534e;
+  --color-charcoal-700: #44403c;
+  --color-charcoal-800: #292524;
+  --color-charcoal-900: #1c1917;
+}
+
+/* Legacy CSS Variables for compatibility */
 :root {
-  --background: #0f172a;
-  --foreground: #f8fafc;
+  --terracotta: #e26850;
+  --terracotta-light: #f3afa2;
+  --sage: #7fa87f;
+  --sage-light: #c3d6c3;
+  --dusty-blue: #6886b0;
+  --dusty-blue-light: #b0c2d8;
+  --amber: #f0a726;
+  --amber-light: #f9d988;
+  --lavender: #a67fcc;
+  --ivory: #fefdfb;
+  --warm-white: #faf8f5;
+  --stone: #78716c;
+  --stone-light: #d6d3d1;
+  --charcoal: #292524;
 }
 
 * {
@@ -11,31 +104,35 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: var(--foreground);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--ivory);
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03' /%3E%3C/svg%3E");
+  color: var(--charcoal);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  line-height: 1.6;
 }
 
+/* Scrollbar - Minimal and elegant */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: var(--warm-white);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
-  border-radius: 4px;
+  background: var(--stone-light);
+  border-radius: 6px;
+  border: 2px solid var(--warm-white);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: var(--sage);
 }
 
-/* Animations */
+/* Animations - Subtle */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -48,14 +145,21 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.4s ease forwards;
 }
 
+/* Tables with vintage aesthetic */
 table {
   border-collapse: separate;
   border-spacing: 0;
+  background: white;
+  border: 2px solid var(--stone-light);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
+/* Time input styling */
 input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: none;
+  opacity: 0.6;
 }

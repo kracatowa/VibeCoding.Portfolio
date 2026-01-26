@@ -1,15 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getTemplates } from '@/lib/database';
 
-export async function GET(req: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const url = new URL(req.url);
-    const source = url.searchParams.get('source') || undefined;
-    const templates = getTemplates(source);
-    return NextResponse.json({ templates });
+    const url = new URL(request.url);
+    const sourceId = url.searchParams.get('source') || undefined;
+
+    const templates = getTemplates(sourceId);
+    return NextResponse.json( templates );
   } catch (err) {
     return NextResponse.json({ error: 'Failed to fetch templates' }, { status: 500 });
   }
 }
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
