@@ -18,7 +18,7 @@ const projects = [
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="h-screen w-screen px-6 flex items-center">
+    <section id="portfolio" className="pt-24 sm:pt-20 lg:pt-12 px-6">
       <div className="mx-auto w-full max-w-4xl">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-light mb-4" style={{ fontFamily: 'Georgia, serif' }}>
@@ -43,7 +43,7 @@ export default function Portfolio() {
 
               <div className="mb-4">
                 <h4 className="text-xs font-medium text-stone-600 mb-2">
-                  Features
+                  Fonctionnalités clés:
                 </h4>
                 <ul className="text-xs text-stone-600 space-y-1">
                   {project.features.map((feature, i) => (
