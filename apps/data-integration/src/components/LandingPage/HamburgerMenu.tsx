@@ -51,7 +51,7 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
         onClick={toggleMenu}
         aria-expanded={isOpen}
         className="relative p-2.5 text-charcoal-700 hover:text-charcoal-900 hover:bg-stone-100 rounded-lg transition-all duration-200"
-        aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
+        aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
       >
         <FontAwesomeIcon
           icon={isOpen ? faTimes : faBars}
@@ -143,7 +143,7 @@ export default function HamburgerMenu({ menuItems = [] }: HamburgerMenuProps) {
           {/* Footer */}
           <div className="px-6 py-4 border-t border-stone-200">
             <p className="text-xs text-stone-500 text-center">
-              Data Integration Hub
+              Hub d'intégration de données
             </p>
           </div>
         </div>

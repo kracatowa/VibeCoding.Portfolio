@@ -91,7 +91,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
       <div className="bg-white rounded-xl p-8 border-2 border-stone-200 shadow-vintage">
         <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{ fontFamily: 'Georgia, serif' }}>
           <span className="text-2xl"><FontAwesomeIcon icon={faBullseye} className="text-terracotta-500" /></span>
-          Manual Trigger
+          Déclenchement manuel
         </h2>
 
         <div className="space-y-4">
@@ -119,7 +119,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
           {/* Sélection de la source */}
           <div>
             <label className="block text-sm font-medium text-stone-700 mb-4">
-              Data Source
+              Source de données
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {!sources ? (
@@ -148,7 +148,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
           {/* Sélection de l'intervalle */}
           <div>
             <label className="block text-sm font-medium text-stone-700 mb-4">
-              Time Interval
+              Intervalle de temps
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {intervals.map((interval) => (
@@ -169,7 +169,7 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
           {/*TODO STACK ON ROW LARGE SCREEN*/}
           {/* Template selector */}
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-3">CSV Template</label>
+            <label className="block text-sm font-medium text-stone-700 mb-3">Modèle CSV</label>
             <div className="grid grid-cols-1">
               <select
                 value={selectedTemplateId ?? ''}
@@ -178,9 +178,9 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                 className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
               >
                 {loadingTemplates ? (
-                  <option>Loading...</option>
+                  <option>Chargement...</option>
                 ) : templates?.length === 0 ? (
-                  <option>No templates</option>
+                  <option>Aucun modèle</option>
                 ) : (
                   templates?.map((t) => (
                     <option key={t.id} value={t.id}>{t.name}</option>
@@ -201,9 +201,9 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
                 className="bg-white border border-stone-300 rounded-xl p-3 text-charcoal-800 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200 transition-all"
               >
                 {loadingDestinations ? (
-                  <option>Loading...</option>
+                  <option>Chargement...</option>
                 ) : destinations?.length === 0 ? (
-                  <option>No destinations</option>
+                  <option>Aucune destination</option>
                 ) : (
                   destinations?.map((d) => (
                     <option key={d.id} value={d.id}>{d.name}</option>
@@ -225,19 +225,19 @@ export default function ManualTrigger({ onTrigger, isRunning }: Props) {
             {isRunning ? (
               <>
                 <FontAwesomeIcon icon={faSpinner} spin className="text-amber-500" />
-                Extraction in progress...
+                Extraction en cours...
               </>
             ) : (
               <>
                 <FontAwesomeIcon icon={faRocket} className="text-white" />
-                Start Extraction
+                Démarrer l'extraction
               </>
             )}
           </button>
 
           {/* Info */}
           <p className="text-stone-600 text-sm text-center">
-            Launch an immediate extraction from the selected source
+            Lancer une extraction immédiate depuis la source sélectionnée
           </p>
         </div>
       </div>

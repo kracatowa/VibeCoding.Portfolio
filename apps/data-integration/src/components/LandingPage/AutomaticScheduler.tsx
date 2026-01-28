@@ -144,7 +144,7 @@ export default function AutomaticScheduler() {
       <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-vintage">
         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-charcoal-900">
           <span className="text-2xl text-sage-500"><FontAwesomeIcon icon={faClock} /></span>
-          Automatic Scheduling
+          Planification automatique
         </h2>
 
         {/* Error alerts */}
@@ -187,7 +187,7 @@ export default function AutomaticScheduler() {
 
           {/* Template selector */}
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-3">Template</label>
+            <label className="block text-sm font-medium text-stone-700 mb-3">Modèle</label>
             <select
               value={selectedTemplateId}
               onChange={(e) => setSelectedTemplateId(e.target.value)}
@@ -260,8 +260,7 @@ export default function AutomaticScheduler() {
           {/* Résumé */}
           <div className="flex items-center justify-between py-4 border-t border-stone-200">
             <div className="text-stone-600">
-              <span className="text-dustyBlue-600 font-bold">{enabledCount}</span> day
-              {enabledCount > 1 ? 's' : ''} scheduled
+              <span className="text-dustyBlue-600 font-bold">{enabledCount}</span> jour{enabledCount > 1 ? 's' : ''} programmé{enabledCount > 1 ? 's' : ''}
             </div>
 
             {/* Bouton sauvegarder */}
@@ -294,7 +293,7 @@ export default function AutomaticScheduler() {
 
           {/* Note informative */}
           <p className="text-stone-600 text-sm">
-            <FontAwesomeIcon icon={faLightbulb} className="mr-2 text-amber-500" />Automatic extractions will be triggered at the configured times for <span className="font-medium text-charcoal-900">{sources?.find(s => s.id === selectedSourceId)?.name}</span>.
+            <FontAwesomeIcon icon={faLightbulb} className="mr-2 text-amber-500" />Les extractions automatiques seront déclenchées aux heures configurées pour <span className="font-medium text-charcoal-900">{sources?.find(s => s.id === selectedSourceId)?.name}</span>.
           </p>
         </div>
       </div>
