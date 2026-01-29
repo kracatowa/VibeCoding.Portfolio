@@ -24,14 +24,13 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-ivory-50/95 backdrop-blur-sm border-b border-stone-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-dark-400/95 backdrop-blur-sm border-b border-zinc-800">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
             href="/"
-            className="text-xl font-semibold text-dustyBlue-600 hover:text-dustyBlue-700 transition-colors"
-            style={{ fontFamily: 'Georgia, serif' }}
+            className="text-xl font-medium text-zinc-50 hover:text-cyan-400 transition-colors tracking-wide"
           >
             Océan Barras
           </Link>
@@ -42,18 +41,17 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? 'text-dustyBlue-600'
-                    : 'text-stone-600 hover:text-dustyBlue-600'
-                }`}
+                className={`text-sm font-medium transition-colors tracking-wide ${isActive(link.href)
+                    ? 'text-cyan-400'
+                    : 'text-zinc-400 hover:text-zinc-50'
+                  }`}
               >
                 {link.label}
               </Link>
             ))}
             <Link
               href="/contact"
-              className="px-4 py-2 rounded-md text-sm font-medium bg-dustyBlue-600 text-white hover:bg-dustyBlue-700 transition-colors"
+              className="px-4 py-2 rounded text-sm font-medium border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-dark-400 transition-all duration-300"
             >
               Me contacter
             </Link>
@@ -62,7 +60,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-stone-600 hover:text-dustyBlue-600 transition-colors"
+            className="md:hidden p-2 text-zinc-400 hover:text-cyan-400 transition-colors"
             aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
             <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="w-6 h-6" />
@@ -71,18 +69,17 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-stone-200">
+          <div className="md:hidden py-4 border-t border-zinc-800">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-sm font-medium transition-colors ${
-                    isActive(link.href)
-                      ? 'text-dustyBlue-600'
-                      : 'text-stone-600 hover:text-dustyBlue-600'
-                  }`}
+                  className={`text-sm font-medium transition-colors ${isActive(link.href)
+                      ? 'text-cyan-400'
+                      : 'text-zinc-400 hover:text-zinc-50'
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -90,7 +87,7 @@ export default function Navigation() {
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="inline-flex justify-center px-4 py-2 rounded-md text-sm font-medium bg-dustyBlue-600 text-white hover:bg-dustyBlue-700 transition-colors"
+                className="inline-flex justify-center px-4 py-2 rounded text-sm font-medium border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-dark-400 transition-all duration-300"
               >
                 Me contacter
               </Link>
