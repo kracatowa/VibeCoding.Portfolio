@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      
+
       <head>
         <script
           type="application/ld+json"
@@ -45,7 +45,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="MHmjbtJQoM87qrqzPyVrzHjX5vCk0pBinhmJg_ATPYE" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-ivory-50`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-dark-400`}
       >
         <Navigation />
         <main className="pt-16 min-h-screen">

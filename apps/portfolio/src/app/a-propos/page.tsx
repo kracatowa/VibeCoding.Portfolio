@@ -17,7 +17,7 @@ import { createMetadata } from '@/lib/seo';
 export const metadata: Metadata = createMetadata(
   'a-propos',
   'À propos - Mon parcours professionnel',
-  'Océan Barras - Développeur Web & Cloud Senior avec plus de 5 ans d\'expérience. Parcours professionnel, compétences techniques et valeurs.',
+  'Océan Barras - Spécialisé en Modernisation cloud, Automatisation et Intégration de données. Développeur Web & Cloud Senior basé à Québec avec plus de 5 ans d\'expérience.',
   ['à propos', 'parcours', 'expérience', 'compétences', 'biographie']
 );
 
@@ -45,7 +45,7 @@ const experiences = [
   },
   {
     company: 'Entreprise du secteur financier',
-    role: 'Développeur Web & Cloud (.NET / Azure)',
+    role: 'Développeur Backend & Cloud (.NET / Azure)',
     period: '2020 – 2022',
     highlights: [
       'Modernisation de systèmes de paiements à haut volume',
@@ -67,7 +67,7 @@ const skills = [
   {
     category: 'Langages & Frameworks',
     icon: faCode,
-    items: ['.NET 9 (C#)', 'VB.NET', 'HTML/CSS', 'JavaScript/TypeScript', 'Python', 'Java'],
+    items: ['.NET 9 (C#)', 'HTML/CSS', 'TypeScript', 'Python'],
   },
   {
     category: 'Cloud & DevOps',
@@ -77,12 +77,18 @@ const skills = [
   {
     category: 'Bases de données',
     icon: faDatabase,
-    items: ['MS SQL', 'Azure SQL', 'PostgreSQL', 'MongoDB'],
+    items: ['MS SQL', 'MongoDB'],
   },
   {
     category: 'Architecture & Pratiques',
     icon: faCogs,
     items: ['API REST', 'Microservices', 'CQRS', 'OAuth2/JWT', 'Code Review'],
+  },
+  {
+    category: 'Intelligence Artificielle',
+    icon: faCogs,
+    items: ['GitHub Copilot', 'ChatGPT', 'Documentation assistée', 'Tests automatisés', 'Revues de code'],
+    badge: true,
   },
 ];
 
@@ -113,45 +119,43 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="py-20 px-6">
+      <section className="min-h-[calc(100vh-4rem)] flex flex-col justify-center px-6 py-12 relative">
         <div className="max-w-4xl mx-auto">
-          <h1
-            className="text-4xl md:text-5xl font-light mb-6 text-center"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            <span className="text-dustyBlue-600 font-semibold">À propos</span>
-          </h1>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-light text-zinc-50 mb-6">
+              À propos
+            </h1>
+            <div className="w-16 h-px bg-cyan-400 mx-auto"></div>
+          </div>
 
-          <div className="bg-white/60 p-8 rounded-lg border border-stone-200">
+          <div className="bg-dark-100 p-8 rounded border border-zinc-800">
             <div className="flex flex-col md:flex-row gap-8 items-start">
               <div className="flex-1">
-                <p className="text-lg text-stone-600 mb-4 leading-relaxed">
-                  Je suis <strong className="text-stone-800">Océan Barras</strong>, développeur
-                  Web & Cloud Senior basé à <strong className="text-stone-800">Québec, QC</strong>.
+                <p className="text-lg text-zinc-400 mb-4 leading-relaxed">
+                  Je suis <span className="text-zinc-200">Océan Barras</span>, développeur
+                  Web & Cloud Senior basé à <span className="text-zinc-200">Québec, QC</span>.
                 </p>
-                <p className="text-stone-600 mb-4 leading-relaxed">
-                  Avec plus de <strong className="text-stone-800">5 ans d'expérience</strong> dans
-                  le développement d'applications d'entreprise, je me spécialise en{' '}
-                  <strong className="text-stone-800">.NET, Azure</strong> et{' '}
-                  <strong className="text-stone-800">intégration de données</strong>.
+                <p className="text-zinc-400 mb-4 leading-relaxed">
+                  Spécialisé en <span className="text-zinc-200">Modernisation cloud</span>, <span className="text-zinc-200">Automatisation</span> et <span className="text-zinc-200">Intégration de données</span>, j'aide les équipes à migrer leurs
+                  systèmes, automatiser les processus métiers et centraliser les données critiques pour de meilleures décisions opérationnelles.
                 </p>
-                <p className="text-stone-600 mb-6 leading-relaxed">
-                  J'ai travaillé pour des organisations du secteur financier et certains ministères, où j'ai développé des solutions critiques traitant
-                  des milliers de transactions quotidiennes.
+                <p className="text-zinc-400 mb-6 leading-relaxed">
+                  Fort de plus de <span className="text-zinc-200">5 ans d'expérience</span>, j'ai accompagné des organisations du secteur financier
+                  et public dans la modernisation de leurs plateformes et la mise en place de pipelines de données fiables et observables.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="https://linkedin.com/in/ocean-barras"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-dustyBlue-600 text-white hover:bg-dustyBlue-700 transition-colors"
+                    className="inline-flex items-center px-4 py-2 rounded text-sm font-medium border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-dark-400 transition-all duration-300"
                   >
                     <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 mr-2" />
                     LinkedIn
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border border-dustyBlue-600 text-dustyBlue-700 hover:bg-dustyBlue-50 transition-colors"
+                    className="inline-flex items-center px-4 py-2 rounded text-sm font-medium border border-zinc-700 text-zinc-300 hover:border-zinc-500 transition-all duration-300"
                   >
                     Me contacter
                   </Link>
@@ -163,30 +167,40 @@ export default function AboutPage() {
       </section>
 
       {/* Skills */}
-      <section className="py-16 px-6 bg-white/40">
+      <section className="py-16 px-6 border-t border-zinc-800">
         <div className="max-w-5xl mx-auto">
-          <h2
-            className="text-3xl font-light mb-8 text-center"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            <span className="text-dustyBlue-600 font-semibold">Compétences techniques</span>
-          </h2>
+          <div className="text-center mb-12">
+            <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
+              E X P E R T I S E
+            </p>
+            <h2 className="text-3xl font-light text-zinc-50">
+              Compétences techniques
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="bg-white/80 p-6 rounded-lg border border-stone-200"
+                className={`group bg-dark-100 p-6 rounded border transition-all duration-300 ${skill.badge ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-800 hover:border-zinc-700'
+                  }`}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="text-dustyBlue-500">
-                    <FontAwesomeIcon icon={skill.icon} className="w-5 h-5" />
+                  <div className={`transition-colors ${skill.badge ? 'text-emerald-400' : 'text-zinc-600 group-hover:text-cyan-400'
+                    }`}>
+                    <FontAwesomeIcon icon={skill.icon} className="w-4 h-4" />
                   </div>
-                  <h3 className="font-semibold text-stone-800 text-sm">{skill.category}</h3>
+                  {skill.badge && (
+                    <span className="text-[10px] px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 font-medium">
+                      NOUVEAU
+                    </span>
+                  )}
                 </div>
+                <h3 className={`font-medium text-sm mb-4 ${skill.badge ? 'text-emerald-400' : 'text-zinc-200'
+                  }`}>{skill.category}</h3>
                 <ul className="space-y-1">
                   {skill.items.map((item) => (
-                    <li key={item} className="text-sm text-stone-600">
+                    <li key={item} className="text-sm text-zinc-500">
                       {item}
                     </li>
                   ))}
@@ -198,39 +212,46 @@ export default function AboutPage() {
       </section>
 
       {/* Experience */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 border-t border-zinc-800">
         <div className="max-w-4xl mx-auto">
-          <h2
-            className="text-3xl font-light mb-8 text-center"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            <span className="text-dustyBlue-600 font-semibold flex items-center justify-center gap-3">
-              <FontAwesomeIcon icon={faBriefcase} className="w-6 h-6" />
+          <div className="text-center mb-12">
+            <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
+              P A R C O U R S
+            </p>
+            <h2 className="text-3xl font-light text-zinc-50 flex items-center justify-center gap-3">
+              <FontAwesomeIcon icon={faBriefcase} className="w-6 h-6 text-zinc-600" />
               Expérience professionnelle
-            </span>
-          </h2>
+            </h2>
+          </div>
 
           <div className="space-y-6">
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className="bg-white/60 p-6 rounded-lg border border-stone-200 relative"
+                className="group bg-dark-100 p-6 rounded border border-zinc-800 hover:border-zinc-700 transition-all duration-300"
               >
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
-                  <div>
-                    <h3 className="font-semibold text-stone-800">{exp.company}</h3>
-                    <p className="text-dustyBlue-600 text-sm">{exp.role}</p>
+                <div className="flex items-start gap-4">
+                  <span className="text-xs font-mono text-cyan-400/60 mt-1">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
+                      <div>
+                        <h3 className="font-medium text-zinc-200">{exp.company}</h3>
+                        <p className="text-cyan-400/80 text-sm">{exp.role}</p>
+                      </div>
+                      <span className="text-sm text-zinc-600 font-mono">{exp.period}</span>
+                    </div>
+                    <ul className="space-y-2">
+                      {exp.highlights.map((highlight, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-zinc-500">
+                          <span className="text-emerald-500/70 mt-1">•</span>
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <span className="text-sm text-stone-500">{exp.period}</span>
                 </div>
-                <ul className="space-y-2">
-                  {exp.highlights.map((highlight, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-stone-600">
-                      <span className="text-sage-500 mt-1">•</span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
               </div>
             ))}
           </div>
@@ -238,33 +259,35 @@ export default function AboutPage() {
       </section>
 
       {/* Education */}
-      <section className="py-16 px-6 bg-white/40">
+      <section className="py-16 px-6 border-t border-zinc-800">
         <div className="max-w-4xl mx-auto">
-          <h2
-            className="text-3xl font-light mb-8 text-center"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            <span className="text-dustyBlue-600 font-semibold flex items-center justify-center gap-3">
-              <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6" />
-              Formation
-            </span>
-          </h2>
+          <div className="text-center mb-12">
+            <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
+              F O R M A T I O N
+            </p>
+            <h2 className="text-3xl font-light text-zinc-50 flex items-center justify-center gap-3">
+              <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 text-zinc-600" />
+              Éducation
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white/80 p-6 rounded-lg border border-stone-200">
-              <h3 className="font-semibold text-stone-800 mb-2">
+            <div className="bg-dark-100 p-6 rounded border border-zinc-800">
+              <span className="text-xs font-mono text-cyan-400/60 mb-3 block">01</span>
+              <h3 className="font-medium text-zinc-200 mb-2">
                 DEC en informatique de gestion
               </h3>
-              <p className="text-dustyBlue-600 text-sm mb-1">Cégep Limoilou</p>
-              <p className="text-stone-500 text-sm">2017 – 2020</p>
+              <p className="text-cyan-400/80 text-sm mb-1">Cégep Limoilou</p>
+              <p className="text-zinc-600 text-sm font-mono">2017 – 2020</p>
             </div>
 
-            <div className="bg-amber-50 p-6 rounded-lg border border-amber-200">
-              <div className="flex items-center gap-2 mb-2">
-                <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-amber-600" />
-                <h3 className="font-semibold text-stone-800">Bourse Gilles Joncas (2021)</h3>
+            <div className="bg-dark-100 p-6 rounded border border-emerald-500/30">
+              <div className="flex items-center gap-2 mb-3">
+                <FontAwesomeIcon icon={faTrophy} className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-mono text-emerald-400/60">DISTINCTION</span>
               </div>
-              <p className="text-stone-600 text-sm">
+              <h3 className="font-medium text-zinc-200 mb-2">Bourse Gilles Joncas (2021)</h3>
+              <p className="text-zinc-500 text-sm">
                 Remise pour excellence académique et performance en stage
               </p>
             </div>
@@ -273,23 +296,28 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 border-t border-zinc-800">
         <div className="max-w-4xl mx-auto">
-          <h2
-            className="text-3xl font-light mb-8 text-center"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            <span className="text-dustyBlue-600 font-semibold">Mes valeurs</span>
-          </h2>
+          <div className="text-center mb-12">
+            <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
+              P H I L O S O P H I E
+            </p>
+            <h2 className="text-3xl font-light text-zinc-50">
+              Mes valeurs
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="bg-white/60 p-6 rounded-lg border border-stone-200"
+                className="group bg-dark-100 p-6 rounded border border-zinc-800 hover:border-zinc-700 transition-all duration-300"
               >
-                <h3 className="font-semibold text-stone-800 mb-2">{value.title}</h3>
-                <p className="text-sm text-stone-600">{value.description}</p>
+                <span className="text-xs font-mono text-cyan-400/60 mb-3 block">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 className="font-medium text-zinc-200 mb-2">{value.title}</h3>
+                <p className="text-sm text-zinc-500">{value.description}</p>
               </div>
             ))}
           </div>
@@ -297,20 +325,20 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-6 bg-dustyBlue-600">
+      <section className="py-20 px-6 border-t border-zinc-800 bg-dark-100">
         <div className="max-w-4xl mx-auto text-center">
-          <h2
-            className="text-3xl font-light mb-4 text-white"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
+          <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
+            C O N T A C T
+          </p>
+          <h2 className="text-3xl font-light mb-6 text-zinc-50">
             Travaillons ensemble
           </h2>
-          <p className="text-dustyBlue-100 mb-8 max-w-xl mx-auto">
+          <p className="text-zinc-500 mb-10 max-w-xl mx-auto">
             Vous avez un projet? Discutons de comment je peux vous aider.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center px-6 py-3 rounded-md text-base font-medium bg-white text-dustyBlue-700 hover:bg-dustyBlue-50 transition-colors"
+            className="inline-flex items-center px-6 py-3 rounded text-sm font-medium border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-dark-400 transition-all duration-300"
           >
             Me contacter
             <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ml-2" />
