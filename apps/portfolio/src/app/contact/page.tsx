@@ -43,7 +43,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[calc(100vh-12rem)] flex flex-col justify-center px-6 py-12 relative">
+      <section className="min-h-[calc(100vh-4rem)] flex flex-col justify-center px-6 py-12 relative">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
             C O N T A C T
