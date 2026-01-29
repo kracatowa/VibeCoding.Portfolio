@@ -106,9 +106,6 @@ export default function ServicesPage() {
       {/* Hero */}
       <section className="min-h-[calc(100vh-8rem)] flex flex-col justify-center px-6 py-12 relative">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
-            E X P E R T I S E
-          </p>
           <h1 className="text-4xl md:text-5xl font-light text-zinc-50 mb-6">
             Services
           </h1>

@@ -26,13 +26,10 @@ export default function ProjectsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[calc(100vh-8rem)] flex flex-col justify-center mb-6 px-6">
+      <section className="min-h-[calc(100vh-12rem)] flex flex-col justify-center mb-6 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
-            P O R T F O L I O
-          </p>
           <h1 className="text-4xl md:text-5xl font-light text-zinc-50 mb-6">
-            Projets
+            Portfolio
           </h1>
           <div className="w-16 h-px bg-cyan-400 mx-auto mb-8"></div>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">

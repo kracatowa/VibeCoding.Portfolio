@@ -122,9 +122,6 @@ export default function AboutPage() {
       <section className="min-h-[calc(100vh-4rem)] flex flex-col justify-center px-6 py-12 relative">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-xs font-medium text-zinc-600 uppercase tracking-[0.3em] mb-4">
-              B I O G R A P H I E
-            </p>
             <h1 className="text-4xl md:text-5xl font-light text-zinc-50 mb-6">
               À propos
             </h1>
