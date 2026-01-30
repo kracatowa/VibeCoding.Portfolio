@@ -18,6 +18,7 @@ Le projet est conçu comme un terrain d’expérimentation évolutif, autant sur
 - **Next.js** : rendu côté serveur (SSR), performance et SEO.
 - **Node.js** : logique backend et intégrations.
 - **SEO (Google)** : optimisation du référencement via mots-clés, métadonnées et structure de page.
+- **Github Copilot** : Les principaux agents utilisés selon le contexte : GPT5-Mini, Claude Sonnet 4.5, Claude Opus 4.5
 
 ## Hébergement
 - **Vercel (offre gratuite)** : déploiement continu, performance globale et simplicité d’infrastructure.
