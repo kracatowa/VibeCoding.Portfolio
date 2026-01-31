@@ -30,6 +30,7 @@ module.exports = __toCommonJS(src_exports);
 var import_react = require("react");
 var import_jsx_runtime = require("react/jsx-runtime");
 function Logo({ className }) {
+  const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || "https://ocean-barras.vercel.app/";
   const svgRef = (0, import_react.useRef)(null);
   const handleLoad = () => {
     if (svgRef.current)
@@ -41,10 +42,10 @@ function Logo({ className }) {
       svgRef.current.style.display = "inline-block";
   };
   const basePath = typeof window !== "undefined" && window.__NEXT_DATA__?.props?.pageProps?.basePath ? window.__NEXT_DATA__.props.pageProps.basePath : process.env.NEXT_PUBLIC_BASE_PATH || "";
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { href: "/", "aria-label": "Oc\xE9an Barras", className: `flex items-center gap-3 no-underline text-slate-100 ${className ?? ""}`, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", { href: portfolioUrl, "aria-label": "Oc\xE9an Barras", className: `flex items-center gap-3 no-underline text-dustyBlue-600 ${className ?? ""}`, children: [
     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: `${basePath}/wave-logo.png`, alt: "Oc\xE9an Barras", className: "w-10 h-10 shrink-0 rounded-lg object-cover", onLoad: handleLoad, onError: handleError }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "font-bold text-base text-slate-100 md:hidden", children: "OB" }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "font-bold text-base text-slate-100 hidden md:inline", children: "Oc\xE9an Barras" })
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "font-bold text-base text-dustyBlue-600 md:hidden", children: "OB" }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "font-bold text-base text-dustyBlue-600 hidden md:inline", children: "Oc\xE9an Barras" })
   ] });
 }
 
@@ -59,7 +60,7 @@ function DemoHeader({
     { href: "/about", label: "About" }
   ];
   const links = navLinks ?? defaultLinks;
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { className: "flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white backdrop-blur-md sticky top-0 z-50 w-full shadow-vintage", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("header", { className: "flex items-center justify-between px-6 py-4 border-b-2 border-stone-200 bg-white sticky top-0 z-50 w-full shadow-vintage", children: [
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "shrink-0", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Logo, {}) }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("nav", { "aria-label": "Demo navigation", className: "flex-1 flex gap-3 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { className: "flex gap-8 list-none m-0 p-0 items-center flex-nowrap whitespace-nowrap", children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("a", { href: l.href, className: "text-stone-600 no-underline text-sm font-medium px-3 py-2 rounded transition-colors duration-200 hover:text-terracotta-600 hover:bg-terracotta-50", children: l.label }) }, l.href)) }) }),
     rightContent && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "shrink-0 ml-4", children: rightContent })

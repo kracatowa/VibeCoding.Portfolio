@@ -146,7 +146,7 @@ export default function ExtractionSteps({ currentStep, stepStatus, isRunning }: 
       <div className="bg-white rounded-xl p-8 border-2 border-stone-200 shadow-vintage">
         <h2 className="text-2xl font-light mb-8 flex items-center gap-3 text-charcoal-800" style={{ fontFamily: 'Georgia, serif' }}>
           <span className="text-2xl">📋</span>
-          Extraction Steps
+          Étapes d'extraction
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -40,8 +40,11 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-12 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section
+      id="contact"
+      className="pt-12 sm:pt-28 lg:pt-16 pb-12 px-6"
+    >
+      <div className="mx-auto w-full max-w-4xl">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-light mb-4" style={{ fontFamily: 'Georgia, serif' }}>
             <span className="text-dustyBlue-600 font-semibold">Contact</span>
@@ -56,7 +59,7 @@ export default function Contact() {
             <div className="text-terracotta-500 mb-3 flex justify-center ">
               <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
             </div>
-            <h3 className="font-medium mb-2 text-stone-800 text-sm">Email</h3>
+            <h3 className="font-medium mb-2 text-stone-800 text-sm">Courriel</h3>
             <p className="text-stone-600 text-xs">
               ocean.barras@hotmail.com
             </p>
@@ -69,7 +72,7 @@ export default function Contact() {
             <div className="text-dustyBlue-500 mb-3 flex justify-center">
               <FontAwesomeIcon icon={faPhone} className="w-6 h-6" />
             </div>
-            <h3 className="font-medium mb-2 text-stone-800 text-sm">Phone</h3>
+            <h3 className="font-medium mb-2 text-stone-800 text-sm">Téléphone</h3>
             <p className="text-stone-600 text-xs">
               418-520-5929
             </p>
@@ -92,34 +95,34 @@ export default function Contact() {
         </div>
 
         <div className="bg-white/40 p-8 rounded-md">
-          <h3 className="text-2xl font-light mb-6 text-center text-stone-800" style={{ fontFamily: 'Georgia, serif' }}>Send a message</h3>
+          <h3 className="text-2xl font-light mb-6 text-center text-stone-800" style={{ fontFamily: 'Georgia, serif' }}>Envoyer un message</h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-xs font-medium mb-2 text-stone-600">
-                  Name *
+                  Nom *
                 </label>
                 <input
                   type="text"
                   id="name"
                   required
                   className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
-                  placeholder="Your name"
+                  placeholder="Votre nom"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div>
                 <label htmlFor="email" className="block text-xs font-medium mb-2 text-stone-600">
-                  Email *
+                  Courriel *
                 </label>
                 <input
                   type="email"
                   id="email"
                   required
                   className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
-                  placeholder="your@email.com"
+                  placeholder="votre@courriel.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -128,20 +131,20 @@ export default function Contact() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="company" className="block text-xs font-medium mb-2 text-stone-600">
-                  Company
+                  Entreprise
                 </label>
                 <input
                   type="text"
                   id="company"
                   className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400"
-                  placeholder="Your company"
+                  placeholder="Votre entreprise"
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 />
               </div>
               <div>
                 <label htmlFor="subject" className="block text-xs font-medium mb-2 text-stone-600">
-                  Subject *
+                  Sujet *
                 </label>
                 <select
                   id="subject"
@@ -150,11 +153,11 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 >
-                  <option value="">Select a subject</option>
-                  <option value="project">Development project</option>
-                  <option value="consulting">Technical consulting</option>
-                  <option value="job">Job opportunity</option>
-                  <option value="other">Other</option>
+                  <option value="">Sélectionnez un sujet</option>
+                  <option value="project">Projet de développement</option>
+                  <option value="consulting">Consultation technique</option>
+                  <option value="job">Opportunité d'emploi</option>
+                  <option value="other">Autre</option>
                 </select>
               </div>
             </div>
@@ -167,7 +170,7 @@ export default function Contact() {
                 required
                 rows={6}
                 className="w-full p-3 bg-white/60 border border-stone-400 rounded-md text-stone-800 text-sm transition-all focus:outline-none focus:border-dustyBlue-400 focus:bg-white placeholder:text-stone-400 resize-none"
-                placeholder="Tell me about your project..."
+                placeholder="Parlez-moi de votre projet..."
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               />
@@ -181,22 +184,22 @@ export default function Contact() {
                 {status === 'loading' ? (
                   <span className="flex items-center gap-2">
                     <FontAwesomeIcon icon={faSpinner} spin className="h-4 w-4" />
-                    Sending...
+                    Envoi en cours...
                   </span>
                 ) : (
-                  'Send message'
+                  'Envoyer le message'
                 )}
               </button>
             </div>
             {status === 'success' && (
               <div className="text-center text-sage-700 bg-sage-100/60 p-3 rounded-md text-sm">
-                ✓ Message sent successfully!
+                ✓ Message envoyé avec succès!
               </div>
             )}
 
             {status === 'error' && (
               <div className="text-center text-terracotta-700 bg-terracotta-100/60 p-3 rounded-md text-sm">
-                ✗ An error occurred. Please try again.
+                ✗ Une erreur s'est produite. Veuillez réessayer.
               </div>
             )}
           </form>

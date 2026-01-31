@@ -11,7 +11,7 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Extraction } from '@/app/api/extractions/extractions.dto';
-import { TableRowSkeleton } from './Skeleton';
+import { TableRowSkeleton } from '../Utilities/Skeleton';
 
 interface Props {
   extractions: Extraction[];
@@ -97,7 +97,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
     const seconds = Math.floor(durationMs / 1000);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    
+
     if (minutes > 0) {
       return `${minutes}m ${remainingSeconds}s`;
     }
@@ -110,7 +110,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
       <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-vintage">
         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-charcoal-900">
           <span className="text-2xl text-terracotta-500"><FontAwesomeIcon icon={faScroll} /></span>
-          Extraction History
+          Historique des extractions
         </h2>
 
         <div className="overflow-x-auto w-full">
@@ -119,13 +119,13 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
               <tr className="border-b border-stone-200">
                 <th className="text-left py-3 px-4 text-stone-600 font-medium">Source</th>
                 <th className="text-left py-3 px-4 text-stone-600 font-medium">Date</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">Status</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">Duration</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">Records</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">Template</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Statut</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Durée</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Enregistrements</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Modèle</th>
                 <th className="text-left py-3 px-4 text-stone-600 font-medium">Destination</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">Interval</th>
-                <th className="text-left py-3 px-4 text-stone-600 font-medium">File</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Intervalle</th>
+                <th className="text-left py-3 px-4 text-stone-600 font-medium">Fichier</th>
               </tr>
             </thead>
             <tbody>
@@ -135,7 +135,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                 <tr>
                   <td colSpan={9} className="text-center py-12 text-stone-500">
                     <span className="text-4xl text-stone-400"><FontAwesomeIcon icon={faInbox} /></span>
-                    <p className="mt-2">No extractions recorded</p>
+                    <p className="mt-2">Aucune extraction enregistrée</p>
                   </td>
                 </tr>
               ) : (
@@ -172,7 +172,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                         </span>
                       ) : extraction.error ? (
                         <span className="text-terracotta-600 text-sm" title={extraction.error}>
-                          Error
+                          Erreur
                         </span>
                       ) : (
                         <span className="text-stone-400">-</span>
@@ -200,7 +200,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                     <td className="py-4 px-4">
                       {extraction.fileName ? (
                         <span className="text-green-400 text-sm font-mono flex">
-                          <FontAwesomeIcon icon={faFileAlt} className="mr-2" /> 
+                          <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
                           <span className="whitespace-nowrap">{extraction.fileName}</span>
                         </span>
                       ) : (
@@ -219,19 +219,19 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
           <div className="mt-6 pt-6 border-t border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-dustyBlue-600">{extractions.length}</p>
-              <p className="text-stone-600 text-sm">Total Extractions</p>
+              <p className="text-stone-600 text-sm">Total des extractions</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-sage-600">
                 {extractions.filter((e) => e.status === 'completed').length}
               </p>
-              <p className="text-stone-600 text-sm">Successful</p>
+              <p className="text-stone-600 text-sm">Réussies</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-terracotta-600">
                 {extractions.filter((e) => e.status === 'failed').length}
               </p>
-              <p className="text-stone-600 text-sm">Failed</p>
+              <p className="text-stone-600 text-sm">Échouées</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-lavender-600">
@@ -240,7 +240,7 @@ export default function ExtractionHistory({ extractions, isLoading }: Props) {
                   .reduce((acc, e) => acc + (e.recordsCount || 0), 0)
                   .toLocaleString('fr-CA')}
               </p>
-              <p className="text-stone-600 text-sm">Records Processed</p>
+              <p className="text-stone-600 text-sm">Enregistrements traités</p>
             </div>
           </div>
         )}

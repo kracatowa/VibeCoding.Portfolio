@@ -30,8 +30,8 @@ interface Database {
   adminTemplates: TemplateConfig[];
 }
 
-// Base de données en mémoire (simulée)
-const db: Database = {
+// Default database state
+const defaultDatabase: Database = {
   extractions: [
     {
       id: '1',
@@ -202,10 +202,34 @@ const db: Database = {
       authToken: '',
       createdAt: '2026-01-03T09:15:00',
       sampleResponse: `{ "tickets": [ { "id": 67890, "subject": "Issue with product", "status": "open" } ] }`
+    },
+    {
+      id: '4',
+      name: 'API Personnalisée',
+      apiUrl: 'https://api.custom.com/data',
+      authType: 'none',
+      authToken: '',
+      createdAt: '2026-01-04T14:45:00',
+      sampleResponse: `{ "data": [ { "field1": "value1", "field2": "value2" } ] }`
     }
   ],
   adminTemplates: []
 };
+
+// Current database (mutable)
+let db: Database = JSON.parse(JSON.stringify(defaultDatabase));
+
+// Auto-reset timer (production only)
+if (process.env.NODE_ENV === 'production') {
+  const RESET_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+  setInterval(() => {
+    console.log('[Database] Auto-resetting to default state...');
+    db = JSON.parse(JSON.stringify(defaultDatabase));
+  }, RESET_INTERVAL);
+
+  console.log('[Database] Auto-reset enabled: database will reset every 5 minutes in production');
+}
 
 // Fonctions CRUD pour les extractions
 export function getAllExtractions(): Extraction[] {
@@ -250,19 +274,19 @@ export function updateSchedulePreferences(scheduleId: string, schedulePreference
 export function getTemplates(sourceId?: string): Template[] {
   if (!sourceId) return [];
   const list = db.templates?.filter(t => t.sourceId === sourceId);
-  if (!list || list.length === 0) return [{ id: 'default', sourceId: sourceId, name: 'has default' }];
+  if (!list || list.length === 0) return [{ id: 'default', sourceId: sourceId, name: 'Par défault' }];
   return [...list];
 }
 
 export function getSources(): Source[] {
-  const list = db.adminSources;;
-  if (!list || list.length === 0) return [{ id: 'default', name: 'has default' }];
+  const list = db.adminSources;
+  if (!list || list.length === 0) return [{ id: 'default', name: 'Par défault' }];
   return [...list];
 }
 
 export function getDestinations(): Destination[] {
   const list = db.destinations;
-  if (!list || list.length === 0) return [{ id: 'default', name: 'has default' }];
+  if (!list || list.length === 0) return [{ id: 'default', name: 'Par défault' }];
   return [...list];
 }
 

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import ClientLayoutWrapper from '@/components/ClientLayoutWrapper';
+import ClientLayoutWrapper from '@/components/Utilities/ClientLayoutWrapper';
 
 config.autoAddCss = false
 

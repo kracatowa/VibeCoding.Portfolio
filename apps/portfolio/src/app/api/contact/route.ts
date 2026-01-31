@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+// La clé API vient de votre fichier .env.local
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,23 +27,27 @@ export async function POST(request: NextRequest) {
 
     const subjectText = subjectMap[subject] || subject;
 
-    // Configuration du transporteur email
-    // Pour la production, utilisez vos propres identifiants SMTP
-    // Exemples de services : SendGrid, Mailgun, Amazon SES, ou SMTP personnel
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.example.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+    // En mode dev sans clé API, simulation
+    if (!process.env.RESEND_API_KEY) {
+      console.log('=== EMAIL SIMULATION (DEV MODE) ===');
+      console.log('⚠️  Configurez RESEND_API_KEY dans .env.local');
+      console.log('To: ocean.barras@hotmail.com');
+      console.log('Subject:', `[Portfolio] ${subjectText} - ${name}`);
+      console.log('From:', name, `<${email}>`);
+      console.log('Company:', company || 'N/A');
+      console.log('Message:', message);
+      console.log('=====================================');
+      
+      return NextResponse.json({ 
+        success: true, 
+        message: 'Message reçu (mode développement)' 
+      });
+    }
 
-    // Contenu de l'email
-    const mailOptions = {
-      from: process.env.SMTP_FROM || 'noreply@portfolio.com',
-      to: 'ocean.barras@hotmail.com',
+    // Envoi avec Resend
+    const { data, error } = await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>', // Adresse par défaut (gratuit)
+      to: ['oce.barras@gmail.com'], // Votre email où recevoir les messages
       replyTo: email,
       subject: `[Portfolio] ${subjectText} - ${name}`,
       html: `
@@ -94,41 +101,17 @@ export async function POST(request: NextRequest) {
         </body>
         </html>
       `,
-      text: `
-Nouveau message depuis le portfolio
-====================================
+    });
 
-Nom: ${name}
-Courriel: ${email}
-${company ? `Entreprise: ${company}` : ''}
-Sujet: ${subjectText}
-
-Message:
-${message}
-
----
-Ce message a été envoyé depuis le formulaire de contact de votre portfolio.
-      `,
-    };
-
-    // En mode développement, on simule l'envoi
-    if (process.env.NODE_ENV === 'development' && !process.env.SMTP_HOST) {
-      console.log('=== EMAIL SIMULATION (DEV MODE) ===');
-      console.log('To:', mailOptions.to);
-      console.log('Subject:', mailOptions.subject);
-      console.log('From:', name, `<${email}>`);
-      console.log('Company:', company || 'N/A');
-      console.log('Message:', message);
-      console.log('=====================================');
-      
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Message reçu (mode développement)' 
-      });
+    if (error) {
+      console.error('❌ Erreur Resend:', error);
+      return NextResponse.json(
+        { error: 'Erreur lors de l\'envoi du message' },
+        { status: 500 }
+      );
     }
 
-    // Envoi de l'email en production
-    await transporter.sendMail(mailOptions);
+    console.log('✅ Email envoyé avec succès via Resend:', data);
 
     return NextResponse.json({ 
       success: true, 

@@ -17,7 +17,7 @@ export default function Hero() {
     <>
       <section
         id="accueil"
-        className="pb-12 px-6 relative min-h-screen flex items-center justify-center"
+        className="pb-12 px-6 min-h-screen flex items-center justify-center"
       >
         <div className="max-w-auto text-center">
           <div className="animate-fade-in-up">

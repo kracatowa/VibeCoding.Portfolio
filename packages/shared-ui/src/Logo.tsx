@@ -3,6 +3,8 @@
 import React, { useRef } from 'react';
 
 export default function Logo({ className }: { className?: string }) {
+  const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://ocean-barras.vercel.app/';
+
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const handleLoad = () => {
@@ -19,7 +21,7 @@ export default function Logo({ className }: { className?: string }) {
     : process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   return (
-    <a href="/" aria-label="Océan Barras" className={`flex items-center gap-3 no-underline text-dustyBlue-600 ${className ?? ''}`}>
+    <a href={portfolioUrl} aria-label="Océan Barras" className={`flex items-center gap-3 no-underline text-dustyBlue-600 ${className ?? ''}`}>
       <img src={`${basePath}/wave-logo.png`} alt="Océan Barras" className="w-10 h-10 shrink-0 rounded-lg object-cover" onLoad={handleLoad} onError={handleError} />
       <span className="font-bold text-base text-dustyBlue-600 md:hidden">OB</span>
       <span className="font-bold text-base text-dustyBlue-600 hidden md:inline">Océan Barras</span>
