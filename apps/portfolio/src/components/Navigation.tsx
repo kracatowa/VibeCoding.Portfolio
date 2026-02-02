@@ -8,7 +8,7 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
-  { href: '/services', label: 'Services' },
+  /*{ href: '/services', label: 'Services' },*/
   { href: '/projets', label: 'Projets' },
   { href: '/a-propos', label: 'À propos' },
   { href: '/contact', label: 'Contact' },
