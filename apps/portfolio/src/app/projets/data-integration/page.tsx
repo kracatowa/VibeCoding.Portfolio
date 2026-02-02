@@ -324,55 +324,6 @@ export default function DataIntegrationCaseStudy() {
         </div>
       </section>
 
-      {/* Results */}
-      <section className="py-12 px-6 border-t border-zinc-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-light text-zinc-50 mb-6 flex items-center gap-3">
-            <span className="text-amber-400">
-              <FontAwesomeIcon icon={faChartLine} className="w-6 h-6" />
-            </span>
-            <span className="text-xs font-mono text-zinc-600 mr-2">05</span>
-            Résultats
-          </h2>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[
-              { value: '4', label: 'Étapes d\'extraction visualisées' },
-              { value: '3', label: 'Sources CRM supportées' },
-              { value: '<2s', label: 'Temps de réponse UI' },
-              { value: '100%', label: 'Couverture TypeScript' },
-            ].map((stat, i) => (
-              <div key={i} className="text-center bg-dark-100 p-6 rounded border border-zinc-800">
-                <div className="text-3xl font-bold text-cyan-400 mb-1">{stat.value}</div>
-                <div className="text-sm text-zinc-500">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-dark-100 border border-emerald-500/30 p-6 rounded">
-            <h3 className="font-medium text-emerald-400 mb-3">Impacts démontrés:</h3>
-            <ul className="space-y-2 text-zinc-400">
-              <li className="flex items-start gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mt-1 shrink-0 text-emerald-400" />
-                <span>Interface intuitive réduisant le besoin de formation</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mt-1 shrink-0 text-emerald-400" />
-                <span>Feedback visuel en temps réel améliorant l'expérience utilisateur</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mt-1 shrink-0 text-emerald-400" />
-                <span>Architecture extensible pour ajouter de nouvelles sources</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mt-1 shrink-0 text-emerald-400" />
-                <span>Gestion robuste des erreurs avec notifications utilisateur</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-16 px-6 border-t border-zinc-800 bg-dark-100">
         <div className="max-w-4xl mx-auto text-center">
